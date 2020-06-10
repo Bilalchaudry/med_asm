@@ -3,7 +3,7 @@
 # see http://www.emilsoman.com/blog/2013/05/18/building-a-tested/
 module DeviseTokenAuth
   class SessionsController < DeviseTokenAuth::ApplicationController
-    # include ErrorMessage
+    include ErrorMessage
     before_action :set_user_by_token, only: :destroy
     # before_action :validate_sign_in_params, only: :create
     after_action :reset_session, only: :destroy

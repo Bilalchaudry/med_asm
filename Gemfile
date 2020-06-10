@@ -9,6 +9,7 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 # gem 'sqlite3'
 gem 'pg'
 gem 'devise_token_auth'
+gem 'activeadmin'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
