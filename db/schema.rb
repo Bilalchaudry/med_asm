@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_062802) do
+ActiveRecord::Schema.define(version: 2020_06_11_121111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,12 @@ ActiveRecord::Schema.define(version: 2020_06_11_062802) do
   end
 
   create_table "product_sub_categories", force: :cascade do |t|
-    t.bigint "product_categories_id"
-    t.bigint "products_id"
+    t.bigint "product_category_id"
+    t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_categories_id"], name: "index_product_sub_categories_on_product_categories_id"
-    t.index ["products_id"], name: "index_product_sub_categories_on_products_id"
+    t.index ["product_category_id"], name: "index_product_sub_categories_on_product_category_id"
+    t.index ["product_id"], name: "index_product_sub_categories_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_06_11_062802) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "category"
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,6 +103,6 @@ ActiveRecord::Schema.define(version: 2020_06_11_062802) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "product_sub_categories", "product_categories", column: "product_categories_id"
-  add_foreign_key "product_sub_categories", "products", column: "products_id"
+  add_foreign_key "product_sub_categories", "product_categories"
+  add_foreign_key "product_sub_categories", "products"
 end
