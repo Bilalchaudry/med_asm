@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_062510) do
+ActiveRecord::Schema.define(version: 2020_06_11_062802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,22 @@ ActiveRecord::Schema.define(version: 2020_06_10_062510) do
     t.string "page_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_sub_categories", force: :cascade do |t|
+    t.bigint "product_categories_id"
+    t.bigint "products_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_categories_id"], name: "index_product_sub_categories_on_product_categories_id"
+    t.index ["products_id"], name: "index_product_sub_categories_on_products_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -86,4 +102,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_062510) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "product_sub_categories", "product_categories", column: "product_categories_id"
+  add_foreign_key "product_sub_categories", "products", column: "products_id"
 end
