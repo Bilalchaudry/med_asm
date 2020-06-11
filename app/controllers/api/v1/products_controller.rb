@@ -1,6 +1,7 @@
 class Api::V1::ProductsController < ApiController
   include ErrorMessage
   include DeviseTokenAuth::Concerns::SetUserByToken
+  before_action :authenticate_user!
 
   def index
     @products = Product.all
