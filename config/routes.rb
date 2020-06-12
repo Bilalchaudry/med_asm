@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :products
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   namespace :api do
@@ -6,6 +7,7 @@ Rails.application.routes.draw do
       get 'products/index'
     end
   end
+   root to: 'admin_dashboard#dashboard'
   mount_devise_token_auth_for 'User', at: 'auth'
   get '/home/page_content'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

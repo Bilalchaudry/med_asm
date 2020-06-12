@@ -1,6 +1,6 @@
 module DeviseTokenAuth
   class RegistrationsController < DeviseTokenAuth::ApplicationController
-    # include ErrorMessage
+    include ErrorMessage
     before_action :set_user_by_token, only: [:destroy, :update]
     skip_after_action :update_auth_header, only: [:destroy]
     # before_action :validate_sign_up_params, only: :create

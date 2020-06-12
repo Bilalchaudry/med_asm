@@ -9,4 +9,8 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   scope :email_or_phone_exist?, ->(login) {where("email = ? OR  phone = ? ", login, login)}
   validates_uniqueness_of :phone
+  enum role: {
+      Admin: 0,
+      User: 1
+  }
 end
