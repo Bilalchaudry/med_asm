@@ -5,7 +5,7 @@ class Api::V1::ProductsController < ApiController
 
   def index
     if params[:medicine_name].present?
-      @medicine = Product.find_by(name: params[:medicine_name]) rescue nil
+      @medicine = Product.where(name: params[:medicine_name]) rescue nil
       if @medicine.nil?
         bad_request_error('There is no medicine with that name .')
       end
