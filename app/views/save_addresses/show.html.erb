@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @save_address.address %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @save_address.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @save_address.longitude %>
+</p>
+
+<p>
+  <strong>Default:</strong>
+  <%= @save_address.default %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @save_address.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_save_address_path(@save_address) %> |
+<%= link_to 'Back', save_addresses_path %>

@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   namespace :api do
     namespace :v1 do
-      get 'products/index'
+      resources :save_addresses
+      resources :products
     end
   end
   mount_devise_token_auth_for 'User', at: 'auth'

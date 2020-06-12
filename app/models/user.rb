@@ -8,5 +8,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
   scope :email_or_phone_exist?, ->(login) {where("email = ? OR  phone = ? ", login, login)}
+
   validates_uniqueness_of :phone
+
+  has_many :save_addresses
 end
