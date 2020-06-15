@@ -1,10 +1,10 @@
-class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :destroy, :show]
+class ProductCategoriesController < ApplicationController
+  before_action :product_category, only: [:edit, :update, :destroy, :show]
   # load_and_authorize_resource
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @product_categories = ProductCategory.all
   end
 
 
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = User.new
+    @product_category = ProductCategory.new
   end
 
   # GET /users/1/edit
@@ -25,15 +25,15 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    @product_category = ProductCategory.new(product_category_params)
 
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+      if @product_category.save
+        format.html { redirect_to @product_category, notice: 'Product category was successfully created.' }
+        format.json { render :show, status: :created, location: @product_category}
       else
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @product_category.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_update_params)
+      if @product_category.update(product_category_params)
         format.html { redirect_to users_path, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_path, notice: 'User is deleted.' }
+      format.html { redirect_to product_categories_path, notice: 'User is deleted.' }
     end
 
   end
@@ -66,16 +66,13 @@ class UsersController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
+  def product_category
+    @product_category = ProductCategory.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
-  def user_params
-    params.require(:user).permit(:user_name, :phone, :email, :address, :encrypted_password, :password)
+  def product_category_params
+    params.require(:product_category).permit(:name, :description)
   end
 
-  def user_update_params
-    params.require(:user).permit(:user_name, :phone, :email, :address)
-  end
 end

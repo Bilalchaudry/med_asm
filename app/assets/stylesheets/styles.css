@@ -10217,3 +10217,666 @@ body {
     background: url('bg.jpeg') no-repeat fixed;
     background-size: cover;
 }
+/* line 4, app/assets/stylesheets/admin_dashboard.scss */
+.dashboard-b1 {
+    background: #1466FB !important;
+    color: white !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    margin-top: 20px;
+}
+
+/* line 12, app/assets/stylesheets/admin_dashboard.scss */
+.dashboard-b1:hover {
+    background: #1466FB !important;
+    color: white;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    margin-top: 20px;
+}
+
+/* line 19, app/assets/stylesheets/admin_dashboard.scss */
+.dashboard-admin-b2 {
+    background: #FFC300 !important;
+    color: white !important;
+    margin: 20px !important;
+    border-radius: 10px !important;
+    width: 145px !important;
+}
+
+/* line 26, app/assets/stylesheets/admin_dashboard.scss */
+.dashboard-admin-b3 {
+    background: #00B249 !important;
+    color: white !important;
+    margin-bottom: 20px !important;
+    margin-top: 20px !important;
+    width: 150px !important;
+    border-radius: 10px !important;
+}
+
+/* line 34, app/assets/stylesheets/admin_dashboard.scss */
+.dashboard-user-b2 {
+    background: #00B249 !important;
+    color: white !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    margin-top: 20px !important;
+}
+
+/* ==========================================================================
+   #FONT
+   ========================================================================== */
+
+.font-robo {
+    font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.font-poppins {
+    font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.font-opensans {
+    font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.bg-clr {
+    background-color: #8CCDB0 !important;
+}
+.btn-style {
+    font-weight: bold !important;
+    color: white !important;
+}
+
+.td-bg-clr {
+    background-color: #f1f1f1 !important;
+    border-radius: 5px !important;
+    text-align: center;
+}
+.td-clr-green {
+    background-color: #8CCDB0 !important;
+}
+.td-clr-red {
+    border:2px solid #FF6864 !important;
+}
+.empty-cost-cost-hours-bg {
+    background-color: transparent;
+}
+
+/* ==========================================================================
+   #GRID
+   ========================================================================== */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row .col-2:last-child .input-group-desc {
+    margin-bottom: 0;
+}
+
+.row-space {
+    justify-content: space-between;
+}
+
+.row-refine {
+    margin: 0 -15px;
+}
+
+.row-refine .col-3 .input-group-desc,
+.row-refine .col-9 .input-group-desc {
+    margin-bottom: 0;
+}
+
+.col-2 {
+    width: calc((100% - 30px) / 2);
+}
+
+@media (max-width: 767px) {
+    .col-2 {
+        width: 100%;
+    }
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.form-row .name {
+    width: 125px;
+    color: #111111;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-row .value {
+    width: calc(100% - 125px);
+}
+
+.form-border-style {
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+.form-info-style {
+    background-color: #FF6864;
+    /*border-radius: 7px;*/
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-left: 20px;
+    padding-bottom: 6px;
+    padding-top: 5px;
+}
+
+.notice-style {
+    padding-top: 10px;
+    height: 50px;
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 0px
+}
+
+@media (max-width: 767px) {
+    .form-row {
+        display: block;
+    }
+
+    .form-row .name,
+    .form-row .value {
+        display: block;
+        width: 100%;
+    }
+
+    .form-row .name {
+        margin-bottom: 7px;
+    }
+}
+
+
+.col-3,
+.col-9 {
+    padding: 0 15px;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+}
+
+.col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+@media (max-width: 767px) {
+    .col-3 {
+        flex: 0 0 35%;
+        max-width: 35%;
+    }
+}
+
+.col-9 {
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+
+@media (max-width: 767px) {
+    .col-9 {
+        flex: 0 0 65%;
+        max-width: 65%;
+    }
+}
+
+/* ==========================================================================
+   #BOX-SIZING
+   ========================================================================== */
+/**
+ * More sensible default box-sizing:
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ */
+html {
+    box-sizing: border-box;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* ==========================================================================
+   #RESET
+   ========================================================================== */
+/**
+ * A very simple reset that sits on top of Normalize.css.
+ */
+body,
+h1, h2, h3, h4, h5, h6,
+blockquote, p, pre,
+dl, dd, ol, ul,
+figure,
+hr,
+fieldset, legend {
+    margin: 0;
+    padding: 0;
+}
+
+/**
+ * Remove trailing margins from nested lists.
+ */
+li > ol,
+li > ul {
+    margin-bottom: 0;
+}
+
+
+/**
+ * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+ *    on fieldsets.
+ */
+fieldset {
+    min-width: 0;
+    /* [1] */
+    border: 0;
+}
+
+
+/* ==========================================================================
+   #PAGE WRAPPER
+   ========================================================================== */
+.page-wrapper {
+    min-height: 100vh;
+}
+
+body {
+    font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 15px;
+}
+
+h6 {
+    font-size: 13px;
+}
+
+/* ==========================================================================
+   #BACKGROUND
+   ========================================================================== */
+.bg-blue {
+    background: #2c6ed5;
+}
+
+.bg-red {
+    background: #fa4251;
+}
+
+.bg-gra-01 {
+    background: linear-gradient(to top, #fbc2eb 0%, #a18cd1 100%);
+}
+
+.bg-gra-02 {
+    background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
+}
+
+.bg-gra-03 {
+    background: linear-gradient(to top right, #08aeea 0%, #b721ff 100%);
+}
+
+/* ==========================================================================
+   #SPACING
+   ========================================================================== */
+.p-t-100 {
+    padding-top: 100px;
+}
+
+.p-t-130 {
+    padding-top: 130px;
+}
+
+.p-t-180 {
+    padding-top: 180px;
+}
+
+.p-t-45 {
+    padding-top: 45px;
+}
+
+.p-t-20 {
+    padding-top: 20px;
+}
+
+.p-t-15 {
+    padding-top: 15px;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+.p-t-30 {
+    padding-top: 30px;
+}
+
+.p-b-100 {
+    padding-bottom: 100px;
+}
+
+.p-b-50 {
+    padding-bottom: 50px;
+}
+
+.m-r-45 {
+    margin-right: 45px;
+}
+
+.m-r-55 {
+    margin-right: 55px;
+}
+
+.m-b-55 {
+    margin-bottom: 55px;
+}
+
+/* ==========================================================================
+   #WRAPPER
+   ========================================================================== */
+.wrapper {
+    margin: 0 auto;
+}
+
+.wrapper--w960 {
+    max-width: 960px;
+}
+
+.wrapper--w790 {
+    max-width: 790px;
+}
+
+.wrapper--w780 {
+    max-width: 780px;
+}
+
+.wrapper--w680 {
+    max-width: 680px;
+}
+
+.wrapper--w60 {
+    max-width: 1160px;
+}
+
+.logo-style {
+    width: 160px;
+    height: 32px;
+}
+.delete-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50% !important;
+    background-color: #ffffff;
+}
+.cost-btn {
+    border-radius: 50% !important;
+    float: right !important;
+    float: top !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+/* ==========================================================================
+   #FORM
+   ========================================================================== */
+input {
+    outline: none;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+
+.input--style-5 {
+    background: #e5e5e5;
+    line-height: 50px;
+    border-radius: 5px;
+    padding: 0 22px;
+    font-size: 16px;
+    color: #555;
+}
+
+.input-group-desc {
+    position: relative;
+}
+
+@media (max-width: 767px) {
+    .input-group-desc {
+        margin-bottom: 40px;
+    }
+}
+
+.input-group {
+    position: relative;
+    margin: 0;
+}
+
+.label {
+    color: #555;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.label--block {
+    width: 100%;
+}
+
+.label--desc {
+    position: absolute;
+    text-transform: capitalize;
+    display: block;
+    color: #999;
+    font-size: 14px;
+    margin: 0;
+    margin-top: 7px;
+    left: 0;
+}
+
+
+/* ==========================================================================
+   #CARD
+   ========================================================================== */
+.card {
+    border-radius: 3px;
+    background: #fff;
+}
+
+.card-text-clr {
+    color: white;
+}
+
+.card-5 {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card-5 .card-heading {
+    padding: 20px 0;
+    border-top-left-radius: 10px;
+    /*-webkit-border-top-right-radius: 10px;*/
+    /*-moz-border-radius-topright: 10px;*/
+    /*height: 150px;*/
+    border-top-right-radius: 10px;
+}
+
+.card-5 .card-body {
+    padding: 52px 85px;
+    padding-bottom: 73px;
+}
+
+@media (max-width: 767px) {
+    .card-5 .card-body {
+        padding: 40px 30px;
+        padding-bottom: 50px;
+    }
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+* {
+    font-family: 'Montserrat', sans-serif !important;
+}
+.small{
+    font-size: 100%!important;
+}
+.select2-results__options {
+    max-height: 400px !important;
+}
+/* line 5, app/assets/stylesheets/plant_time_sheets.scss */
+.plant_sheet_id {
+    display: none;
+}
+/* line 4, app/assets/stylesheets/projects.scss */
+.hidden_option {
+    display: none;
+}
+
+/* line 8, app/assets/stylesheets/projects.scss */
+.bold-title {
+    font-weight: bold !important;
+}
+
+/* line 12, app/assets/stylesheets/projects.scss */
+.bold-title-with-color {
+    color: green !important;
+    font-weight: bold !important;
+}
+
+/* line 17, app/assets/stylesheets/projects.scss */
+.row1-clr {
+    background-color: #FF6864 !important;
+}
+
+/* line 21, app/assets/stylesheets/projects.scss */
+.row2-clr {
+    background-color: #8ACCB1 !important;
+}
+
+/* line 25, app/assets/stylesheets/projects.scss */
+.row3-clr {
+    background-color: darkgrey !important;
+}
+
+/* line 29, app/assets/stylesheets/projects.scss */
+.row4-clr {
+    background-color: #8a6d3b !important;
+}
+
+/* line 33, app/assets/stylesheets/projects.scss */
+.without-setup-clr {
+    background-color: #FF6864 !important;
+}
+
+/* line 36, app/assets/stylesheets/projects.scss */
+.with-setup-clr {
+    background-color: #383838 !important;
+}
+
+/* line 39, app/assets/stylesheets/projects.scss */
+.view-detail-clr {
+    color: white;
+}
+
+/* line 42, app/assets/stylesheets/projects.scss */
+.time-sheet-without-setup-clr {
+    background-color: #383838 !important;
+}
+
+/* line 46, app/assets/stylesheets/projects.scss */
+.time-sheet-setup-clr {
+    background-color: #00B0F0 !important;
+}
+
+/* line 49, app/assets/stylesheets/projects.scss */
+.top-bar-btn-clr {
+    background-color: #d4edda !important;
+}
+/* line 1, app/assets/stylesheets/scaffolds.scss */
+body {
+    background-color: #fff;
+    color: #333;
+    margin: 33px;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* line 10, app/assets/stylesheets/scaffolds.scss */
+p, ol, ul, td {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* line 16, app/assets/stylesheets/scaffolds.scss */
+pre {
+    background-color: #eee;
+    padding: 10px;
+    font-size: 11px;
+}
+
+/* line 22, app/assets/stylesheets/scaffolds.scss */
+a {
+    color: #000;
+}
+
+/* line 29, app/assets/stylesheets/scaffolds.scss */
+a:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+/* line 35, app/assets/stylesheets/scaffolds.scss */
+th {
+    padding-bottom: 5px;
+}
+
+/* line 39, app/assets/stylesheets/scaffolds.scss */
+td {
+    padding: 0 5px 7px;
+}
+
+/* line 44, app/assets/stylesheets/scaffolds.scss */
+div.field, div.actions {
+    margin-bottom: 10px;
+}
