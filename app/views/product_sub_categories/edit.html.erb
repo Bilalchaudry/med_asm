@@ -6,36 +6,32 @@
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
         <div class="card card-5 form-border-style">
-          <div class="card-heading bg-clr">
-            <h4 class="text-center font-weight-light text-white">Edit <%= @product.name %></h4>
+          <div class="card-heading text-white bg-clr">
+            <h4 class="text-center font-weight-light">Edit Product Category </h4>
           </div>
+
           <div class="card-body">
-            <%= form_with(model: @product, local: true) do |form| %>
-              <%= render 'layouts/error_messages', object: form.object %>
+            <%= form_with(model: @product_sub_category, local: true) do |form| %>
+              <% if @product_sub_category.errors.any? %>
+                <%= render 'layouts/error_messages', object: form.object %>
+              <% end %>
 
               <div class="form-row">
-                <%= form.label :name,  :class => "mb-1 name", :style => 'font-weight:bold' %>
+                <%= form.label :product, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :name, :class => "form-control py-2", :required => true %>
+                    <input class="form-control py-2" readonly value="<%= @product_sub_category.product.name %>"/>
                   </div>
                 </div>
               </div>
 
-              <div class="form-row">
-                <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :cost, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+
 
               <div class="form-row">
-                <%= form.label :description, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <%= form.label :product_category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :description, :class => "form-control py-2" %>
+                    <%= form.select :category_id, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                   </div>
                 </div>
               </div>
@@ -46,20 +42,19 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
+                      <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to "Cancel", products_path, :class => 'btn btn-style bg-clr w-100' %>
+                      <%= link_to "Cancel", product_sub_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3"></div>
               </div>
-
             <% end %>
           </div>
         </div>
@@ -67,5 +62,8 @@
     </div>
   </div>
 </div>
-
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+</script>

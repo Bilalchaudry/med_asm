@@ -43,11 +43,11 @@ class ProductCategoriesController < ApplicationController
   def update
     respond_to do |format|
       if @product_category.update(product_category_params)
-        format.html { redirect_to users_path, notice: 'User was successfully updated.' }
+        format.html { redirect_to product_categories_path, notice: 'Product category was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @product_category.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,9 +56,9 @@ class ProductCategoriesController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
+    @product_category.destroy
     respond_to do |format|
-      format.html { redirect_to product_categories_path, notice: 'User is deleted.' }
+      format.html { redirect_to product_categories_path, notice: 'Product category is deleted.' }
     end
 
   end

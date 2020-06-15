@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :products
   resources :users
   resources :product_categories
+  resources :product_sub_categories
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   namespace :api do

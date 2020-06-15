@@ -26,6 +26,12 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
     respond_to do |format|
       if @product.save
+        category_ids = params[:product][:category]
+        category_ids.each do |category_id|
+          unless category_id.empty?
+            @product.product_sub_categories.create!(product_category_id: category_id)
+          end
+        end
         format.html { redirect_to products_path, notice: 'Product is successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else

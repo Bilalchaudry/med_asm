@@ -1,5 +1,5 @@
 <%= form_with(model: product, local: true) do |form| %>
-  <%#= render 'layouts/error_messages', object: form.object %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
   <div class="form-row">
       <%= form.label :name,  :class => "mb-1 name", :style => 'font-weight:bold' %>
@@ -28,24 +28,15 @@
     </div>
   </div>
 
+  <div class="form-row">
+    <%= form.label :categories, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
 
-<!--  <div class="form-row">-->
-      <%#= form.label :project_status, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-<!--    <div class="value">-->
-<!--      <div class="input-group">-->
-<!--        <select name="project[project_status]" id="project_status" class="form-control" required>-->
-<!--          <option value="<%#= @project.project_status rescue nil %>">-->
-            <%#= Project.statuses.key(@project.project_status) rescue "" %>
-            <%# Project.statuses.reject { |status| Project.statuses.key(@project.project_status) == status }.each do |key, value| %>
-<!--            <option value="<%#= value %>">-->
-              <%#= key %>
-<!--            </option>-->
-          <%# end %>
-<!--        </select>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
+        <%= form.select :category, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+      </div>
+    </div>
+  </div>
 
   <hr>
   <div class="row">
@@ -68,5 +59,10 @@
   </div>
 
 <% end %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+</script>
 
 

@@ -1,5 +1,5 @@
 <%= form_with(model: @user, local: true) do |form| %>
-  <%#= render 'layouts/error_messages', object: form.object %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
 
   <% if params[:action].eql?("new") %>
