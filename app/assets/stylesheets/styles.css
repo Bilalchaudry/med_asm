@@ -10880,9 +10880,3 @@ td {
 div.field, div.actions {
     margin-bottom: 10px;
 }
-
-a.button, a:link.button, a:visited.button, input[type=submit], input[type=button], button {
-    background-image: none !important;
-    text-shadow: none !important;
-    box-shadow: none !important;
-}

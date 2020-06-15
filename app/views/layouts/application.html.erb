@@ -35,7 +35,7 @@
   </head>
   <body class="sb-nav-fixed">
 
-  <%# if user_signed_in? %>
+  <% if admin_user_signed_in? %>
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <a class="navbar-brand" href="/">
@@ -124,7 +124,7 @@
 <!--            </div>-->
 <!--          </nav>-->
 <!--        </div>-->
-      <%# end %>
+      <% end %>
     </div>
 
     <%= yield %>
