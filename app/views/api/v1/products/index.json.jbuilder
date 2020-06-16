@@ -5,5 +5,5 @@ json.data @products.each do |product|
   json.name product.name
   json.description product.description
   json.cost product.cost
-    
+
 end

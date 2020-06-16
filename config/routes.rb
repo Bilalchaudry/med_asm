@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :admin_users
+  devise_for :admin_users , :skip => [:registrations]
   resources :products
   resources :users
   resources :product_categories
   resources :product_sub_categories
+  resources :admin_users
   namespace :api do
     namespace :v1 do
       get 'products/index'
