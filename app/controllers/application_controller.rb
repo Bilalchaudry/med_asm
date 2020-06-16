@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-        before_action :authenticate_admin_user!
         skip_before_action :verify_authenticity_token, raise: false
         def verify_user_logged_in?
                 render json: {
