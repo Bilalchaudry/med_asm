@@ -10241,7 +10241,6 @@ body {
     color: white !important;
     margin: 20px !important;
     border-radius: 10px !important;
-    width: 145px !important;
 }
 
 /* line 26, app/assets/stylesheets/admin_dashboard.scss */
@@ -10250,7 +10249,6 @@ body {
     color: white !important;
     margin-bottom: 20px !important;
     margin-top: 20px !important;
-    width: 150px !important;
     border-radius: 10px !important;
 }
 
@@ -10260,7 +10258,16 @@ body {
     color: white !important;
     border-radius: 10px !important;
     margin-bottom: 20px !important;
+    margin-top: 2px !important;
+}
+.dashboard-user-b4 {
+    background: #0f6674 !important;
+    color: white !important;
+    margin-bottom: 20px !important;
     margin-top: 20px !important;
+    margin-left: 20px !important;
+    width: 145px !important;
+    border-radius: 10px !important;
 }
 
 /* ==========================================================================

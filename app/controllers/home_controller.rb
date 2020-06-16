@@ -1,4 +1,4 @@
-class HomeController < ApiController
+class HomeController < ApplicationController
   before_action :authenticate_user!
   def page_content
     if params[:page_type].present?
