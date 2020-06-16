@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+th, td {
+    white-space: nowrap;
+}
+.btn, a, a:link, a:visited {
+    text-decoration: none !important;
+}

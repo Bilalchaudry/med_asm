@@ -1,0 +1,62 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white">
+             Product Sub Category
+            </h4>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Product Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @product_sub_category.product.name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Category:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @product_sub_category.product_category.name rescue "N/A" %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', edit_product_sub_category_path(@product_sub_category), :class => 'btn w-100 bg-clr btn-style' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', product_sub_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>
+</div>

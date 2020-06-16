@@ -1,5 +1,5 @@
 class HomeController < ApiController
-
+  before_action :authenticate_user!
   def page_content
     if params[:page_type].present?
       @page_content = Content.where(page_type: params[:page_type]).first
