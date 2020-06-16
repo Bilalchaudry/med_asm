@@ -26,7 +26,7 @@
                 <tr>
                   <th>User Name</th>
                   <th>Email</th>
-                  <th>Address</th>
+                  <th>Gender</th>
                   <th>Phone</th>
                   <th>Actions</th>
                 </tr>
@@ -35,9 +35,9 @@
                 <tbody>
                 <% @users.each do |user| %>
                   <tr>
-                    <td><%= user.user_name %></td>
+                    <td><%= user.full_name %></td>
                     <td><%= user.email %></td>
-                    <td><%= user.address %></td>
+                    <td><%= user.gender %></td>
                     <td><%= user.phone rescue nil %></td>
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
