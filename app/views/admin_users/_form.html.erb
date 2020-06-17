@@ -40,7 +40,7 @@
           <% if params[:action].eql?("edit") %>
             <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
           <% else %>
-            <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+            <%= form.password_field :password, validate: true, :class => "form-control py-2", :required => true %>
           <% end %>
         </div>
       </div>
@@ -53,7 +53,7 @@
           <% if params[:action].eql?("edit") %>
             <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
           <% else %>
-            <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+            <%= form.password_field :password_confirmation, :class => "form-control py-2", :required => true %>
           <% end %>
         </div>
       </div>

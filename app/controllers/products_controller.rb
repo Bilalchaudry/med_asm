@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
 
   # GET /projects/new
   def new
-    @products = Product.new
+    @product = Product.new
   end
 
   # GET /projects/1/edit
@@ -32,11 +32,11 @@ class ProductsController < ApplicationController
             @product.product_sub_categories.create!(product_category_id: category_id)
           end
         end
-        format.html { redirect_to products_path, notice: 'Product is successfully created.' }
-        format.json { render :show, status: :created, location: @project }
+        format.html { redirect_to @product, notice: 'Product is successfully created.' }
+        format.json { render :show, status: :created, location: @product }
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
       end
 
     end
@@ -47,6 +47,12 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
+        category_ids = params[:product][:category]
+        category_ids.each do |category_id|
+          unless category_id.empty?
+            @product.product_sub_categories.create!(product_category_id: category_id)
+          end
+        end
         format.html { redirect_to products_path, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else

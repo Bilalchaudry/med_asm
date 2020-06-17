@@ -1,7 +1,7 @@
 <%= form_with(model: product_category, local: true) do |form| %>
-  <%# if other_manager.errors.any? %>
-    <%#= render 'layouts/error_messages', object: form.object %>
-  <%# end %>
+  <% if product_category.errors.any? %>
+    <%= render 'layouts/error_messages', object: form.object %>
+  <% end %>
 
   <div class="form-row">
     <%= form.label :name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>

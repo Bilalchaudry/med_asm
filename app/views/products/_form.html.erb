@@ -23,7 +23,7 @@
       <%= form.label :description, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :description, :class => "form-control py-2" %>
+        <%= form.text_field :description, :class => "form-control py-2", :required => true %>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
     <div class="value">
       <div class="input-group">
 
-        <%= form.select :category, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+        <%= form.select :category, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true, :required => true} %>
       </div>
     </div>
   </div>
