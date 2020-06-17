@@ -124,28 +124,73 @@
           <span onclick="newElement()" class="addBtn">Add</span>
         </div>
         <div class="row">
-          <div class="col-md-7">
+          <div class="col-md-8">
             <div class="form-row mt-1 pt-1">
-              <label for='dose' class="mb-1 pt-1" style="font-weight:bold">Dose:</label>
+              <label for='dose' class="mb-1 pt-1" style="font-weight:bold">Dose quantity:</label>
               <div class="value">
                 <div class="input-group pl-2">
-                  <textarea cols="130" rows="5" id="dose" name="dose" placeholder="Enter dose here...."></textarea>
+                  <textarea cols="130" rows="5" id="dose" name="dose" placeholder="Enter dose quantity information here...."></textarea>
                 </div>
               </div>
             </div>
           </div>
-          <div class="md-form md-outline pt-2">
-            <input type="time" id="default-picker" class="form-control py-2" placeholder="Select time">
-            <label for="default-picker" class="name" style="font-weight:bold">Select Time for schedule</label>
+          <div class="col-md-4">
+            <div class="md-form md-outline pt-2">
+              <input type="time" id="default-picker" class="form-control py-2" placeholder="Select time">
+              <label for="default-picker" class="name" style="font-weight:bold">Select Time for schedule</label>
+            </div>
           </div>
         </div>
+        <hr>
         <ul id="myUL">
         </ul>
+        <hr>
+        <div class="col-xl-3 col-md-3 pt-2">
+          <div class="card text-white mb-2">
+            <button class="pt-1 pb-1" onclick="send_request()" style="background-color: #343a40; color: white;">
+              Send Request
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   </div>
 </div>
 <script>
+    function send_request() {
+        var med_list = [];
+        $('ul li').each(function (i) {
+            med_list.push($(this).text())
+        });
+        dose_detail = $('#dose').val()
+        schedule_time = $('#default-picker').val()
+        if (med_list == ""){
+          alert('Please Enter Medicine.');
+          return false;
+        }
+        if (dose_detail == ""){
+            alert('Please Enter dose detail.');
+            return false;
+        }
+        if (schedule_time == ""){
+            alert('Please Enter schedule time.');
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/users',
+            data: {
+                med_list, dose_detail, schedule_time
+            },
+            cache: false,
+            success: function () {
+                $("#plant_cost_code").val('');
+                $("#cost_code_modal").modal("hide");
+            }
+        });
+    }
+
     // Create a "close" button and append it to each list item
     var myNodelist = document.getElementsByTagName("LI");
     var i;
