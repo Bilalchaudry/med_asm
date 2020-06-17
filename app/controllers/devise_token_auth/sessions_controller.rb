@@ -1,46 +1,53 @@
-# frozen_string_literal: true
-
-# see http://www.emilsoman.com/blog/2013/05/18/building-a-tested/
 module DeviseTokenAuth
   class SessionsController < DeviseTokenAuth::ApplicationController
     include ErrorMessage
     before_action :set_user_by_token, only: :destroy
-    # before_action :validate_sign_in_params, only: :create
     after_action :reset_session, only: :destroy
+    before_action :authenticate_user!, only: :destroy
 
     def new
       render_new_error
     end
 
     def update_header_tokens
-      @client_id, @token = @resource.create_token
-      @resource.save!
-      update_auth_header
+      token = @resource.create_token
+      @client_id = token
+      @token = token
     end
 
     def create
-      begin
-        @resource = User.email_or_phone_exist?(params[:user][:login]).first
-        return bad_request_error("User not found", 200) unless @resource.present?
-        if @resource.valid_password? params[:user][:password]
-          
-          token = @resource.create_token
-          @client_id = token
-          @token = token
 
-          # if params[:user][:device_token].present?
-          #   @resource.device_token = params[:user][:device_token]
-          # end
-          
-          @resource.save!
-          yield @resource if block_given?
-          render :log_in, status: :ok
-        else
-          bad_request_error("Invalid Login Credentials", 200)
+      begin
+        if (params[:user][:login].present? && params[:user][:password].present?)
+          @resource = User.email_or_phone_exist?(params[:user][:login]).first
+          return bad_request_error("User not found", 200) unless @resource.present?
+          if @resource.valid_password? params[:user][:password]
+            update_header_tokens
+            @resource.save!
+            render :log_in, status: :ok
+          else
+            bad_request_error("Invalid Login Credentials", 200)
+          end
+
+        elsif params[:user][:login].present? && params[:user][:facebook_id].present?
+          @resource = User.where('email = ? OR facebook_id = ?', "#{params[:user][:login]}", "#{params[:user][:facebook_id]}").first
+          if @resource.present?
+            render :log_in, status: :ok
+          else
+            @resource = User.new(user_params)
+            @resource.email = params[:user][:login]
+            if @resource.save
+              update_header_tokens
+            else
+              return bad_request_error(@resource.errors.full_messages.to_sentence, 200)
+            end
+            render :log_in, status: :created
+          end
         end
       rescue => error
         bad_request_error(error.message, 200)
       end
+
     end
 
     def destroy
@@ -125,6 +132,11 @@ module DeviseTokenAuth
     end
 
     private
+
+    def user_params
+      params.require(:user).permit(:email, :full_name, :gender, :provider, :uid,
+                                   :facebook_id)
+    end
 
     def resource_params
       params.permit(*params_for_resource(:sign_in))

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   resources :admin_users
   namespace :api do
     namespace :v1 do
-      get 'products/index'
+      resources :save_addresses
+      resources :products
     end
   end
    root to: 'admin_dashboard#dashboard'
