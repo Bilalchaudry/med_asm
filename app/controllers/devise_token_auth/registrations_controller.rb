@@ -1,28 +1,14 @@
 module DeviseTokenAuth
   class RegistrationsController < DeviseTokenAuth::ApplicationController
-    # include ErrorMessage
+    include ErrorMessage
     before_action :set_user_by_token, only: [:destroy, :update]
     skip_after_action :update_auth_header, only: [:destroy]
-    # before_action :validate_sign_up_params, only: :create
-    # caches_page :new
-
-    # def validate_sign_up_params
-    #   email = params[:user][:email]
-    #   user_name = params[:user][:user_name]
-    #   password = params[:user][:password]
-    #   password_confirmation = params[:user][:password_confirmation]
-    #   phone = params[:user][:phone]
-    #
-    #   bad_request_error('Missing required parameters', 400) if email.nil? ||
-    #       user_name.nil? || password.nil? || password_confirmation.nil? || phone.nil?
-    # end
 
 
     def create
       begin
         @resource = User.new(user_params)
         update_header_tokens if @resource.save!
-        @resource.create_image(image: params[:user][:image]) if params[:user][:image].present?
         render :sign_up, status: :created
       rescue => error
         bad_request_error(error.message, 200)
@@ -89,63 +75,16 @@ module DeviseTokenAuth
       update_auth_header
     end
 
-    def build_resource
-      @resource = resource_class.new(sign_up_params)
-      @resource.provider = provider
-
-      # honor devise configuration for case_insensitive_keys
-      if resource_class.case_insensitive_keys.include?(:email)
-        @resource.email = sign_up_params[:email].try(:downcase)
-      else
-        @resource.email = sign_up_params[:email]
-      end
-    end
-
-    def render_create_error_missing_confirm_success_url
-      response = {
-          status: 'error',
-          data: resource_data
-      }
-      message = I18n.t('devise_token_auth.registrations.missing_confirm_success_url')
-      render_error(422, message, response)
-    end
-
-    def render_create_error_redirect_url_not_allowed
-      response = {
-          status: 'error',
-          data: resource_data
-      }
-      message = I18n.t('devise_token_auth.registrations.redirect_url_not_allowed', redirect_url: @redirect_url)
-      render_error(422, message, response)
-    end
-
-    def render_update_error_user_not_found
-      render_error(404, I18n.t('devise_token_auth.registrations.user_not_found'), status: 'error')
-    end
-
-    def render_destroy_success
-      render json: {
-          status: 'success',
-          message: I18n.t('devise_token_auth.registrations.account_with_uid_destroyed', uid: @resource.uid)
-      }
-    end
-
-    def render_destroy_error
-      render_error(404, I18n.t('devise_token_auth.registrations.account_to_destroy_not_found'), status: 'error')
-    end
-
     private
 
     def user_params
-      params.require(:user).permit(:email, :user_name, :phone, :password, :password_confirmation,
-                                   :role, :address, :latitude, :longitude, :device_token,
-                                   :phone_verified)
+      params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation,
+                                   :gender)
     end
 
 
     def account_update_params
-      params.require(:user).permit(:email, :user_name, :phone, :address,
-                                    :latitude, :longitude, :status)
+      params.require(:user).permit(:email, :full_name, :phone, :gender)
     end
 
     def resource_update_method
