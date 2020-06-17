@@ -14,7 +14,7 @@
       <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :cost, :class => "form-control py-2", :required => true %>
+        <%= form.number_field :cost, :class => "form-control py-2", :required => true %>
       </div>
     </div>
   </div>
@@ -24,6 +24,15 @@
     <div class="value">
       <div class="input-group">
         <%= form.text_field :description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :quantity, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.number_field :quantity, :class => "form-control py-2", :required => true %>
       </div>
     </div>
   </div>

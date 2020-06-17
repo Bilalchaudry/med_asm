@@ -1,17 +1,12 @@
 <%= form_with(model: @user, local: true) do |form| %>
   <%= render 'layouts/error_messages', object: form.object %>
 
-
-  <% if params[:action].eql?("new") %>
-
-
-
     <div class="form-row">
 
-      <%= form.label :username, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+      <%= form.label :username, "Full Name", :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
-          <%= form.text_field :user_name, :class => "form-control py-2", :required => true %>
+          <%= form.text_field :full_name, :class => "form-control py-2", :required => true %>
         </div>
       </div>
     </div>
@@ -21,11 +16,7 @@
       <%= form.label :email, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
-          <% if params[:action].eql?("edit") %>
-            <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
-          <% else %>
             <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
-          <% end %>
         </div>
       </div>
     </div>
@@ -39,11 +30,18 @@
       </div>
     </div>
     <div class="form-row">
-
-      <%= form.label :address, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+      <%= form.label :gender, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
-          <%= form.text_field :address, :class => "form-control py-2", :required => true %>
+          <select name="user[gender]" id="gender" class="form-control">
+            <option value="<%= User.genders[@user.gender] rescue nil %>">
+              <%= @user.gender rescue nil %>
+              <% User.genders.reject {|status| status == @user.gender}.each do |key, value| %>
+              <option value="<%= value %>">
+                <%= key %>
+              </option>
+            <% end %>
+          </select>
         </div>
       </div>
     </div>
@@ -75,12 +73,6 @@
       </div>
     </div>
 
-
-
-
-
-
-  <% end %>
   <hr>
   <div class="row">
     <div class="col-md-3"></div>

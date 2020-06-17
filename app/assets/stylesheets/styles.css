@@ -10241,7 +10241,6 @@ body {
     color: white !important;
     margin: 20px !important;
     border-radius: 10px !important;
-    width: 145px !important;
 }
 
 /* line 26, app/assets/stylesheets/admin_dashboard.scss */
@@ -10250,7 +10249,6 @@ body {
     color: white !important;
     margin-bottom: 20px !important;
     margin-top: 20px !important;
-    width: 150px !important;
     border-radius: 10px !important;
 }
 
@@ -10260,7 +10258,25 @@ body {
     color: white !important;
     border-radius: 10px !important;
     margin-bottom: 20px !important;
+    margin-top: 2px !important;
+}
+.dashboard-user-b4 {
+    background: #0f6674 !important;
+    color: white !important;
+    margin-bottom: 20px !important;
     margin-top: 20px !important;
+    margin-left: 20px !important;
+    width: 145px !important;
+    border-radius: 10px !important;
+}
+.dashboard-b5 {
+    background: #a71d2a !important;
+    color: white !important;
+    margin-bottom: 20px !important;
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+    width: 145px !important;
+    border-radius: 10px !important;
 }
 
 /* ==========================================================================
@@ -10879,10 +10895,4 @@ td {
 /* line 44, app/assets/stylesheets/scaffolds.scss */
 div.field, div.actions {
     margin-bottom: 10px;
-}
-
-a.button, a:link.button, a:visited.button, input[type=submit], input[type=button], button {
-    background-image: none !important;
-    text-shadow: none !important;
-    box-shadow: none !important;
 }

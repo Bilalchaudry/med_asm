@@ -7,9 +7,9 @@ ruby '2.5.3'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
+gem 'devise'
 gem 'pg'
 gem 'devise_token_auth'
-gem 'activeadmin'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
