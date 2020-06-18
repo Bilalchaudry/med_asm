@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :save_addresses
+  has_many :prescriptions
 
   enum gender: {
       Male: 0,
