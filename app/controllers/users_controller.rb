@@ -25,8 +25,9 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    if params[:med_list].present?
-      puts params[:dose_detail]
+    if params[:medicine].present?
+      puts params[:day_time]
+      puts params[:comment]
     else
       @user = User.new(user_params)
 

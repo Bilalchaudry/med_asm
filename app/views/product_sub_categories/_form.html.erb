@@ -1,50 +1,170 @@
 <%= form_with(model: product_sub_category, local: true) do |form| %>
   <% if product_sub_category.errors.any? %>
-  <%= render 'layouts/error_messages', object: form.object %>
+    <%= render 'layouts/error_messages', object: form.object %>
   <% end %>
-
-  <div class="form-row">
-    <%= form.label :product_category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-row">
+          <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+          <div class="value">
+            <div class="input-group">
+              <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-row">
+          <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+          <div class="value">
+            <div class="input-group">
+              <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
+              <b><span class="errmsg"></span></b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+  <h3>Set Schedule</h3>
+  <div class="col-md-12">
+    <div class="row pt-4">
+      <div class="col-md-5">
+        <div class="form-row">
+          <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+          <div class="value">
+            <div class="input-group">
+              <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-row">
+          <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+          <div class="value">
+            <div class="input-group">
+              <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+              <b><span class="errormsg"></span></b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-row">
+          <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+          <div class="value">
+            <div class="input-group">
+              <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row m-b-55">
+    <div class="name ">Medicine Date</div>
     <div class="value">
-      <div class="input-group">
-        <%= form.select :category_id, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+      <div class="row row-refine">
+        <div class="col-5">
+          <div class="input-group-desc">
+            <%= form.text_field :start_date, :class => 'start-date form-control py-2', id: 'start-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+            <label class="label--desc">Start Date</label>
+          </div>
+        </div>
+        <div class="col-2 pt-3">
+          <center> To</center>
+        </div>
+        <div class="col-5">
+          <div class="input-group-desc">
+            <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+            <%= form.label :end_date, :class => "label--desc" %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-
-  <div class="form-row">
-    <%= form.label :products, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-    <div class="value">
-      <div class="input-group">
-
-        <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
-      </div>
-    </div>
-  </div>
 
   <hr>
   <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-3 ml-5">
       <div class="form-group mt-3 mb-0">
         <div class="actions">
-          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+          <button type="button" class="btn w-100 bg-clr btn-style req-btn">Add Medicine</button>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group mt-3 mb-0">
-        <div class="actions">
-          <%= link_to "Cancel", product_sub_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
   </div>
 <% end %>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
-        $('select').selectpicker();
+        $(".req-btn").click(function () {
+            medicine = $(".medicine option:selected").val();
+            medicine_quantity = $('#med_quantity').val();
+            day_time = $(".d_time option:selected").val();
+            dose_quantity = $('#dose_quantity').val();
+            comment = $('#comment').val();
+            start_date = $('#start-date').val();
+            end_date = $('#end-date').val();
+            // alert(medicine + ' ' + medicine_quantity + '  ' + day_time + ' ' + dose_quantity + ' ' + comment + ' ' + start_date + ' ' + end_date)
+            $.ajax({
+                type: 'POST',
+                url: '/users',
+                data: {
+                    medicine, medicine_quantity, day_time, dose_quantity, comment, start_date, end_date
+                },
+                cache: false,
+                success: function () {
+                    $("#plant_cost_code").val('');
+                    $("#cost_code_modal").modal("hide");
+                }
+            });
+        });
+        // $('select').selectpicker();
+        $(function () {
+            $('#start-date').datepicker({
+                format: 'yyyy-mm-dd',
+                todayHighlight: true
+            });
+            $('#end-date').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        });
+    });
+    $('select').selectpicker();
+    $("#med_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errmsg").hide();
+        }
+    });
+    $("#med_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type space=32,+=43,-=45,backsp=8,enter=13
+        if (e.which == 45) {
+            //display error message
+            $(".errmsg").html("Value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errmsg").hide();
+        }
+    });
+    $("#dose_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errormsg").hide();
+        }
+    });
+    $("#dose_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type space=32,+=43,-=45,backsp=8,enter=13
+        if (e.which == 45) {
+            //display error message
+            $(".errormsg").html("Value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errormsg").hide();
+        }
     });
 </script>

@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
@@ -86,11 +88,11 @@
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Categories
             </a>
-            <a class="nav-link" href="/product_sub_categories">
+<!--            <a class="nav-link" href="/product_sub_categories">-->
 
-              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
-              Prescription Requests
-            </a>
+<!--              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>-->
+<!--              Prescription Requests-->
+<!--            </a>-->
             <a class="nav-link" href="#">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
@@ -106,6 +108,7 @@
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Reports
             </a>
+            <%= link_to 'Prescription Requests',  new_product_sub_category_path ,class: 'sb-nav-link-icon nav-link'%>
           </div>
         </div>
       </nav>
