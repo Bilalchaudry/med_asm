@@ -133,20 +133,7 @@
 
             <tbody>
             <%# @users.each do |user| %>
-            <tr>
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td></td>-->
-<!--              <td>-->
-                <%#= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
-                <%#= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
-                <%#= link_to "Delete", user, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete%>
-                <!--            </td>-->
-            </tr>
+
             <%# end %>
 
             </tbody>
@@ -166,10 +153,39 @@
             comment = $('#comment').val();
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
-            dataTable.row.add( [
+            if (medicine == ""){
+                alert('Please select medicine.');
+                return false;
+            }
+            if (medicine_quantity == ""){
+                alert('Please select medicine quantity.');
+                return false;
+            }
+            if (day_time == ""){
+                alert('Please select medicine time.');
+                return false;
+            }
+            if (dose_quantity == ""){
+                alert('Please write dose quantity.');
+                return false;
+            }
+            if (comment == ""){
+                alert('Please write dose information.');
+                return false;
+            }
+            if (start_date == ""){
+                alert('Please select start date.');
+                return false;
+            }
+            if (end_date == "") {
+                alert('Please select end date.');
+                return false;
+            }
+                dataTable.row.add( [
                 medicine,
                 medicine_quantity,
                 day_time,
+                dose_quantity,
                 comment,
                 start_date,
                 end_date
