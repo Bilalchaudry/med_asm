@@ -1,106 +1,161 @@
-<%= form_with(model: product_sub_category, local: true) do |form| %>
-  <% if product_sub_category.errors.any? %>
-    <%= render 'layouts/error_messages', object: form.object %>
-  <% end %>
-  <div class="col-md-12">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="form-row">
-          <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
-          <div class="value">
-            <div class="input-group">
-              <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="card card-5 form-border-style">
+      <div class="card-heading bg-clr text-white">
+        <h4 class="text-center font-weight-light">Prescription</h4>
+      </div>
+      <div class="card-body" style="padding-bottom: 0px;">
+        <%= form_with(model: product_sub_category, local: true) do |form| %>
+          <% if product_sub_category.errors.any? %>
+            <%= render 'layouts/error_messages', object: form.object %>
+          <% end %>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-row">
+                  <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
+                      <b><span class="errmsg"></span></b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4"></div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-row">
-          <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-          <div class="value">
-            <div class="input-group">
-              <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
-              <b><span class="errmsg"></span></b>
+          <h3>Set Schedule</h3>
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-5">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <b><span class="errormsg"></span></b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4"></div>
-    </div>
-  </div>
-  <h3>Set Schedule</h3>
-  <div class="col-md-12">
-    <div class="row pt-4">
-      <div class="col-md-5">
-        <div class="form-row">
-          <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-          <div class="value">
-            <div class="input-group">
-              <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+          <div class="form-row m-b-55">
+            <div class="name ">Medicine Date</div>
+            <div class="value">
+              <div class="row row-refine">
+                <div class="col-5">
+                  <div class="input-group-desc">
+                    <%= form.text_field :start_date, :class => 'start-date form-control py-2', id: 'start-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                    <label class="label--desc">Start Date</label>
+                  </div>
+                </div>
+                <div class="col-2 pt-3">
+                  <center> To</center>
+                </div>
+                <div class="col-5">
+                  <div class="input-group-desc">
+                    <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                    <%= form.label :end_date, :class => "label--desc" %>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-row">
-          <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-          <div class="value">
-            <div class="input-group">
-              <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
-              <b><span class="errormsg"></span></b>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-row">
-          <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-          <div class="value">
-            <div class="input-group">
-              <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="form-row m-b-55">
-    <div class="name ">Medicine Date</div>
-    <div class="value">
-      <div class="row row-refine">
-        <div class="col-5">
-          <div class="input-group-desc">
-            <%= form.text_field :start_date, :class => 'start-date form-control py-2', id: 'start-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
-            <label class="label--desc">Start Date</label>
-          </div>
-        </div>
-        <div class="col-2 pt-3">
-          <center> To</center>
-        </div>
-        <div class="col-5">
-          <div class="input-group-desc">
-            <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
-            <%= form.label :end_date, :class => "label--desc" %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
-  <hr>
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-3 ml-5">
-      <div class="form-group mt-3 mb-0">
-        <div class="actions">
-          <button type="button" class="btn w-100 bg-clr btn-style req-btn">Add Medicine</button>
+          <hr>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-3 ml-5">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <button type="button" class="btn w-100 bg-clr btn-style req-btn">Add Medicine</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="card mb-4">
+      <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Medicine Quantity</th>
+              <th>Day Time</th>
+              <th>Dose</th>
+              <th>Comment</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <%# @users.each do |user| %>
+            <tr>
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td>-->
+                <%#= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
+                <%#= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
+                <%#= link_to "Delete", user, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete%>
+                <!--            </td>-->
+            </tr>
+            <%# end %>
+
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <div class="col-md-4"></div>
   </div>
-<% end %>
+</div>
 <script>
     $(document).ready(function () {
         $(".req-btn").click(function () {
@@ -111,6 +166,14 @@
             comment = $('#comment').val();
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
+            dataTable.row.add( [
+                medicine,
+                medicine_quantity,
+                day_time,
+                comment,
+                start_date,
+                end_date
+                ] ).draw( false );
             // alert(medicine + ' ' + medicine_quantity + '  ' + day_time + ' ' + dose_quantity + ' ' + comment + ' ' + start_date + ' ' + end_date)
             $.ajax({
                 type: 'POST',

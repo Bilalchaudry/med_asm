@@ -1,15 +1,2 @@
-<div id="layoutSidenav">
-  <div id="layoutSidenav_content">
-    <% if notice.present? %>
-      <p id="notice" class="alert-success notice-style"><%= notice %></p>
-    <% end %>
-    <div class="card card-5 form-border-style">
-      <div class="card-heading bg-clr text-white">
-        <h4 class="text-center font-weight-light">Prescription</h4>
-      </div>
-      <div class="card-body">
+
         <%= render 'form', product_sub_category: @product_sub_category %>
-      </div>
-    </div>
-  </div>
-</div>
