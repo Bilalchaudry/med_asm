@@ -16,7 +16,6 @@ module DeviseTokenAuth
     end
 
     def create
-
       begin
         if (params[:user][:login].present? && params[:user][:password].present?)
           @resource = User.email_or_phone_exist?(params[:user][:login]).first
@@ -43,8 +42,8 @@ module DeviseTokenAuth
             end
             render :log_in, status: :created
           end
-
-          @resource = User.where('email = ? OR facebook_id = ?', "#{params[:user][:login]}", "#{params[:user][:facebook_id]}").first
+        else
+          @resource = User.where('email = ?', "#{params[:user][:login]}").first
           if @resource.present?
             render :log_in, status: :ok
           else
