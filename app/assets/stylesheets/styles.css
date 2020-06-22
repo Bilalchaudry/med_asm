@@ -10366,6 +10366,12 @@ body {
     font-size: 14px;
     font-weight: 700;
 }
+.form-row .name_sp {
+    width: 100px;
+    color: #111111;
+    font-size: 14px;
+    font-weight: 700;
+}
 
 .form-row .value {
     width: calc(100% - 125px);
