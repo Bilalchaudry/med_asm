@@ -16,7 +16,6 @@ module DeviseTokenAuth
     end
 
     def create
-
       begin
         if (params[:user][:login].present? && params[:user][:password].present?)
           @resource = User.email_or_phone_exist?(params[:user][:login]).first
@@ -31,6 +30,20 @@ module DeviseTokenAuth
 
         elsif params[:user][:login].present? && params[:user][:facebook_id].present?
           @resource = User.where('email = ? OR facebook_id = ?', "#{params[:user][:login]}", "#{params[:user][:facebook_id]}").first
+          if @resource.present?
+            render :log_in, status: :ok
+          else
+            @resource = User.new(user_params)
+            @resource.email = params[:user][:login]
+            if @resource.save
+              update_header_tokens
+            else
+              return bad_request_error(@resource.errors.full_messages.to_sentence, 200)
+            end
+            render :log_in, status: :created
+          end
+        else
+          @resource = User.where('email = ?', "#{params[:user][:login]}").first
           if @resource.present?
             render :log_in, status: :ok
           else
