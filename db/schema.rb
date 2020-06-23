@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_17_130506) do
+ActiveRecord::Schema.define(version: 2020_06_23_044600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,9 +50,30 @@ ActiveRecord::Schema.define(version: 2020_06_17_130506) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contents", force: :cascade do |t|
     t.string "content"
     t.string "page_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_products", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "prescription_id"
+    t.float "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,19 +86,12 @@ ActiveRecord::Schema.define(version: 2020_06_17_130506) do
   end
 
   create_table "product_categories", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "product_sub_categories", force: :cascade do |t|
-    t.bigint "product_category_id"
+    t.bigint "category_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_category_id"], name: "index_product_sub_categories_on_product_category_id"
-    t.index ["product_id"], name: "index_product_sub_categories_on_product_id"
+    t.index ["category_id"], name: "index_product_categories_on_category_id"
+    t.index ["product_id"], name: "index_product_categories_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -88,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_06_17_130506) do
     t.datetime "updated_at", null: false
     t.string "category"
     t.integer "quantity"
+    t.float "price"
   end
 
   create_table "save_addresses", force: :cascade do |t|
@@ -127,6 +142,6 @@ ActiveRecord::Schema.define(version: 2020_06_17_130506) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "product_sub_categories", "product_categories"
-  add_foreign_key "product_sub_categories", "products"
+  add_foreign_key "product_categories", "categories"
+  add_foreign_key "product_categories", "products"
 end

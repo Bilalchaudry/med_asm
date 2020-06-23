@@ -83,7 +83,7 @@
               <div class="sb-nav-link-icon"><i class="fa fa-medkit" aria-hidden="true"></i></div>
               Medicine Inventory
             </a>
-            <a class="nav-link" href="/product_categories">
+            <a class="nav-link" href="/categories">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Categories
@@ -93,7 +93,7 @@
 <!--              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>-->
 <!--              Prescription Requests-->
 <!--            </a>-->
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/orders">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Orders
@@ -108,7 +108,12 @@
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Reports
             </a>
-            <%= link_to 'Prescription Requests',  new_product_sub_category_path ,class: 'sb-nav-link-icon nav-link'%>
+            <a class="nav-link" href="<%= prescriptions_path %>">
+
+              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
+              Prescription Requests
+            </a>
+
           </div>
         </div>
       </nav>

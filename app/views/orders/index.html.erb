@@ -5,47 +5,42 @@
         <center>
           <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
         </center>
-        <h1 class="mt-3">Products</h1>
+        <h1 class="mt-3">Orders</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Product", new_product_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Order", new_order_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
         <div class="card mb-4">
-          <div class="card-header"><i class="fas fa-table mr-1"></i>Products</div>
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Orders</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Cost</th>
-                  <th>Description</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                  <th>Categories</th>
-                  <th>Actions</th>
+                  <th>ID</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>
+
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @products.each do |product| %>
+                <% @orders.each do |product| %>
                   <tr>
-                    <td><%= product.name %></td>
-                    <td><%= product.cost rescue nil %></td>
-                    <td><%= product.description rescue "N/A" %></td>
-                    <td><%= product.quantity %></td>
-                    <td><%= product.price %></td>
-                    <td>
+                    <td><%= product.id %></td>
+                    <td><%= product.created_at %></td>
+                    <td><%= product.updated_at %></td>
+<!--                    <td>-->
                       <%# categories = product.product_categories %>
                       <%# categories.each do |category| %>
-                        <%#= category.name %>
+                      <%#= category.name %>
                       <%# end %>
-                    </td>
+<!--                    </td>-->
                     <td>
                       <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>

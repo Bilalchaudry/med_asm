@@ -11,8 +11,8 @@
           </div>
 
           <div class="card-body">
-            <%= form_with(model: @product_sub_category, local: true) do |form| %>
-              <% if @product_sub_category.errors.any? %>
+            <%= form_with(model: @product_category, local: true) do |form| %>
+              <% if @product_category.errors.any? %>
                 <%= render 'layouts/error_messages', object: form.object %>
               <% end %>
 
@@ -20,7 +20,7 @@
                 <%= form.label :product, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <input class="form-control py-2" readonly value="<%= @product_sub_category.product.name %>"/>
+                    <input class="form-control py-2" readonly value="<%= @product_category.product.name %>"/>
                   </div>
                 </div>
               </div>
@@ -28,7 +28,7 @@
 
 
               <div class="form-row">
-                <%= form.label :product_category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <%= form.label :category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
                     <%= form.select :category_id, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
@@ -49,7 +49,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to "Cancel", product_sub_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
+                      <%= link_to "Cancel", categories_path, :class => 'btn w-100 bg-clr btn-style' %>
                     </div>
                   </div>
                 </div>

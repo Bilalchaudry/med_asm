@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
       Female: 1
   }
   scope :email_or_phone_exist?, ->(login) {where("email = ? OR  phone = ? ", login, login)}
-  validates_uniqueness_of :phone
-  validates_presence_of :full_name, :phone, :gender, :email
-  validates_uniqueness_of :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  # validates_uniqueness_of :phone
+  # validates_presence_of :full_name, :phone, :gender, :email
+  # validates_uniqueness_of :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 end

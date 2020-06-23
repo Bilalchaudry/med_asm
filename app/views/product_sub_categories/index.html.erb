@@ -11,7 +11,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Product Sub Category", new_product_sub_category_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Product Sub Category", new_product_category_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -29,14 +29,14 @@
                 </thead>
 
                 <tbody>
-                <% @product_sub_categories.each do |product_sub_category| %>
+                <% @product_categories.each do |product_category| %>
                   <tr>
-                    <td><%= product_sub_category.product.name %></td>
-                    <td><%= product_sub_category.product_category.name rescue "N/A" %></td>
+                    <td><%= product_category.product.name %></td>
+                    <td><%= product_category.category.name rescue "N/A" %></td>
                     <td>
-                      <%= link_to "View", product_sub_category_path(product_sub_category), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_product_sub_category_path(product_sub_category), :class => "btn btn-outline-info"  %>
-                      <%= link_to 'Destroy', product_sub_category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+                      <%= link_to "View", product_category_path(product_category), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_product_category_path(product_category), :class => "btn btn-outline-info"  %>
+                      <%= link_to 'Destroy', product_category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
                     </td>
                   </tr>
                 <% end %>
