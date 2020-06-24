@@ -67,6 +67,24 @@ class ProductsController < ApplicationController
     end
   end
 
+
+  def import
+    errors = Product.import_file(params[:file])
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
+    end
+    redirect_to products_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/products.csv",
+        filename: "products.csv",
+        )
+  end
+
   def get_product_price
     medicine_name = params[:medicine_name]
     medicine = Product.find_by_name medicine_name
@@ -86,6 +104,6 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.require(:product).permit(:name, :cost, :description, :quantity,
-                                    :category, :price)
+                                    :category)
   end
 end

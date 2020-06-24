@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   resources :products do
     collection do
       get :get_product_price
+      get :project_foreman_list
+      post :import
+      get :download_template
+
     end
   end
   resources :prescriptions
