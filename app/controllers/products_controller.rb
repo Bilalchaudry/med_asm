@@ -89,7 +89,7 @@ class ProductsController < ApplicationController
     medicine_name = params[:medicine_name]
     medicine = Product.find_by_name medicine_name
     render json: {
-        price: medicine.price
+        price: medicine.cost
     }
   end
 

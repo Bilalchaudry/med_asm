@@ -33,10 +33,10 @@
                 <% @prescriptions.each do |prescription| %>
                   <tr>
                     <td><%= prescription.id %></td>
-                    <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
                     <td><%= prescription.status %></td>
+                    <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
                     <td>
-                      <%= link_to "Proceed", new_order_path, :class => "btn btn-outline-dark" %>
+                      <%= link_to "Proceed", new_order_path+"?id="+prescription.id.to_s, :class => "btn btn-outline-dark" %>
                       <%#= link_to "Edit", edit_prescription_path(prescription), :class => "btn btn-outline-info" %>
 
                     </td>

@@ -259,14 +259,7 @@
 </div>
 
 <script>
-    var editor;
-    $('#dataTable').on( 'click', 'tbody td:not(:first-child)', function (e) {
-        debugger
-        editor.inline( this, {
-            submit: 'allIfChanged'
-        } );
-    } );
-
+    var medicine_price;
     $(".medicine").change(function () {
         medicine_name = $(".medicine option:selected").val();
         $.ajax({
@@ -276,6 +269,7 @@
                 medicine_name: medicine_name
             },
             success: function (data) {
+                medicine_price = data['price'];
                 $('#med_price').val(data['price']);
                 $('#med_quantity').val(1);
 
@@ -286,8 +280,7 @@
 
     $("#med_quantity").change(function () {
         var quantity = $('#med_quantity').val();
-        var price = $('#med_price').val();
-        var total_amount = quantity * price;
+        var total_amount = quantity * medicine_price;
         $('#med_price').val(total_amount);
     });
 
@@ -303,7 +296,7 @@
     }
 
     $(document).ready(function () {
-        // localStorage.clear();
+        localStorage.clear();
         $(".req-btn").click(function () {
 
             medicine_name = $(".medicine option:selected").val();
@@ -341,26 +334,6 @@
                 };
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
-            // console.log(medicines);
-
-            // var medicine_detail = {
-            //     med_name: med_name,
-            //     med_quantity: med_q,
-            //     med_time_morning: med_time,
-            //     med_dose_morning: med_dose,
-            //     med_comment_morning: med_comment,
-            //     med_time_noon: med_time_noon,
-            //     med_dose_noon: med_dose_noon,
-            //     med_comment_noon: med_comment_noon,
-            //     med_time_eveving: med_time_eve,
-            //     med_dose_evening: med_dose_eve,
-            //     med_comment_evening: med_comment_eve_,
-            //     med_start_date: med_d,
-            //     med_end_date: med_e
-            //
-            // }
-            // meds.push(medicine_detail);
-
         });
 
         $(function () {
@@ -385,7 +358,7 @@
             success: function () {
             }
         });
-    })
+    });
 
 
     $('select').selectpicker();
