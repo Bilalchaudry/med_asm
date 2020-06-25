@@ -28,6 +28,7 @@ class Api::V1::PrescriptionsController < ApiController
     begin
       @prescription = current_user.prescriptions.new(prescription_params)
       @prescription.save!
+      @prescription.comments.create(message: params[:prescription][:message]) if params[:prescription][:message].present?
       render_success_response "Prescription sent to admin successfully"
     rescue => e
       bad_request_error(e.message)
