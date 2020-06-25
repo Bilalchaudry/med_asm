@@ -23,6 +23,7 @@ class Product < ApplicationRecord
         csv = CSV.parse(csv_text, :headers => true)
         i = 0
         @products = []
+        @empty_array = true
         i = 0
         csv.each do |row|
           begin
@@ -30,6 +31,13 @@ class Product < ApplicationRecord
             if row[0].present?
               medicine = Product.where("lower(name) = ?", row[0].strip.downcase).first
               if medicine.present?
+                if row[2].present?
+                  medicine.update(quantity: medicine.quantity + row[2].to_i)
+                  @empty_array = false
+                  next
+                else
+                  return error = "Validation Failed. Cost must be present. Error on Row: #{i}"
+                end
                 return error = "Validation Failed. Medicine name already exist. Error on Row: #{i}"
               end
             else
@@ -70,12 +78,12 @@ class Product < ApplicationRecord
             end
 
             @products << Product.new(name: row[0], description: row[1], cost: row[2], quantity: row[3], category: category.id)
-
+            @empty_array = false
           rescue => e
             return e.message
           end
         end
-        if @products.empty?
+        if @empty_array
           return error = "Validation Failed. Please Insert some data in File."
         end
 
