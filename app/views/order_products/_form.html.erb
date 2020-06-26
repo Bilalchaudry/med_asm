@@ -5,12 +5,12 @@
     <% end %>
     <div class="card card-5 form-border-style">
       <div class="card-heading bg-clr text-white">
-        <h4 class="text-center font-weight-light">Prescription</h4>
+        <h4 class="text-center font-weight-light"></h4>
       </div>
       <div class="card-body" style="padding-bottom: 0px;">
 
-        <%= form_with(model: order, local: true) do |form| %>
-          <% if order.errors.any? %>
+        <%= form_with(model: order_product, local: true) do |form| %>
+          <% if order_product.errors.any? %>
             <%= render 'layouts/error_messages', object: form.object %>
           <% end %>
           <div class="col-md-12">
@@ -220,7 +220,7 @@
             <div class="col-md-3 ml-5">
               <div class="form-group mt-3 mb-0">
                 <div class="actions">
-                  <button type="button" class="btn w-100 bg-clr btn-style req-btn">Add Medicine</button>
+                  <button type="button" class="btn w-100 bg-clr btn-style req-btn">Update Medicine</button>
                 </div>
               </div>
             </div>
@@ -229,30 +229,6 @@
 
         <% end %>
 
-      </div>
-    </div>
-    <div class="card mb-4">
-      <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-              <th>Medicine Name</th>
-              <th>Medicine Quantity</th>
-              <th>Day Time</th>
-              <th>Dose</th>
-              <th>Comment</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-            </thead>
-
-          </table>
-          <center>
-            <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
-          </center>
-        </div>
       </div>
     </div>
   </div>

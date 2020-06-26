@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_prescription, only: :create
 
   # GET /orders
   # GET /orders.json
@@ -25,19 +26,23 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    @order.prescription_id = @prescription.id
     @order.save!
+    @prescription.update(status: "Proceed")
     JSON.parse(params[:medicines]).each do |hash, key|
       medicine_name = hash['medicine_name']
       medicine = Product.find_by_name(medicine_name)
       if medicine.present?
-        OrderProduct.create!(order_id: @order.id, product_id: medicine.id)
+        OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
+                             price: hash['price'], timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
+                             comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
       end
     end
 
 
     respond_to do |format|
       if @order.save
-        format.html {redirect_to orders_path, notice: 'Order was successfully created.'}
+        format.html {redirect_to prescriptions_path, notice: 'Invoice sent to customer successfully.'}
         format.json {render :show, status: :created, location: @order}
       else
         format.html {render :new}
@@ -73,6 +78,12 @@ class OrdersController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+
+  def set_prescription
+    id = params[:url].split('?id=')[1].to_i
+    @prescription = Prescription.find(id)
+  end
+
   def set_order
     @order = Order.find(params[:id])
   end

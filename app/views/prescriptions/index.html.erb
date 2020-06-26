@@ -9,12 +9,8 @@
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
-<!--          <div class="col-xl-3 col-md-4">-->
-<!--            <div class="card bg-success text-white mb-3">-->
-              <%#= link_to "Add New Product", new_prescription_path, :class => "btn btn-dark", style: "color: white" %>
-<!--            </div>-->
-<!--          </div>-->
         </div>
+
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Prescriptions</div>
           <div class="card-body">
@@ -36,9 +32,11 @@
                     <td><%= prescription.status %></td>
                     <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
                     <td>
-                      <%= link_to "Proceed", new_order_path+"?id="+prescription.id.to_s, :class => "btn btn-outline-dark" %>
-                      <%#= link_to "Edit", edit_prescription_path(prescription), :class => "btn btn-outline-info" %>
-
+                      <% if prescription.order.present? %>
+                        <%= link_to "View", prescriptions_path+ "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                      <% else %>
+                      <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                      <% end %>
                     </td>
                   </tr>
                 <% end %>

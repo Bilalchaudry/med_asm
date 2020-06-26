@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :order_products
   resources :orders
   devise_for :admin_users, :skip => [:registrations]
   resources :products do
