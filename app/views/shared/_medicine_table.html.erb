@@ -22,10 +22,10 @@
             <td><%= product.description rescue "N/A" %></td>
             <td><%= product.quantity %></td>
             <td>
-              <% categories = product.product_categories %>
-              <% categories.each do |category| %>
-                <%= category.name %>
-              <% end %>
+              <%# categories = product.product_categories %>
+              <%# categories.each do |category| %>
+                <%#= category.name %>
+              <%# end %>
             </td>
             <td>
               <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>

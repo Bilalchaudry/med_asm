@@ -18,7 +18,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @product_category.name %>
+                  <%= @category.name %>
                 </div>
               </div>
             </div>
@@ -29,7 +29,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @product_category.description rescue "N/A" %>
+                  <%= @category.description rescue "N/A" %>
                 </div>
               </div>
             </div>
@@ -40,14 +40,14 @@
               <div class="col-md-3">
                 <div class="form-group mt-3 mb-0">
                   <div class="actions">
-                    <%= link_to 'Edit', edit_product_category_path(@product_category), :class => 'btn w-100 bg-clr btn-style' %>
+                    <%= link_to 'Edit', edit_category_path(@category), :class => 'btn w-100 bg-clr btn-style' %>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group mt-3 mb-0">
                   <div class="actions">
-                    <%= link_to 'Back', product_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
+                    <%= link_to 'Back', categories_path, :class => 'btn w-100 bg-clr btn-style' %>
                   </div>
                 </div>
               </div>
@@ -58,5 +58,5 @@
       </div>
     </div>
   </div>
-  </main>
+
 </div>

@@ -26,12 +26,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
     respond_to do |format|
       if @product.save
-        category_ids = params[:product][:category]
-        category_ids.each do |category_id|
-          unless category_id.empty?
-            @product.product_sub_categories.create!(product_category_id: category_id)
-          end
-        end
+        ProductCategory.create(product_id: @product.id, category_id: params[:product][:category_id].to_i)
         format.html { redirect_to @product, notice: 'Product is successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -50,7 +45,7 @@ class ProductsController < ApplicationController
         category_ids = params[:product][:category]
         category_ids.each do |category_id|
           unless category_id.empty?
-            @product.product_sub_categories.create!(product_category_id: category_id)
+            @product.product_categories.create!(category_id: category_id)
           end
         end
         format.html { redirect_to products_path, notice: 'Product was successfully updated.' }
@@ -73,6 +68,32 @@ class ProductsController < ApplicationController
   end
 
 
+  def import
+    errors = Product.import_file(params[:file])
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
+    end
+    redirect_to products_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/products.csv",
+        filename: "products.csv",
+        )
+  end
+
+  def get_product_price
+    medicine_name = params[:medicine_name]
+    medicine = Product.find_by_name medicine_name
+    render json: {
+        price: medicine.cost
+    }
+  end
+
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -82,8 +103,7 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.require(:product).permit(:name, :cost, :description, :quantity, :category)
-    # pp[:project_status] = params[:project][:project_status].to_i
-    # return pp
+    params.require(:product).permit(:name, :cost, :description, :quantity,
+                                    :category)
   end
 end

@@ -1,10 +1,19 @@
-class Api::V1::PrescriptionsController < ApiController
-  before_action :set_prescription, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+class PrescriptionsController < ApplicationController
+  before_action :set_prescription, only: [:show, :edit, :update]
 
   # GET /prescriptions
   # GET /prescriptions.json
   def index
+    if params[:id].present?
+      @prescription = Prescription.find_by_id(params[:id].to_i)
+      if @prescription.present?
+        @order = @prescription.order
+        render 'prescriptions/detail'
+      else
+        @prescriptions = Prescription.all
+        render :index
+      end
+    end
     @prescriptions = Prescription.all
   end
 
@@ -28,7 +37,6 @@ class Api::V1::PrescriptionsController < ApiController
     begin
       @prescription = current_user.prescriptions.new(prescription_params)
       @prescription.save!
-      @prescription.comments.create(message: params[:prescription][:message]) if params[:prescription][:message].present?
       render_success_response "Prescription sent to admin successfully"
     rescue => e
       bad_request_error(e.message)
@@ -52,9 +60,11 @@ class Api::V1::PrescriptionsController < ApiController
   # DELETE /prescriptions/1
   # DELETE /prescriptions/1.json
   def destroy
-    @prescription.destroy
+    @order_product = OrderProduct.find_by_id(params[:id])
+    prescription_id = @order_product.order.prescription.id
+    @order_product.destroy
     respond_to do |format|
-      format.html {redirect_to prescriptions_url, notice: 'Prescription was successfully destroyed.'}
+      format.html {redirect_to prescriptions_url + "?id=" + prescription_id.to_s, notice: 'Order updated successfully.'}
       format.json {head :no_content}
     end
   end

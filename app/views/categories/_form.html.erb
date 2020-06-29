@@ -1,5 +1,5 @@
-<%= form_with(model: product_category, local: true) do |form| %>
-  <% if product_category.errors.any? %>
+<%= form_with(model: category, local: true) do |form| %>
+  <% if @category.errors.any? %>
     <%= render 'layouts/error_messages', object: form.object %>
   <% end %>
 
@@ -35,7 +35,7 @@
     <div class="col-md-3">
       <div class="form-group mt-3 mb-0">
         <div class="actions">
-          <%= link_to "Cancel", product_categories_path, :class => 'btn w-100 bg-clr btn-style' %>
+          <%= link_to "Cancel", categories_path, :class => 'btn w-100 bg-clr btn-style' %>
         </div>
       </div>
     </div>

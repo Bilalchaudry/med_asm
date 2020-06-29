@@ -12,14 +12,14 @@
         </thead>
 
         <tbody>
-        <% ProductCategory.all.each do |product_category| %>
+        <% Category.all.each do |category| %>
           <tr>
-            <td><%= product_category.name %></td>
-            <td><%= product_category.description rescue "N/A" %></td>
+            <td><%= category.name %></td>
+            <td><%= category.description rescue "N/A" %></td>
             <td>
-              <%= link_to "View", product_category_path(product_category), :class => "btn btn-outline-dark" %>
-              <%= link_to "Edit", edit_product_category_path(product_category), :class => "btn btn-outline-info"  %>
-              <%= link_to 'Destroy', product_category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+              <%= link_to "View", category_path(category), :class => "btn btn-outline-dark" %>
+              <%= link_to "Edit", edit_category_path(category), :class => "btn btn-outline-info"  %>
+              <%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
             </td>
           </tr>
         <% end %>

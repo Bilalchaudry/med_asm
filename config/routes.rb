@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
+  resources :order_products
+  resources :orders
   devise_for :admin_users, :skip => [:registrations]
-  resources :products
+  resources :products do
+    collection do
+      get :get_product_price
+      get :project_foreman_list
+      post :import
+      get :download_template
+
+    end
+  end
+  resources :prescriptions
   resources :users
-  resources :product_categories
-  resources :product_sub_categories
+
+  resources :categories
   resources :admin_users
   namespace :api do
     namespace :v1 do
