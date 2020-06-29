@@ -213,6 +213,16 @@
             </div>
           </div>
 
+          <div class="col-md-5">
+            <div class="form-row">
+              <%= form.label :other_comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+              <div class="value">
+                <div class="input-group">
+                  <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <hr>
           <div class="row">
@@ -279,6 +289,7 @@
             medicine_name = $(".medicine option:selected").val();
             medicine_quantity = $('#med_quantity').val();
             price = $('#med_price').val();
+            other_comment = $('#other_comment').val();
             day_time = $(".d_time option:selected").val();
             day_time_sec = $(".d_time_2nd option:selected").val();
             day_time_third = $(".d_time_3rd option:selected").val();
@@ -309,6 +320,7 @@
                     medicine_name: medicine_name,
                     medicine_quantity: medicine_quantity,
                     price: price,
+                    other_comment: other_comment,
                     day_time: day_time,
                     dose_quantity: dose_quantity,
                     comment: comment,
