@@ -36,7 +36,7 @@ class OrdersController < ApplicationController
         OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
                              price: hash['price'], timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
                              comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
-        @prescription.comments.create(message: hash['other_comment'])
+        @prescription.comments.create(message: params[:other_comment], role: 'admin')
       end
     end
 
