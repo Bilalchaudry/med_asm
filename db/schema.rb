@@ -64,13 +64,6 @@ ActiveRecord::Schema.define(version: 2020_06_25_134319) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.integer "prescription_id"
     t.string "message"
@@ -114,12 +107,19 @@ ActiveRecord::Schema.define(version: 2020_06_25_134319) do
   end
 
   create_table "product_categories", force: :cascade do |t|
-    t.bigint "category_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_sub_categories", force: :cascade do |t|
+    t.bigint "product_category_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_product_categories_on_category_id"
-    t.index ["product_id"], name: "index_product_categories_on_product_id"
+    t.index ["product_category_id"], name: "index_product_sub_categories_on_product_category_id"
+    t.index ["product_id"], name: "index_product_sub_categories_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -170,6 +170,6 @@ ActiveRecord::Schema.define(version: 2020_06_25_134319) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "product_categories", "categories"
-  add_foreign_key "product_categories", "products"
+  add_foreign_key "product_sub_categories", "product_categories"
+  add_foreign_key "product_sub_categories", "products"
 end
