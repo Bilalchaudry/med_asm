@@ -34,7 +34,7 @@
                 <% @orders.each do |product| %>
                   <tr>
                     <td><%= product.id %></td>
-                    <td><%= User.find(product.user_id).full_name %></td>
+                    <td><%= User.find(product.user_id).full_name rescue nil %></td>
                     <td><%= product.created_at %></td>
                     <td><%= product.updated_at %></td>
                     <td>

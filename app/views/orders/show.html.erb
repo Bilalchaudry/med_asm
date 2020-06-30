@@ -20,7 +20,7 @@
                 <thead>
                 <tr>
                   <th>ID</th>
-<!--                  <th>Owner</th>-->
+                  <th>Owner</th>
                   <th>Medicines</th>
                 </tr>
                 </thead>
@@ -28,7 +28,7 @@
                 <tbody>
                 <tr>
                   <td><%= @order.id %></td>
-<!--                  <td><%#= User.find(@order.user_id).full_name rescue nil %></td>-->
+                  <td><%= User.find(@order.user_id).full_name rescue nil %></td>
                   <td>
                     <% @order.order_products.each do |product| %>
                       <%= product.product.name rescue nil %> <br>
