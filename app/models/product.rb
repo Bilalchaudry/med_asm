@@ -44,7 +44,7 @@ class Product < ApplicationRecord
               return error = "Validation Failed. Name Empty in File. Error on Row: #{i}"
             end
 
-            new_product = @products.any? {|product| product.name == row[2]}
+            new_product = @products.any? {|product| product.name == row[0]}
             if new_product
               return error = "Validation Failed. Name Already Exist in File, Error on Row: #{i}"
             end
@@ -72,7 +72,7 @@ class Product < ApplicationRecord
             if row[4].nil?
               return error = "Validation Failed. Category Empty in file, Error on Row: #{i}"
             end
-            category = Category.find_by_name(row[4])
+            category = Category.find_by("lower(name) = ?", row[4].strip.downcase)
             if category.nil?
               return error = "Validation Failed. Category not found, Error on Row: #{i}"
             end
@@ -88,9 +88,10 @@ class Product < ApplicationRecord
         end
 
         @products.each do |product|
-          ProductCategory.create(product_id: product.id, category_id: product.category)
-          Product.create(name: product.name, description: product.description,
+          new_product = Product.create(name: product.name, description: product.description,
                          cost: product.cost, quantity: product.quantity)
+          ProductCategory.create(product_id: new_product.id, category_id: product.category.to_i)
+
         end
 
         error = 'Data imported successfully!'
