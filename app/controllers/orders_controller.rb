@@ -27,6 +27,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.prescription_id = @prescription.id
+    @order.user_id = @prescription.user_id
     @order.save!
     @prescription.update(status: "Proceed")
     JSON.parse(params[:medicines]).each do |hash, key|

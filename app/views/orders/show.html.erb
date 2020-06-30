@@ -1,4 +1,57 @@
-<p id="notice"><%= notice %></p>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Order History</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Order History</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Owner</th>
+                  <th>Medicines</th>
+                </tr>
+                </thead>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+                <tbody>
+                <tr>
+                  <td><%= @order.id %></td>
+                  <td><%= User.find(@order.user_id).full_name %></td>
+                  <td>
+                    <% @order.order_products.each do |product| %>
+                      <%= product.product.name %> <br>
+                    <% end %></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#dataTable').DataTable({});
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+</script>
+<!--<%#= link_to 'Edit', edit_order_path(@order) %> |-->
+<%#= link_to 'Back', orders_path %>
