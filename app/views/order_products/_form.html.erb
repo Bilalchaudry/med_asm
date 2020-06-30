@@ -13,14 +13,23 @@
           <% if order_product.errors.any? %>
             <%= render 'layouts/error_messages', object: form.object %>
           <% end %>
+
           <div class="col-md-12">
             <div class="row">
+
               <div class="col-md-5">
                 <div class="form-row">
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <select name="order_product[product_id]" id="product_id" class="form-control">
+                        <option value="<%= @order_product.product_id %>"><%= @order_product.product.name %></option>
+                        <% Product.all.reject {|product| product.id == @order_product.product_id}.each do |product| %>
+                          <option value="<%= product.id %>">
+                            <%= product.name %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -31,7 +40,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'dose_quantity', :required => true %>
+                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;' %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -64,7 +73,7 @@
 
             </div>
           </div>
-          <!--          <h3>Set Schedule</h3>-->
+
           <div class="col-md-12">
             <div class="row pt-4">
               <div class="col-md-4">
@@ -72,7 +81,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <%#= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -82,7 +91,7 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <%= form.number_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -93,7 +102,7 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment' %>
                     </div>
                   </div>
                 </div>
@@ -104,87 +113,6 @@
                   <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
 
                 </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="col-md-12 noon_time" hidden>
-            <div class="row pt-4">
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-row">
-                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
-                      <b><span class="errormsg"></span></b>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-1 noon">
-                <div class="form-row">
-                  <i style="font-size:30px; color: green;" onclick="evening()" class="fa evening">&#xf067;</i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="col-md-12 evening_time" hidden>
-            <div class="row pt-4">
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-row">
-                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
-                      <b><span class="errormsg"></span></b>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-1">
               </div>
             </div>
           </div>
@@ -220,7 +148,7 @@
             <div class="col-md-3 ml-5">
               <div class="form-group mt-3 mb-0">
                 <div class="actions">
-                  <button type="button" class="btn w-100 bg-clr btn-style req-btn">Update Medicine</button>
+                  <button type="button" class="btn w-25 bg-clr btn-style" id="update-order-button">Update</button>
                 </div>
               </div>
             </div>
@@ -235,15 +163,16 @@
 </div>
 
 <script>
-    var medicine_price;
-    $(".medicine").change(function () {
+    var medicine_price = <%= @order_product.price / @order_product.quantity %>;
 
-        medicine_name = $(".medicine option:selected").val();
+    $("#product_id").change(function () {
+
+        medicine_name = $("#product_id").val();
         $.ajax({
             type: 'GET',
             url: '/products/get_product_price',
             data: {
-                medicine_name: medicine_name
+                medicine_id: medicine_name
             },
             success: function (data) {
                 medicine_price = data['price'];
@@ -261,86 +190,44 @@
         $('#med_price').val(total_amount);
     });
 
+    $("#update-order-button").click(function (e) {
 
-    function noon() {
-        $('.noon_time').removeAttr('hidden');
-        $('.morning').hide();
-    }
+        medicine_name = parseInt($("#product_id").val());
+        medicine_quantity = parseInt($('#med_quantity').val());
+        price = parseInt($('#med_price').val());
+        day_time = $(".d_time option:selected").val();
+        day_time_sec = $(".d_time_2nd option:selected").val();
+        day_time_third = $(".d_time_3rd option:selected").val();
+        dose_quantity = $('#dose_quantity').val();
+        comment = $('#comment').val();
 
-    function evening() {
-        $('.evening_time').removeAttr('hidden');
-        $('.noon').hide();
-    }
+        start_date = $('#start-date').val();
+        end_date = $('#end-date').val();
 
-    $(document).ready(function () {
-        localStorage.clear();
-        $(".req-btn").click(function () {
+        order_product_object = "order_product[quantity]=" + medicine_quantity +
+            "&order_product[dose_quantity]=" + dose_quantity +
+            "&order_product[comment]=" + comment +
+            "&order_product[start_date]=" + start_date +
+            "&order_product[end_date]=" + end_date +
+            "&order_product[product_id]=" + medicine_name;
 
-            medicine_name = $(".medicine option:selected").val();
-            medicine_quantity = $('#med_quantity').val();
-            price = $('#med_price').val();
-            day_time = $(".d_time option:selected").val();
-            day_time_sec = $(".d_time_2nd option:selected").val();
-            day_time_third = $(".d_time_3rd option:selected").val();
-            dose_quantity = $('#dose_quantity').val();
-            dose_quantity_sec = $('#dose_quantity_2nd').val();
-            dose_quantity_third = $('#dose_quantity_3rd').val();
-            comment = $('#comment').val();
-            comment_sec = $('#comment_2nd').val();
-            comment_third = $('#comment_3rd').val();
-            start_date = $('#start-date').val();
-            end_date = $('#end-date').val();
-
-
-            var table = $('#dataTable').DataTable();
-            table.row.add([
-                medicine_name,
-                medicine_quantity,
-                day_time,
-                dose_quantity,
-                comment,
-                start_date,
-                end_date
-            ]).draw(false);
-
-            var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
-            newItem =
-                {
-                    medicine_name: medicine_name,
-                    medicine_quantity: medicine_quantity,
-                    price: price,
-                    day_time: day_time,
-                    dose_quantity: dose_quantity,
-                    comment: comment,
-                    start_date: start_date,
-                    end_date: end_date
-                };
-            medicines.push(newItem);
-            localStorage.setItem('medicines', JSON.stringify(medicines));
-        });
-
-        $(function () {
-            $('#start-date').datepicker({
-                format: 'yyyy-mm-dd',
-                todayHighlight: true
-            });
-            $('#end-date').datepicker({
-                format: 'yyyy-mm-dd',
-            });
-        });
-    });
-
-    $("#create-order-button").click(function (e) {
         $.ajax({
-            type: 'POST',
-            url: '/orders',
-            data: {
-                medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
-                url: window.location.href
-            },
+            type: 'PUT',
+            url: '/order_products/14',
+            data: order_product_object,
             cache: false,
             success: function () {
             }
+        });
+    });
+
+    $(function () {
+        $('#start-date').datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true
+        });
+        $('#end-date').datepicker({
+            format: 'yyyy-mm-dd',
         });
     });
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_25_134319) do
+ActiveRecord::Schema.define(version: 2020_06_30_074627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,9 +114,9 @@ ActiveRecord::Schema.define(version: 2020_06_25_134319) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "category"
     t.integer "quantity"
     t.float "price"
+    t.integer "temporary_category_id"
   end
 
   create_table "save_addresses", force: :cascade do |t|
