@@ -9,6 +9,7 @@
           <th>Cost</th>
           <th>Description</th>
           <th>Quantity</th>
+          <th>Categories</th>
           <th>Actions</th>
         </tr>
         </thead>
@@ -21,12 +22,18 @@
             <td><%= product.description rescue "N/A" %></td>
             <td><%= product.quantity %></td>
             <td>
+              <%# categories = product.product_categories %>
+              <%# categories.each do |category| %>
+                <%#= category.name %>
+              <%# end %>
+            </td>
+            <td>
               <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
-              <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info"  %>
-              <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+              <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
+              <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
             </td>
           </tr>
-          <% end %>
+        <% end %>
         </tbody>
       </table>
     </div>
@@ -34,14 +41,13 @@
 </div>
 
 <script>
-$(document).ready(function() {
-  var dataTable = $('#dataTableProject').DataTable({
-  });
-  document.addEventListener("turbolinks:before-cache", function() {
-    if (dataTable !== null) {
-      dataTable.destroy();
-      dataTable = null;
-    }
-  });
-});
+    $(document).ready(function () {
+        var dataTable = $('#dataTableProject').DataTable({});
+        document.addEventListener("turbolinks:before-cache", function () {
+            if (dataTable !== null) {
+                dataTable.destroy();
+                dataTable = null;
+            }
+        });
+    });
 </script>

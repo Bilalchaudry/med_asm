@@ -14,7 +14,8 @@
       <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.number_field :cost, :class => "form-control py-2", :required => true %>
+        <%= form.number_field :cost, :class => "form-control py-2", id: 'med_cost', min: 1, :required => true %>
+        <b><span class="errmsg"></span></b>
       </div>
     </div>
   </div>
@@ -23,7 +24,7 @@
       <%= form.label :description, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :description, :class => "form-control py-2" %>
+        <%= form.text_field :description, :class => "form-control py-2", :required => true %>
       </div>
     </div>
   </div>
@@ -32,17 +33,18 @@
     <%= form.label :quantity, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.number_field :quantity, :class => "form-control py-2", :required => true %>
+        <%= form.number_field :quantity, :class => "form-control py-2 ", id: 'med_quantity', min: 1, :required => true %>
+        <b><span class="errormsg"></span></b>
       </div>
     </div>
   </div>
 
   <div class="form-row">
-    <%= form.label :categories, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+    <%= form.label :category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
 
-        <%= form.select :category, options_for_select(ProductCategory.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+        <%= form.select :category_id, options_for_select(Category.all.map { |c| [c.name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, :required => true} %>
       </div>
     </div>
   </div>
@@ -71,6 +73,36 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('select').selectpicker();
+    });
+    $("#med_cost").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errmsg").hide();
+        }
+    });
+    $("#med_cost").keypress(function (e) {
+        //if not numeric, then it don't let you type -=45,backsp=8
+        if (e.which == 45) {
+            //display error message
+            $(".errmsg").html("Cost value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errmsg").hide();
+        }
+    });
+    $("#med_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errormsg").hide();
+        }
+    });
+    $("#med_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type -=45,backsp=8
+        if (e.which == 45) {
+            //display error message
+            $(".errormsg").html("Quantity should be greater than 0.").show();
+            e.preventDefault();
+        } else {
+            $(".errormsg").hide();
+        }
     });
 </script>
 

@@ -1,0 +1,63 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Detail</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Medicine Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Day Time</th>
+                  <th>Dose Quantity</th>
+                  <th>Comment</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @order.order_products.each do |order_product| %>
+                  <tr>
+                    <td><%= order_product.product.name rescue "N/A" %></td>
+                    <td><%= order_product.quantity rescue "N/A" %></td>
+                    <td><%= order_product.price rescue "N/A" %></td>
+                    <td><%= order_product.timing rescue "N/A" %></td>
+                    <td><%= order_product.dose_quantity rescue "N/A" %></td>
+                    <td><%= order_product.comment rescue "N/A" %></td>
+                    <td><%= order_product.start_date rescue "N/A" %></td>
+                    <td><%= order_product.end_date rescue "N/A" %></td>
+                    <td>
+                      <%= link_to "edit", edit_order_product_path(order_product), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Delete", prescription_path(order_product), :class => "btn btn-outline-dark", method: :delete, data: {confirm: 'Are you sure?'}%>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#dataTable').DataTable({});
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+</script>

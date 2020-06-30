@@ -7,13 +7,27 @@
         </center>
         <h1 class="mt-3">Products</h1>
         <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
+
+          <div class="col-xl-4 col-md-4">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Download Template', download_template_products_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-4">
+            <%= form_tag import_products_path, multipart: true do %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <%= file_field_tag :file, :required => true, class: "pb-1" %>
+            <% end %>
+          </div>
+
+
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
               <%= link_to "Add New Product", new_product_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+
+
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Products</div>
@@ -23,9 +37,10 @@
                 <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Cost</th>
                   <th>Description</th>
+                  <th>Cost</th>
                   <th>Quantity</th>
+                  <th>Category</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -34,13 +49,14 @@
                 <% @products.each do |product| %>
                   <tr>
                     <td><%= product.name %></td>
-                    <td><%= product.cost rescue nil %></td>
                     <td><%= product.description rescue "N/A" %></td>
+                    <td><%= product.cost rescue nil %></td>
                     <td><%= product.quantity %></td>
+                    <td><%=  product.categories.first.name rescue "N/A" %> </td>
                     <td>
                       <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info"  %>
-                      <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+                      <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                     </td>
                   </tr>
                 <% end %>
@@ -55,12 +71,11 @@
 </div>
 
 <script>
-  var dataTable = $('#dataTable').DataTable({
-  });
-  document.addEventListener("turbolinks:before-cache", function() {
-    if (dataTable !== null) {
-      dataTable.destroy();
-      dataTable = null;
-    }
-  });
+    var dataTable = $('#dataTable').DataTable({});
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
 </script>

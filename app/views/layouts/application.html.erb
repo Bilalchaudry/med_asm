@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
   <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
@@ -59,8 +58,7 @@
 
   <div id="layoutSidenav">
 
-    <%# if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
-    <div id="layoutSidenav_nav">
+   <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
@@ -73,7 +71,7 @@
             <a class="nav-link" href="/users">
 
               <div class="sb-nav-link-icon"><i class="fa fa-users"></i></div>
-              Users
+              Customers
             </a>
             <a class="nav-link" href="/admin_users">
 
@@ -83,18 +81,37 @@
             <a class="nav-link" href="/products">
 
               <div class="sb-nav-link-icon"><i class="fa fa-medkit" aria-hidden="true"></i></div>
-              Products
+              Medicine Inventory
             </a>
-            <a class="nav-link" href="/product_categories">
+            <a class="nav-link" href="/categories">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Categories
             </a>
+<!--            <a class="nav-link" href="/product_sub_categories">-->
 
-            <a class="nav-link" href="/product_sub_categories">
+<!--              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>-->
+<!--              Prescription Requests-->
+<!--            </a>-->
+            <a class="nav-link" href="/orders">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
-              Product Categories
+              Orders
+            </a>
+            <a class="nav-link" href="#">
+
+              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
+              Blogs
+            </a>
+            <a class="nav-link" href="#">
+
+              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
+              Reports
+            </a>
+            <a class="nav-link" href="<%= prescriptions_path %>">
+
+              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
+              Prescription Requests
             </a>
 
           </div>

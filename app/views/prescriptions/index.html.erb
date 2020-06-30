@@ -1,0 +1,61 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Prescriptions</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Prescriptions</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Status</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @prescriptions.each do |prescription| %>
+                  <tr>
+                    <td><%= prescription.id %></td>
+                    <td><%= prescription.status %></td>
+                    <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
+                    <td>
+                      <% if prescription.order.present? %>
+                        <%= link_to "View", prescriptions_path+ "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                      <% else %>
+                      <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#dataTable').DataTable({});
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+</script>

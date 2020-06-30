@@ -1,0 +1,69 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Orders</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Order", new_order_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Orders</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @orders.each do |product| %>
+                  <tr>
+                    <td><%= product.id %></td>
+                    <td><%= product.created_at %></td>
+                    <td><%= product.updated_at %></td>
+<!--                    <td>-->
+                      <%# categories = product.product_categories %>
+                      <%# categories.each do |category| %>
+                      <%#= category.name %>
+                      <%# end %>
+<!--                    </td>-->
+                    <td>
+                      <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#dataTable').DataTable({});
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+</script>

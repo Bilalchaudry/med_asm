@@ -7,73 +7,12 @@
       <div class="wrapper wrapper--w790">
         <div class="card card-5 form-border-style">
           <div class="card-heading bg-clr">
-            <h4 class="text-center font-weight-light text-white">Edit <%= @product.name %></h4>
+            <h4 class="text-center font-weight-light text-white mt-1">Create Product</h4>
           </div>
-          <div class="card-body">
-            <%= form_with(model: @product, local: true) do |form| %>
-              <%= render 'layouts/error_messages', object: form.object %>
-
-              <div class="form-row">
-                <%= form.label :name,  :class => "mb-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :name, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.number_field :cost, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :description, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :description, :class => "form-control py-2" %>
-                  </div>
-                </div>
-              </div>
-              <div class="form-row">
-                <%= form.label :quantity, :class => "mb-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.number_field :quantity, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
-
-              <hr>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to "Cancel", products_path, :class => 'btn btn-style bg-clr w-100' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
-
-            <% end %>
+          <div class="card-body"><%= render 'form', product: @product %>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-

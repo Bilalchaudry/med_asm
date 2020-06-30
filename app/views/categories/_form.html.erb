@@ -1,0 +1,44 @@
+<%= form_with(model: category, local: true) do |form| %>
+  <% if @category.errors.any? %>
+    <%= render 'layouts/error_messages', object: form.object %>
+  <% end %>
+
+  <div class="form-row">
+    <%= form.label :name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :name, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", categories_path, :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>

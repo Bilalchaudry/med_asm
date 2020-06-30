@@ -14,7 +14,7 @@
                 <%= form.label :username, "Full Name", :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :username, :class => "form-control py-2" %>
+                    <%= form.text_field :username, :class => "form-control py-2", :required => true %>
 
                   </div>
                 </div>
@@ -25,7 +25,7 @@
                 <%= form.label :phone, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :phone, :class => "form-control py-2" %>
+                    <%= form.text_field :phone, :class => "form-control py-2", :required => true %>
                   </div>
                 </div>
               </div>
