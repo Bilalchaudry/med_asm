@@ -28,7 +28,7 @@
                 <tbody>
                 <tr>
                   <td><%= @order.id %></td>
-                  <td><%= User.find(@order.user_id).full_name %></td>
+                  <td><%= User.find(@order.user_id).full_name rescue nil %></td>
                   <td>
                     <% @order.order_products.each do |product| %>
                       <%= product.product.name %> <br>
