@@ -47,6 +47,30 @@
             </div>
           </div>
         </div>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th style="width:25%;">Owner</th>
+                  <th>Comment</th>
+                </tr>
+                </thead>
+                <tbody>
+              <% prescription_comments() %>
+                <% @prescription_comments.each do |comment| %>
+                  <tr>
+                    <td><%= comment.role rescue "N/A" %></td>
+                    <td><%= comment.message rescue "N/A" %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

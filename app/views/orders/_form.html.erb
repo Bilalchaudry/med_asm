@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -213,7 +213,6 @@
             </div>
           </div>
 
-
           <hr>
           <div class="row">
             <div class="col-md-4"></div>
@@ -227,35 +226,73 @@
             <div class="col-md-4"></div>
           </div>
 
+          <%# end %>
+
+          </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>Medicine Name</th>
+                    <th>Medicine Quantity</th>
+                    <th>Day Time</th>
+                    <th>Dose</th>
+                    <th>Comment</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                  </tr>
+                  </thead>
+
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th style="width:25%;">Owner</th>
+                    <th>Comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                 <% prescription_comments() %>
+                  <% @prescription_comments.each do |comment| %>
+                    <tr>
+                      <td><%= comment.role rescue "N/A" %></td>
+                      <td><%= comment.message rescue "N/A" %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-row">
+                <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <center>
+              <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
+            </center>
         <% end %>
-
-      </div>
-    </div>
-    <div class="card mb-4">
-      <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-              <th>Medicine Name</th>
-              <th>Medicine Quantity</th>
-              <th>Day Time</th>
-              <th>Dose</th>
-              <th>Comment</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-            </thead>
-
-          </table>
-          <center>
-            <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
-          </center>
         </div>
-      </div>
-    </div>
-  </div>
+        </div>
+
+
 </div>
 
 <script>
@@ -299,10 +336,10 @@
     $(document).ready(function () {
         localStorage.clear();
         $(".req-btn").click(function () {
-
             medicine_name = $(".medicine option:selected").val();
             medicine_quantity = $('#med_quantity').val();
             price = $('#med_price').val();
+            other_comment = $('#other_comment').val();
             day_time = $(".d_time option:selected").val();
             day_time_sec = $(".d_time_2nd option:selected").val();
             day_time_third = $(".d_time_3rd option:selected").val();
@@ -333,6 +370,7 @@
                     medicine_name: medicine_name,
                     medicine_quantity: medicine_quantity,
                     price: price,
+                    other_comment: other_comment,
                     day_time: day_time,
                     dose_quantity: dose_quantity,
                     comment: comment,
@@ -355,10 +393,12 @@
     });
 
     $("#create-order-button").click(function (e) {
+        other_comment = $('#other_comment').val();
         $.ajax({
             type: 'POST',
             url: '/orders',
             data: {
+                other_comment,
                 medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
                 url: window.location.href
             },
