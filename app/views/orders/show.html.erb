@@ -13,45 +13,82 @@
           </div>
         </div>
         <div class="card mb-4">
-          <div class="card-header"><i class="fas fa-table mr-1"></i>Order History</div>
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Ordered Medicines</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered"  width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Owner</th>
                   <th>Medicines</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Day Time</th>
+                  <th>Morning Dose</th>
+                  <th>Morning Instructions</th>
+                  <th>Day Time</th>
+                  <th>Noon Dose</th>
+                  <th>Noon Instructions</th>
+                  <th>Day Time</th>
+                  <th>Evening Dose</th>
+                  <th>Evening Instructions</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr>
-                  <td><%= @order.id %></td>
-                  <td><%= User.find(@order.user_id).full_name rescue nil %></td>
-                  <td>
-                    <% @order.order_products.each do |product| %>
-                      <%= product.product.name rescue nil %> <br>
-                    <% end %></td>
-                </tr>
+                <% @order.order_products.each do |product| %>
+                  <tr>
+                    <td><%= product.product.name rescue nil %></td>
+                    <td><%= product.quantity  %></td>
+                    <td><%= product.price  %></td>
+                    <td><%= product.timing  %></td>
+                    <td><%= product.dose_quantity  %></td>
+                    <td><%= product.comment %></td>
+                    <td><%= product.noon_time %></td>
+                    <td><%= product.noon_dose %></td>
+                    <td><%= product.noon_instructions %></td>
+                    <td><%= product.evening_time %></td>
+                    <td><%= product.evening_dose %></td>
+                    <td><%= product.evening_instruction %></td>
+                    <td><%= product.start_date %></td>
+                    <td><%= product.end_date %></td>
+                  </tr>
+                <% end %>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered"  width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th style="width:25%;">Owner</th>
+                  <th>Comment</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @order.prescription.comments.each do |comment| %>
+                  <tr>
+                    <td><%= comment.role rescue "N/A" %></td>
+                    <td><%= comment.message rescue "N/A" %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </main>
   </div>
 </div>
 
-<script>
-    var dataTable = $('#dataTable').DataTable({});
-    document.addEventListener("turbolinks:before-cache", function () {
-        if (dataTable !== null) {
-            dataTable.destroy();
-            dataTable = null;
-        }
-    });
-</script>
-<!--<%#= link_to 'Edit', edit_order_path(@order) %> |-->
-<%#= link_to 'Back', orders_path %>

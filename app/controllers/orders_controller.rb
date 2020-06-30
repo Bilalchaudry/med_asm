@@ -36,14 +36,16 @@ class OrdersController < ApplicationController
       if medicine.present?
         OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
                              price: hash['price'], timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
-                             comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
-        @prescription.comments.create(message: params[:other_comment], role: 'admin')
+                             comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'], noon_instructions: hash['noon_comment'], evening_instruction: hash['evening_comment'],
+                             noon_dose: hash['noon_quantity'], evening_dose: hash['evening_quantity'],
+                             noon_time: hash['noon_time'], evening_time: hash['evening_time'])
       end
     end
-
-
     respond_to do |format|
       if @order.save
+        if params[:other_comment].present?
+        @prescription.comments.create(message: params[:other_comment], role: 'admin')
+        end
         format.html {redirect_to prescriptions_path, notice: 'Invoice sent to customer successfully.'}
         format.json {render :show, status: :created, location: @order}
       else
