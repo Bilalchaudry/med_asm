@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
     @order.save!
     @prescription.update(status: "Proceed")
     JSON.parse(params[:medicines]).each do |hash, key|
+      @total_order_price = @total_order_price.to_i + hash['price'].to_i
       medicine_name = hash['medicine_name']
       medicine = Product.find_by_name(medicine_name)
       if medicine.present?
@@ -39,7 +40,7 @@ class OrdersController < ApplicationController
         @prescription.comments.create(message: params[:other_comment], role: 'admin')
       end
     end
-
+    @order.update(total_amount: @total_order_price)
 
     respond_to do |format|
       if @order.save
