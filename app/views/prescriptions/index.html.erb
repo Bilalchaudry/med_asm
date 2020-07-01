@@ -51,7 +51,9 @@
 </div>
 
 <script>
-    var dataTable = $('#dataTable').DataTable({});
+    var dataTable = $('#dataTable').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
     document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
