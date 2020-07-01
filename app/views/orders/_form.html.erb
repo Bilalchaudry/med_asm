@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
 
             </div>
           </div>
-          <!--          <h3>Set Schedule</h3>-->
+
           <div class="col-md-12">
             <div class="row pt-4">
               <div class="col-md-4">
@@ -263,7 +263,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                 <% prescription_comments() %>
+                  <% prescription_comments() %>
                   <% @prescription_comments.each do |comment| %>
                     <tr>
                       <td><%= comment.role rescue "N/A" %></td>
@@ -296,7 +296,9 @@
 </div>
 
 <script>
+
     var medicine_price;
+
     $(".medicine").change(function () {
 
         medicine_name = $(".medicine option:selected").val();
@@ -321,7 +323,6 @@
         var total_amount = quantity * medicine_price;
         $('#med_price').val(total_amount);
     });
-
 
     function noon() {
         $('.noon_time').removeAttr('hidden');
@@ -352,8 +353,8 @@
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
 
-
             var table = $('#dataTable').DataTable();
+
             table.row.add([
                 medicine_name,
                 medicine_quantity,
