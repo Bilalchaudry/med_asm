@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       resources :save_addresses
       resources :products
       resources :prescriptions
+
+      put '/orders/update_status'
     end
   end
   root to: 'admin_dashboard#dashboard'

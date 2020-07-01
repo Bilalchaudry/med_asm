@@ -1,3 +1,18 @@
+<style>
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+  }
+
+  .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+  }
+</style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
@@ -15,37 +30,87 @@
             </div>
           </div>
         </div>
-        <div class="card mb-4">
-          <div class="card-header"><i class="fas fa-table mr-1"></i>Orders</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Owner</th>
-                  <th>Created At</th>
-                  <th>Updated At</th>
-                  <th>Actions</th>
-                </tr>
-                </thead>
+        <div class="container">
+          <div class="clearfix"></div>
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#1" data-toggle="tab">All Orders</a>
+            </li>
+            <li><a href="#2" data-toggle="tab">New Orders</a>
+            </li>
+            <li><a href="#3" data-toggle="tab">Orders Under Prescription</a>
+            </li>
+            <li><a href="#4" data-toggle="tab">Completed Orders</a>
+            </li>
+            <li><a href="#5" data-toggle="tab">Cancelled Orders</a>
+            </li>
+          </ul>
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>All Orders</div>
+            <div class="tab-content pt-2 ">
+              <div class="tab-pane active" id="1">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Owner</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Actions</th>
+                    </tr>
+                    </thead>
 
-                <tbody>
-                <% @orders.each do |product| %>
+                    <tbody>
+                    <% @orders.each do |product| %>
+                      <tr>
+                        <td><%= product.id %></td>
+                        <td><%= User.find(product.user_id).full_name rescue nil %></td>
+                        <td><%= product.created_at %></td>
+                        <td><%= product.updated_at %></td>
+                        <td>
+                          <%= link_to "View", order_path(product), :class => "btn btn-outline-dark" %>
+                          <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
+                          <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="tab-pane" id="2">
+
+                <table id="example1" class="table table-striped table-hover table-bordered" width="100%">
+                  <thead>
                   <tr>
-                    <td><%= product.id %></td>
-                    <td><%= User.find(product.user_id).full_name rescue nil %></td>
-                    <td><%= product.created_at %></td>
-                    <td><%= product.updated_at %></td>
-                    <td>
-                      <%= link_to "View", order_path(product), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
-                      <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
-                    </td>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
                   </tr>
-                <% end %>
-                </tbody>
-              </table>
+                  </thead>
+
+                </table>
+              </div>
+              <div class="tab-pane" id="3">
+
+                <table id="example2" class="table table-striped table-hover table-bordered" width="100%">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                  </tr>
+                  </thead>
+
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -55,11 +120,30 @@
 </div>
 
 <script>
-    var dataTable = $('#dataTable').DataTable({});
-    document.addEventListener("turbolinks:before-cache", function () {
-        if (dataTable !== null) {
-            dataTable.destroy();
-            dataTable = null;
-        }
+    $(document).ready(function () {
+
+        var table = $('#example').DataTable();
+
+        $('.nav-tabs a').on('shown.bs.tab', function (event) {
+            var tab_target = $(event.target).text();
+            console.log(tab_target);
+            if (tab_target === 'Table 2') {
+                var table1 = $('#example1').DataTable({
+                    destroy: true,
+
+                });
+
+            } else if (tab_target === 'Table 3') {
+                var table2 = $('#example2').DataTable({
+                    destroy: true,
+
+                });
+
+            }
+
+
+        });
+
+
     });
 </script>
