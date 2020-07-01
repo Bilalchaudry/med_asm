@@ -122,9 +122,9 @@ ActiveRecord::Schema.define(version: 2020_06_30_134036) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "category"
     t.integer "quantity"
     t.float "price"
+    t.integer "temporary_category_id"
   end
 
   create_table "save_addresses", force: :cascade do |t|

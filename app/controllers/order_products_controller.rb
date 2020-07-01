@@ -41,8 +41,12 @@ class OrderProductsController < ApplicationController
   # PATCH/PUT /order_products/1.json
   def update
     respond_to do |format|
+      unless @order_product.quantity == params[:order_product][:quantity]
+        medicine_price = @order_product.price / @order_product.quantity
+        @order_product.price = medicine_price * params[:order_product][:quantity].to_i
+      end
       if @order_product.update(order_product_params)
-        format.html { redirect_to @order_product, notice: 'Order product was successfully updated.' }
+        format.html { redirect_to prescriptions_path+"/?id="+@order_product.order.prescription.id.to_s, notice: 'Order product was successfully updated.' }
         format.json { render :show, status: :ok, location: @order_product }
       else
         format.html { render :edit }
@@ -70,6 +74,6 @@ class OrderProductsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_product_params
       params.require(:order_product).permit(:quantity, :timing, :dose_quantity, :comment,
-                                            :start_date, :end_date)
+                                            :start_date, :end_date, :product_id)
     end
 end

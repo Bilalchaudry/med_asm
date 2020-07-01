@@ -27,11 +27,11 @@ class ProductsController < ApplicationController
     respond_to do |format|
       if @product.save
         ProductCategory.create(product_id: @product.id, category_id: params[:product][:category_id].to_i)
-        format.html { redirect_to @product, notice: 'Product is successfully created.' }
-        format.json { render :show, status: :created, location: @product }
+        format.html {redirect_to @product, notice: 'Product is successfully created.'}
+        format.json {render :show, status: :created, location: @product}
       else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @product.errors, status: :unprocessable_entity}
       end
 
     end
@@ -42,17 +42,13 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        category_ids = params[:product][:category]
-        category_ids.each do |category_id|
-          unless category_id.empty?
-            @product.product_categories.create!(category_id: category_id)
-          end
-        end
-        format.html { redirect_to products_path, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
+        @product.product_categories.last.update(category_id: params[:product][:category_id].to_i)
+
+        format.html {redirect_to products_path, notice: 'Product was successfully updated.'}
+        format.json {render :show, status: :ok, location: @product}
       else
-        format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @product.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -63,7 +59,7 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     respond_to do |format|
-      format.html { redirect_to products_path, notice: 'Product is deleted.' }
+      format.html {redirect_to products_path, notice: 'Product is deleted.'}
     end
   end
 
@@ -82,12 +78,18 @@ class ProductsController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/products.csv",
         filename: "products.csv",
-        )
+    )
   end
 
   def get_product_price
-    medicine_name = params[:medicine_name]
-    medicine = Product.find_by_name medicine_name
+    if params[:medicine_name].present?
+      medicine_name = params[:medicine_name]
+      medicine = Product.find_by_name medicine_name
+    else
+      medicine_id = params[:medicine_id].to_i
+      medicine = Product.find_by_id medicine_id
+    end
+
     render json: {
         price: medicine.cost
     }
@@ -106,4 +108,5 @@ class ProductsController < ApplicationController
     params.require(:product).permit(:name, :cost, :description, :quantity,
                                     :category)
   end
+
 end

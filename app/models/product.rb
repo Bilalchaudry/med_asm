@@ -77,7 +77,8 @@ class Product < ApplicationRecord
               return error = "Validation Failed. Category not found, Error on Row: #{i}"
             end
 
-            @products << Product.new(name: row[0], description: row[1], cost: row[2], quantity: row[3], category: category.id)
+            @products << Product.new(name: row[0], description: row[1], cost: row[2],
+                                     quantity: row[3], temporary_category_id: category.id)
             @empty_array = false
           rescue => e
             return e.message
@@ -89,8 +90,8 @@ class Product < ApplicationRecord
 
         @products.each do |product|
           new_product = Product.create(name: product.name, description: product.description,
-                         cost: product.cost, quantity: product.quantity)
-          ProductCategory.create(product_id: new_product.id, category_id: product.category.to_i)
+                                       cost: product.cost, quantity: product.quantity)
+          ProductCategory.create(product_id: new_product.id, category_id: product.temporary_category_id)
 
         end
 
