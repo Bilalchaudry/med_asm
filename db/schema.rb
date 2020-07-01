@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_30_074627) do
+ActiveRecord::Schema.define(version: 2020_06_30_134036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,12 @@ ActiveRecord::Schema.define(version: 2020_06_30_074627) do
     t.string "comment"
     t.date "start_date"
     t.date "end_date"
+    t.string "noon_instructions"
+    t.string "evening_instruction"
+    t.string "evening_time"
+    t.string "noon_time"
+    t.string "noon_dose"
+    t.string "evening_dose"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -91,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_06_30_074627) do
     t.float "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "prescriptions", force: :cascade do |t|

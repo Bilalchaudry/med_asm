@@ -31,7 +31,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'dose_quantity', :required => true %>
+                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'type', :required => true %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -240,8 +240,15 @@
                     <th>Medicine Name</th>
                     <th>Medicine Quantity</th>
                     <th>Day Time</th>
-                    <th>Dose</th>
-                    <th>Comment</th>
+                    <th>Morning Dose</th>
+                    <th>Morning Instructions</th>
+                    <th>Day Time</th>
+                    <th>Noon Dose</th>
+                    <th>Noon Instructions</th>
+                    <th>Day Time</th>
+                    <th>Evening Dose</th>
+                    <th>Evening Instructions</th>
+                    <th>Price</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                   </tr>
@@ -361,6 +368,13 @@
                 day_time,
                 dose_quantity,
                 comment,
+                day_time_sec,
+                dose_quantity_sec,
+                comment_sec,
+                day_time_third,
+                dose_quantity_third,
+                comment_third,
+                price,
                 start_date,
                 end_date
             ]).draw(false);
@@ -371,10 +385,16 @@
                     medicine_name: medicine_name,
                     medicine_quantity: medicine_quantity,
                     price: price,
+                    noon_comment: comment_sec,
+                    evening_comment: comment_third,
                     other_comment: other_comment,
                     day_time: day_time,
                     dose_quantity: dose_quantity,
                     comment: comment,
+                    noon_time: day_time_sec,
+                    noon_quantity:dose_quantity_sec,
+                    evening_time: day_time_third,
+                    evening_quantity:dose_quantity_third,
                     start_date: start_date,
                     end_date: end_date
                 };
