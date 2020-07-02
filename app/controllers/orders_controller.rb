@@ -6,6 +6,8 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     @orders = Order.all
+    @new_orders = @orders.where(status: 'Paid')
+    @under_preparation_orders = @orders.where(status: 'Under_preparation')
   end
 
   # GET /orders/1
@@ -47,13 +49,13 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         if params[:other_comment].present?
-        @prescription.comments.create(message: params[:other_comment], role: 'admin')
+          @prescription.comments.create(message: params[:other_comment], role: 'admin')
         end
-        format.html {redirect_to prescriptions_path, notice: 'Invoice sent to customer successfully.'}
-        format.json {render :show, status: :created, location: @order}
+        format.html { redirect_to prescriptions_path, notice: 'Invoice sent to customer successfully.' }
+        format.json { render :show, status: :created, location: @order }
       else
-        format.html {render :new}
-        format.json {render json: @order.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -61,13 +63,17 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html {redirect_to @order, notice: 'Order was successfully updated.'}
-        format.json {render :show, status: :ok, location: @order}
-      else
-        format.html {render :edit}
-        format.json {render json: @order.errors, status: :unprocessable_entity}
+    if params[:order_id].present?
+      @order.update_attributes(status: 'Under_preparation')
+    else
+      respond_to do |format|
+        if @order.update(order_params)
+          format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+          format.json { render :show, status: :ok, location: @order }
+        else
+          format.html { render :edit }
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -77,8 +83,8 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html {redirect_to orders_url, notice: 'Order was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
