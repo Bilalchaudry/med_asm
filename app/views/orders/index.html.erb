@@ -23,9 +23,10 @@
                 <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Owner</th>
                   <th>Created At</th>
                   <th>Updated At</th>
-
+                  <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -33,16 +34,11 @@
                 <% @orders.each do |product| %>
                   <tr>
                     <td><%= product.id %></td>
+                    <td><%= User.find(product.user_id).full_name rescue nil %></td>
                     <td><%= product.created_at %></td>
                     <td><%= product.updated_at %></td>
-<!--                    <td>-->
-                      <%# categories = product.product_categories %>
-                      <%# categories.each do |category| %>
-                      <%#= category.name %>
-                      <%# end %>
-<!--                    </td>-->
                     <td>
-                      <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
+                      <%= link_to "View", order_path(product), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
                       <%= link_to 'Destroy', product, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                     </td>

@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'dose_quantity', :required => true %>
+                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'type', :required => true %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -64,7 +64,7 @@
 
             </div>
           </div>
-          <!--          <h3>Set Schedule</h3>-->
+
           <div class="col-md-12">
             <div class="row pt-4">
               <div class="col-md-4">
@@ -240,8 +240,15 @@
                     <th>Medicine Name</th>
                     <th>Medicine Quantity</th>
                     <th>Day Time</th>
-                    <th>Dose</th>
-                    <th>Comment</th>
+                    <th>Morning Dose</th>
+                    <th>Morning Instructions</th>
+                    <th>Day Time</th>
+                    <th>Noon Dose</th>
+                    <th>Noon Instructions</th>
+                    <th>Day Time</th>
+                    <th>Evening Dose</th>
+                    <th>Evening Instructions</th>
+                    <th>Price</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                   </tr>
@@ -263,7 +270,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                 <% prescription_comments() %>
+                  <% prescription_comments() %>
                   <% @prescription_comments.each do |comment| %>
                     <tr>
                       <td><%= comment.role rescue "N/A" %></td>
@@ -296,7 +303,9 @@
 </div>
 
 <script>
+
     var medicine_price;
+
     $(".medicine").change(function () {
 
         medicine_name = $(".medicine option:selected").val();
@@ -321,7 +330,6 @@
         var total_amount = quantity * medicine_price;
         $('#med_price').val(total_amount);
     });
-
 
     function noon() {
         $('.noon_time').removeAttr('hidden');
@@ -352,14 +360,21 @@
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
 
-
             var table = $('#dataTable').DataTable();
+
             table.row.add([
                 medicine_name,
                 medicine_quantity,
                 day_time,
                 dose_quantity,
                 comment,
+                day_time_sec,
+                dose_quantity_sec,
+                comment_sec,
+                day_time_third,
+                dose_quantity_third,
+                comment_third,
+                price,
                 start_date,
                 end_date
             ]).draw(false);
@@ -370,10 +385,16 @@
                     medicine_name: medicine_name,
                     medicine_quantity: medicine_quantity,
                     price: price,
+                    noon_comment: comment_sec,
+                    evening_comment: comment_third,
                     other_comment: other_comment,
                     day_time: day_time,
                     dose_quantity: dose_quantity,
                     comment: comment,
+                    noon_time: day_time_sec,
+                    noon_quantity:dose_quantity_sec,
+                    evening_time: day_time_third,
+                    evening_quantity:dose_quantity_third,
                     start_date: start_date,
                     end_date: end_date
                 };

@@ -1,8 +1,8 @@
 <% if @destroy %>
-var client_companies_path = "/projects"
+var client_companies_path = "/products"
 location.href = client_companies_path
-alert("Project deleted successfully")
+alert("Medicine deleted successfully")
 <% else %>
-alert("Project can not deleted because Project is linked with associative records.")
+alert("Medicine can not deleted because Medicine is linked with Order.")
 
 <% end %>
