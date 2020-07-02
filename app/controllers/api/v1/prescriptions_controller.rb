@@ -5,11 +5,7 @@ class Api::V1::PrescriptionsController < ApiController
   # GET /prescriptions
   # GET /prescriptions.json
   def index
-    if params[:user][:id].present?
-      @prescriptions = Prescription.all.where(user_id: params[:user][:id])
-    else
-      @prescriptions = Prescription.all
-    end
+    @prescriptions = current_user.prescriptions
   end
 
   # GET /prescriptions/1
@@ -44,11 +40,11 @@ class Api::V1::PrescriptionsController < ApiController
   def update
     respond_to do |format|
       if @prescription.update(prescription_params)
-        format.html { redirect_to @prescription, notice: 'Prescription was successfully updated.' }
-        format.json { render :show, status: :ok, location: @prescription }
+        format.html {redirect_to @prescription, notice: 'Prescription was successfully updated.'}
+        format.json {render :show, status: :ok, location: @prescription}
       else
-        format.html { render :edit }
-        format.json { render json: @prescription.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @prescription.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -58,8 +54,8 @@ class Api::V1::PrescriptionsController < ApiController
   def destroy
     @prescription.destroy
     respond_to do |format|
-      format.html { redirect_to prescriptions_url, notice: 'Prescription was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to prescriptions_url, notice: 'Prescription was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
