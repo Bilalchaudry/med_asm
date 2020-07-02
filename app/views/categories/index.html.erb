@@ -36,7 +36,7 @@
                     <td>
                       <%= link_to "View", category_path(category), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_category_path(category), :class => "btn btn-outline-info"  %>
-                      <%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+                      <%= link_to 'Delete', category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger", remote: true %>
                     </td>
                   </tr>
                 <% end %>

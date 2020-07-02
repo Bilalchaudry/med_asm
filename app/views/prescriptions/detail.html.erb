@@ -9,7 +9,7 @@
       </div>
       <div class="card-body" style="padding-bottom: 0px;">
 
-        <%= form_with(model: Order.new, local: true) do |form| %>
+        <%= form_with(model: @order, local: true) do |form| %>
 
           <div class="col-md-12">
             <div class="row">
@@ -314,25 +314,25 @@
 <script>
 
     var medicine_price;
+    var order_id = <% @order.id %>
 
-    $("#add-new-medicine").change(function () {
-        debugger
-        medicine_name = $("#add-new-medicine").val();
-        $.ajax({
-            type: 'GET',
-            url: '/products/get_product_price',
-            data: {
-                medicine_name: medicine_name
-            },
-            success: function (data) {
-                medicine_price = data['price'];
-                $('#med_price').val(data['price']);
-                $('#med_quantity').val(1);
+        $("#add-new-medicine").change(function () {
+            medicine_name = $("#add-new-medicine").val();
+            $.ajax({
+                type: 'GET',
+                url: '/products/get_product_price',
+                data: {
+                    medicine_name: medicine_name
+                },
+                success: function (data) {
+                    medicine_price = data['price'];
+                    $('#med_price').val(data['price']);
+                    $('#med_quantity').val(1);
 
-            }
+                }
+            });
+
         });
-
-    });
 
     $('#start-date').datepicker({
         format: 'yyyy-mm-dd',
@@ -352,7 +352,7 @@
     $('select').selectpicker();
 
     $("#new-medicine").click(function () {
-        medicine_name = $(".medicine option:selected").val();
+        medicine_name = $("#add-new-medicine").val();
         medicine_quantity = $('#med_quantity').val();
         price = $('#med_price').val();
         other_comment = $('#other_comment').val();
@@ -368,30 +368,31 @@
         start_date = $('#start-date').val();
         end_date = $('#end-date').val();
 
-        var table = $('#dataTable').DataTable();
-
-        table.row.add([
-            medicine_name,
-            medicine_quantity,
-            day_time,
-            dose_quantity,
-            comment,
-            start_date,
-            end_date
-        ]).draw(false);
+        // var table = $('#dataTable').DataTable();
+        //
+        // table.row.add([
+        //     medicine_name,
+        //     medicine_quantity,
+        //     day_time,
+        //     dose_quantity,
+        //     comment,
+        //     start_date,
+        //     end_date
+        // ]).draw(false);
 
         $.ajax({
-            type: 'POST',
-            url: '/orders',
+            type: 'PUT',
+            url: "/orders/" + order_id,
             data: {
-                other_comment,
-                medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
-                url: window.location.href
+                medicine_name: $("#add-new-medicine").val()
             },
             cache: false,
-            success: function () {
-            }
-        });
+            success:
+
+                function () {
+                }
+        })
+        ;
 
     });
 

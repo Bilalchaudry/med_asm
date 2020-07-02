@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @categories = Category.all rescue nil
+    @categories = Category.all
   end
 
 
@@ -27,13 +27,13 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     respond_to do |format|
-    if @category.save
-      format.html { redirect_to categories_path, notice: 'Category was successfully created.' }
-      format.json { render :show, status: :created, location: @category }
-    else
-      format.html { render :new }
-      format.json { render json: @category.errors, status: :unprocessable_entity }
-    end
+      if @category.save
+        format.html {redirect_to categories_path, notice: 'Category was successfully created.'}
+        format.json {render :show, status: :created, location: @category}
+      else
+        format.html {render :new}
+        format.json {render json: @category.errors, status: :unprocessable_entity}
+      end
     end
   end
 
@@ -42,11 +42,11 @@ class CategoriesController < ApplicationController
   def update
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to categories_path, notice: 'Product sub category was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category }
+        format.html {redirect_to categories_path, notice: 'Product sub category was successfully updated.'}
+        format.json {render :show, status: :ok, location: @category}
       else
-        format.html { render :edit }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @category.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -55,11 +55,15 @@ class CategoriesController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @category.destroy
-    respond_to do |format|
-      format.html { redirect_to categories_path, notice: 'Category is deleted.' }
+    begin
+      if @category.products.present?
+      else
+        @category.destroy!
+        @destroy = true
+      end
+    rescue => e
+      redirect_to categories_path, notice: e.message
     end
-
   end
 
   private

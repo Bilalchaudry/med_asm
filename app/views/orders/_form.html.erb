@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
