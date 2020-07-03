@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   has_many :save_addresses
   has_many :prescriptions
+  has_many :orders
 
   enum gender: {
       Male: 0,

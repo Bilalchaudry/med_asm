@@ -314,25 +314,25 @@
 <script>
 
     var medicine_price;
-    var order_id = <% @order.id %>
+    var order_id = <%= @order.id %>
+    debugger
+    $("#add-new-medicine").change(function () {
+        medicine_name = $("#add-new-medicine").val();
+        $.ajax({
+            type: 'GET',
+            url: '/products/get_product_price',
+            data: {
+                medicine_name: medicine_name
+            },
+            success: function (data) {
+                medicine_price = data['price'];
+                $('#med_price').val(data['price']);
+                $('#med_quantity').val(1);
 
-        $("#add-new-medicine").change(function () {
-            medicine_name = $("#add-new-medicine").val();
-            $.ajax({
-                type: 'GET',
-                url: '/products/get_product_price',
-                data: {
-                    medicine_name: medicine_name
-                },
-                success: function (data) {
-                    medicine_price = data['price'];
-                    $('#med_price').val(data['price']);
-                    $('#med_quantity').val(1);
-
-                }
-            });
-
+            }
         });
+
+    });
 
     $('#start-date').datepicker({
         format: 'yyyy-mm-dd',

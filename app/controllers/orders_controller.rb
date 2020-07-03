@@ -38,6 +38,7 @@ class OrdersController < ApplicationController
       @total_order_price = @total_order_price.to_i + hash['price'].to_i
       medicine_name = hash['medicine_name']
       medicine = Product.find_by_name(medicine_name)
+      medicine.update(quantity: medicine.quantity - hash['medicine_quantity'].to_i)
       if medicine.present?
         order_product = OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
                                              price: hash['price'], product_type: hash['type'], start_date: hash['start_date'], end_date: hash['end_date'])

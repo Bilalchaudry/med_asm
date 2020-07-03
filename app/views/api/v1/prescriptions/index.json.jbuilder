@@ -5,7 +5,8 @@ json.data @prescriptions.each do |prescription|
   if prescription.order.present?
     json.id prescription.id
     json.medicines prescription.order.order_products.each do |product|
-      json.medicine_name product.product.name
+      json.medicine_name product.product.name rescue "N/A"
+      json.medicine_tag product.product.medicine_tag rescue "N/A"
       json.medicine_type product.product_type
       json.medicine_quantity product.quantity
       json.medicine_price product.price
