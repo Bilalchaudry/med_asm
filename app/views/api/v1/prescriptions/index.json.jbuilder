@@ -1,7 +1,8 @@
 json.message "success"
 json.success true
 json.data @prescriptions.each do |prescription|
-  if prescription.status == 'Proceed'
+
+  if prescription.order.present?
     json.id prescription.id
     json.medicines prescription.order.order_products.each do |product|
       json.medicine_name product.product.name
