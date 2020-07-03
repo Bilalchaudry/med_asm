@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_125803) do
+ActiveRecord::Schema.define(version: 2020_07_03_113900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2020_07_01_125803) do
     t.integer "quantity"
     t.float "price"
     t.integer "temporary_category_id"
+    t.string "medicine_tag"
   end
 
   create_table "save_addresses", force: :cascade do |t|

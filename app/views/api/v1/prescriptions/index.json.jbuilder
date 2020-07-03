@@ -5,7 +5,8 @@ json.data @prescriptions.each do |prescription|
   if prescription.order.present?
     json.id prescription.id
     json.medicines prescription.order.order_products.each do |product|
-      json.medicine_name product.product.name
+      json.medicine_name product.product.name rescue "N/A"
+      json.medicine_tag product.product.medicine_tag rescue "N/A"
       json.medicine_quantity product.quantity
       json.medicine_price product.price
       json.medicine_time product.timing
@@ -20,8 +21,8 @@ json.data @prescriptions.each do |prescription|
       json.evening_dose product.evening_dose
       json.evening_dose_comment product.evening_instruction
 
-      days = (product.end_date - product.start_date).to_i + 1
-      json.days days
+      days = (product.end_date - product.start_date).to_i + 1 rescue 0
+      json.days days rescue 0
 
     end
     json.total_amount prescription.order.total_amount rescue nil
