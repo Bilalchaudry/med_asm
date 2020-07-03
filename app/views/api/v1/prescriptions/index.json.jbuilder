@@ -7,23 +7,18 @@ json.data @prescriptions.each do |prescription|
     json.medicines prescription.order.order_products.each do |product|
       json.medicine_name product.product.name rescue "N/A"
       json.medicine_tag product.product.medicine_tag rescue "N/A"
+      json.medicine_type product.product_type
       json.medicine_quantity product.quantity
       json.medicine_price product.price
-      json.medicine_time product.timing
-      json.morning_dose product.dose_quantity
-      json.morning_dose_comment product.comment
-
-      json.noon_time product.noon_time
-      json.noon_dose product.noon_dose
-      json.noon_dose_comment product.noon_instructions
-
-      json.evening_time product.evening_time
-      json.evening_dose product.evening_dose
-      json.evening_dose_comment product.evening_instruction
-
-      days = (product.end_date - product.start_date).to_i + 1 rescue 0
-      json.days days rescue 0
-
+      days = (product.end_date - product.start_date).to_i + 1
+      json.days days
+      json.reminder product.reminders.each do |product|
+          json.medicine_time product.timing
+          json.medicine_dose product.dose_quantity
+          json.medicine_dose_comment product.comment
+          json.start_date product.start_date
+          json.end_date product.end_date
+      end
     end
     json.total_amount prescription.order.total_amount rescue nil
   else
