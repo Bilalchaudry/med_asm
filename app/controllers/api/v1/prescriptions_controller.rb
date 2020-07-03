@@ -38,14 +38,12 @@ class Api::V1::PrescriptionsController < ApiController
   # PATCH/PUT /prescriptions/1
   # PATCH/PUT /prescriptions/1.json
   def update
-    respond_to do |format|
-      if @prescription.update(prescription_params)
-        format.html {redirect_to @prescription, notice: 'Prescription was successfully updated.'}
-        format.json {render :show, status: :ok, location: @prescription}
-      else
-        format.html {render :edit}
-        format.json {render json: @prescription.errors, status: :unprocessable_entity}
-      end
+    begin
+      @prescription.update(status: "Pending")
+      @prescription.comments.create(message: params[:prescription][:message], role: "User")
+      render_success_response "Prescription sent to admin successfully"
+    rescue => error
+      bad_request_error(error.message)
     end
   end
 
