@@ -11,6 +11,15 @@
   </div>
 
   <div class="form-row">
+    <%= form.label :medicine_tag, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :medicine_tag, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
     <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">

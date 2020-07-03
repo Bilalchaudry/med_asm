@@ -37,6 +37,7 @@
                 <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Medicine Tag</th>
                   <th>Description</th>
                   <th>Cost</th>
                   <th>Quantity</th>
@@ -48,11 +49,12 @@
                 <tbody>
                 <% @products.each do |product| %>
                   <tr>
-                    <td><%= product.name %></td>
+                    <td><%= product.name rescue "N/A" %></td>
+                    <td><%= product.medicine_tag rescue "N/A" %></td>
                     <td><%= product.description rescue "N/A" %></td>
                     <td><%= product.cost rescue nil %></td>
                     <td><%= product.quantity %></td>
-                    <td><%=  product.categories.first.name rescue "N/A" %> </td>
+                    <td><%= product.categories.first.name rescue "N/A" %> </td>
                     <td>
                       <%= link_to "View", product_path(product), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_product_path(product), :class => "btn btn-outline-info" %>
