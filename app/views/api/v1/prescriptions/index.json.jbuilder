@@ -12,8 +12,8 @@ json.data @prescriptions.each do |prescription|
       json.days days
       json.reminder product.remainders.each do |product|
           json.medicine_time product.timing
-          json.morning_dose product.dose_quantity
-          json.morning_dose_comment product.comment
+          json.medicine_dose product.dose_quantity
+          json.medicine_dose_comment product.comment
           json.start_date product.start_date
           json.end_date product.end_date
       end
