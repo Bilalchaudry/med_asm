@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_30_134036) do
+ActiveRecord::Schema.define(version: 2020_07_03_104849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,17 +79,9 @@ ActiveRecord::Schema.define(version: 2020_06_30_134036) do
     t.datetime "updated_at", null: false
     t.integer "quantity"
     t.integer "price"
-    t.string "timing"
-    t.float "dose_quantity"
-    t.string "comment"
     t.date "start_date"
     t.date "end_date"
-    t.string "noon_instructions"
-    t.string "evening_instruction"
-    t.string "evening_time"
-    t.string "noon_time"
-    t.string "noon_dose"
-    t.string "evening_dose"
+    t.string "product_type"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -98,6 +90,7 @@ ActiveRecord::Schema.define(version: 2020_06_30_134036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "status"
   end
 
   create_table "prescriptions", force: :cascade do |t|
@@ -125,6 +118,18 @@ ActiveRecord::Schema.define(version: 2020_06_30_134036) do
     t.integer "quantity"
     t.float "price"
     t.integer "temporary_category_id"
+  end
+
+  create_table "reminders", force: :cascade do |t|
+    t.string "timing"
+    t.string "dose_quantity"
+    t.string "comment"
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "order_product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_product_id"], name: "index_reminders_on_order_product_id"
   end
 
   create_table "save_addresses", force: :cascade do |t|
@@ -166,4 +171,5 @@ ActiveRecord::Schema.define(version: 2020_06_30_134036) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
+  add_foreign_key "reminders", "order_products"
 end
