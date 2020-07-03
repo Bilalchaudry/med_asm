@@ -7,7 +7,7 @@ class Order < ApplicationRecord
       Paid: 0,
       Under_preparation: 1,
       Completed: 2,
-      Cancel: 3
+      Canceled: 3
   }
 
 end

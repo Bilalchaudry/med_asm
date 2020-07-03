@@ -11,7 +11,7 @@ json.data @prescriptions.each do |prescription|
       json.medicine_price product.price
       days = (product.end_date - product.start_date).to_i + 1
       json.days days
-      json.reminder product.remainders.each do |product|
+      json.reminder product.reminders.each do |product|
           json.medicine_time product.timing
           json.medicine_dose product.dose_quantity
           json.medicine_dose_comment product.comment

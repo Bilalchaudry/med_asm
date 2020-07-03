@@ -41,13 +41,19 @@ class OrdersController < ApplicationController
       if medicine.present?
         order_product = OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
                                              price: hash['price'], product_type: hash['type'], start_date: hash['start_date'], end_date: hash['end_date'])
-        order_product.remainders.create!(timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
-                                         comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
-        order_product.remainders.create!(timing: hash['noon_comment'],
-                                         dose_quantity: hash['noon_quantity'],
-                                         comment: hash['noon_time'], start_date: hash['start_date'], end_date: hash['end_date'])
-        order_product.remainders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'], start_date: hash['start_date'], end_date: hash['end_date'])
+        if hash['day_time'].present?
+          order_product.reminders.create!(timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
+                                           comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
+        end
+        if hash['noon_time'].present?
+          order_product.reminders.create!(timing: hash['noon_comment'],
+                                           dose_quantity: hash['noon_quantity'],
+                                           comment: hash['noon_time'], start_date: hash['start_date'], end_date: hash['end_date'])
+        end
+        if hash['evening_time'].present?
+          order_product.reminders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'], start_date: hash['start_date'], end_date: hash['end_date'])
 
+        end
       end
     end
     @order.update(total_amount: @total_order_price)
@@ -69,8 +75,12 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    if params[:order_id].present?
+    if params[:status] == 'Under Preparation'
       @order.update_attributes(status: 'Under_preparation')
+    elsif params[:status] == 'Completed'
+      @order.update_attributes(status: 'Completed')
+    elsif params[:status] == 'cancel'
+      @order.update_attributes(status: 'Cancel')
     else
       respond_to do |format|
         if @order.update(order_params)
