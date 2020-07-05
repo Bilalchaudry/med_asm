@@ -81,7 +81,7 @@ class OrdersController < ApplicationController
     elsif params[:status] == 'Completed'
       @order.update_attributes(status: 'Completed')
     elsif params[:status] == 'cancel'
-      @order.update_attributes(status: 'Cancel')
+      @order.update_attributes(status: 'Canceled')
     else
       respond_to do |format|
         if @order.update(order_params)

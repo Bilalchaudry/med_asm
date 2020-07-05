@@ -56,7 +56,6 @@
                       <th>Actions</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <% @orders.each do |order| %>
                       <tr>
@@ -75,7 +74,6 @@
                 </div>
               </div>
               <div class="tab-pane" id="new_order">
-
                 <table id="new_order_table" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
@@ -87,7 +85,6 @@
                     <th>Cancel</th>
                   </tr>
                   </thead>
-
                   <tbody>
                   <% @new_orders.each do |order| %>
                     <tr id="<%= order.id %>">
@@ -108,11 +105,9 @@
                     </tr>
                   <% end %>
                   </tbody>
-
                 </table>
               </div>
               <div class="tab-pane" id="under_preparation_order">
-
                 <table id="under_preparation_table" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
@@ -124,7 +119,6 @@
                     <th> Cancle</th>
                   </tr>
                   </thead>
-
                   <tbody>
                   <% @under_preparation_orders.each do |order| %>
                     <tr id="<%= order.id %>">
@@ -132,7 +126,7 @@
                       <td><%= User.find(order.user_id).full_name rescue nil %></td>
                       <td><%= order.status.split('_').map(&:capitalize).join(' ') %></td>
                       <td>
-                        <button class='btn btn-outline-success' id='complete'>Proceed</button>
+                        <button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>
                       </td>
                       <td>
                         <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
@@ -140,17 +134,14 @@
                         <%= link_to 'Destroy', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                       </td>
                       <td>
-                        <a class="btn btn-outline-dark">Cancel Order</a>
+                        <a class="btn btn-outline-dark" onclick="cancel_under_preparation_order(this)">Cancel Order</a>
                       </td>
                     </tr>
                   <% end %>
                   </tbody>
                 </table>
               </div>
-
-
               <div class="tab-pane" id="complete_order">
-
                 <table id="completed" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
@@ -159,7 +150,6 @@
                     <th>Status</th>
                   </tr>
                   </thead>
-
                   <tbody>
                   <% @completed_orders.each do |order| %>
                     <tr id="<%= order.id %>">
@@ -171,9 +161,7 @@
                   </tbody>
                 </table>
               </div>
-
               <div class="tab-pane" id="canceled_order">
-
                 <table id="canceled" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
@@ -183,7 +171,6 @@
                     <th>Actions</th>
                   </tr>
                   </thead>
-
                   <tbody>
                   <% @canceled_orders.each do |order| %>
                     <tr>
@@ -200,8 +187,6 @@
                   </tbody>
                 </table>
               </div>
-
-
             </div>
           </div>
         </div>
@@ -209,9 +194,7 @@
     </main>
   </div>
 </div>
-
 <script>
-
     $(document).ready(function () {
         var all_order_table = $('#all_orders_table').DataTable();
         var new_order_table = $('#new_order_table').DataTable();
@@ -223,34 +206,22 @@
             if (tab_target === 'Table 2') {
                 var table1 = $('#new_order_table').DataTable({
                     destroy: true,
-
                 });
-
             } else if (tab_target === 'Table 3') {
                 var table2 = $('#under_preparation_table').DataTable({
                     destroy: true,
-
                 });
-
             } else if (tab_target === 'Table 4') {
                 var completed_table = $('#completed').DataTable({
                     destroy: true,
-
                 });
-
             } else if (tab_target === 'Table 5') {
                 var canceled_table = $('#canceled').DataTable({
                     destroy: true,
-
                 });
-
             }
-
-
         });
-
     });
-
     function cancel_new_order(row) {
         if (confirm("Are you sure ?")) {
             var new_order_table = $('#new_order_table').DataTable();
@@ -265,6 +236,8 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $("#notice").html("Order is Canceled.");
+                        // .delay(1000).fadeOut();
                     $('#' + order_id).hide();
                     data[2] = 'Canceled';
                     data[3] = data[4];
@@ -275,30 +248,33 @@
         return false;
     }
 
-    // function cancel_under_preparation_order(row) {
-    //     if (confirm("Are you sure ?")) {
-    //         var new_order_table = $('#new_order_table').DataTable();
-    //         var canceled_table = $('#canceled').DataTable();
-    //         data = new_order_table.row($(row).parents('tr')).data();
-    //         var order_id = data[0]
-    //         $.ajax({
-    //             type: 'Patch',
-    //             url: '/orders/' + order_id,
-    //             data: {
-    //                 status: 'cancel'
-    //             },
-    //             cache: false,
-    //             success: function (e) {
-    //                 $('#' + order_id).hide();
-    //                 data[2] = 'Canceled';
-    //                 data[3] = data[4];
-    //                 canceled_table.row.add(data).draw(false);
-    //             }
-    //         });
-    //     }
-    //     return false;
-    // }
-
+    function cancel_under_preparation_order(row) {
+        if (confirm("Are you sure 123?")) {
+            var under_preparation_table = $('#under_preparation_table').DataTable();
+            var canceled_table = $('#canceled').DataTable();
+            data = under_preparation_table.row($(row).parents('tr')).data();
+            var order_id = data[0]
+            $.ajax({
+                type: 'Patch',
+                url: '/orders/' + order_id,
+                data: {
+                    status: 'cancel'
+                },
+                cache: false,
+                success: function (e) {
+                    $("#notice").html("Order is Canceled.");
+                    under_preparation_table
+                        .row( $(row).parents('tr') )
+                        .remove()
+                        .draw();
+                    data[2] = 'Canceled';
+                    data[3] = data[4];
+                    canceled_table.row.add(data).draw(false);
+                }
+            });
+        }
+        return false;
+    }
     $('#new_order_table tbody').on('click', 'button', function () {
         if (confirm("This order will go under preparation ok ?")) {
             var new_order_table = $('#new_order_table').DataTable();
@@ -314,22 +290,24 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $("#notice").html("Order is Under Prepartion.");
                     $('#' + order_id).hide();
                     data[2] = 'Under Preparation';
-                    data[3] = "<button class='btn btn-outline-success' id ='complete'>Proceed</button>"
+                    data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>"
+                    data[5] = "<a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a>"
                     under_pre_table.row.add(data).draw(false);
+
                 }
             });
         }
         return false;
     });
 
-
-    $('#under_preparation_table tbody').on('click', 'button', function () {
+    function proceed_under_prepartion(row) {
         if (confirm("Are you sure this order is complete ?")) {
             var under_pre_table = $('#under_preparation_table').DataTable();
             var complete_table = $('#completed').DataTable();
-            data = under_pre_table.row($(this).parents('tr')).data();
+            data = under_pre_table.row($(row).parents('tr')).data();
             var order_id = data[0]
             $.ajax({
                 type: 'Patch',
@@ -340,14 +318,15 @@
                 },
                 cache: false,
                 success: function (e) {
-                    debugger
-                    $('#' + order_id).hide();
+                    $("#notice").html("Order is Completed.");
+                    under_pre_table.row($(row).parents('tr')).remove().draw();
+                    $('#' + order_id).addClass('hidden');
                     data[2] = 'Completed';
                     complete_table.row.add(data).draw(false);
                 }
             });
         }
         return false;
-    });
+    }
 
 </script>
