@@ -85,7 +85,7 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="form-row">
                 <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                 <div class="value">
@@ -109,7 +109,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 morning">
+            <div class="col-md-3 morning">
               <div class="form-row">
 
                 <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
@@ -118,7 +118,6 @@
             </div>
 
           </div>
-          <!--          </div>-->
 
 
           <div class="col-md-12 noon_time" hidden>
@@ -285,7 +284,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <% prescription_comments() %>
+                  <% prescription_comments %>
                   <% @prescription_comments.each do |comment| %>
                     <tr>
                       <td><%= comment.role rescue "N/A" %></td>
@@ -374,6 +373,7 @@
             comment_third = $('#comment_3rd').val();
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
+            day1_timepicker = $('#timepicker').val();
 
             var table = $('#dataTable').DataTable();
 
@@ -411,7 +411,8 @@
                     evening_time: day_time_third,
                     evening_quantity: dose_quantity_third,
                     start_date: start_date,
-                    end_date: end_date
+                    end_date: end_date,
+                    day1_timepicker: day1_timepicker
                 };
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
