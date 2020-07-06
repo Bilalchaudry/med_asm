@@ -51,9 +51,9 @@ class OrdersController < ApplicationController
                                           time: hash['day1_timepicker'])
         end
         if hash['noon_time'].present?
-          order_product.reminders.create!(timing: hash['noon_comment'],
+          order_product.reminders.create!(timing: hash['noon_time'],
                                            dose_quantity: hash['noon_quantity'],
-                                           comment: hash['noon_time'], start_date: hash['start_date'], end_date: hash['end_date'], time: hash['noon_timepicker'])
+                                           comment: hash['noon_comment'], start_date: hash['start_date'], end_date: hash['end_date'], time: hash['noon_timepicker'])
         end
         if hash['evening_time'].present?
           order_product.reminders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'], start_date: hash['start_date'], end_date: hash['end_date'],
