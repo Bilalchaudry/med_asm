@@ -252,6 +252,7 @@
                   <thead>
                   <tr>
                     <th>Medicine Name</th>
+                    <th>Type</th>
                     <th>Medicine Quantity</th>
                     <th>Day Time</th>
                     <th>Morning Dose</th>
@@ -361,6 +362,7 @@
             medicine_name = $(".medicine option:selected").val();
             medicine_quantity = $('#med_quantity').val();
             price = $('#med_price').val();
+            type = $('#type').val();
             other_comment = $('#other_comment').val();
             day_time = $(".d_time option:selected").val();
             day_time_sec = $(".d_time_2nd option:selected").val();
@@ -379,6 +381,7 @@
 
             table.row.add([
                 medicine_name,
+                type,
                 medicine_quantity,
                 day_time,
                 dose_quantity,
@@ -398,6 +401,7 @@
             newItem =
                 {
                     medicine_name: medicine_name,
+                    type: type,
                     medicine_quantity: medicine_quantity,
                     price: price,
                     noon_comment: comment_sec,
