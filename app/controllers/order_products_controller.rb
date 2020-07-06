@@ -49,27 +49,29 @@ class OrderProductsController < ApplicationController
       end
       if @order_product.update(order_product_params)
           if params[:order_product][:morning_day_time].present?
-            @order_product.reminders.first.update_attributes(timing: params[:order_product][:morning_day_time], dose_quantity: params[:order_product][:dose_quantity],
+            @order_product.reminders.first.update_attributes(timing: params[:order_product][:morning_day_time].to_i, dose_quantity: params[:order_product][:dose_quantity],
                                                              comment: params[:order_product][:comment],
                                                              start_date: params[:order_product][:start_date],
                                                              end_date: params[:order_product][:end_date],
                                                              time: params[:order_product][:morning_time])
           end
           if params[:order_product][:noon_day_time].present?
-            @order_product.reminders.second.update_attributes(timing: params[:order_product][:noon_day_time], dose_quantity: params[:order_product][:noon_dose],
+            @order_product.reminders.second.update_attributes(timing: params[:order_product][:noon_day_time].to_i, dose_quantity: params[:order_product][:noon_dose],
                                                              comment: params[:order_product][:noon_comment],
                                                              start_date: params[:order_product][:start_date],
                                                              end_date: params[:order_product][:end_date],
                                                              time: params[:order_product][:noon_time])
           end
           if params[:order_product][:evening_day_time].present?
-            @order_product.reminders.third.update_attributes(timing: params[:order_product][:evening_day_time], dose_quantity: params[:order_product][:evening_dose],
+            @order_product.reminders.third.update_attributes(timing: params[:order_product][:evening_day_time].to_i, dose_quantity: params[:order_product][:evening_dose],
                                                               comment: params[:order_product][:evening_comment],
                                                               start_date: params[:order_product][:start_date],
                                                               end_date: params[:order_product][:end_date],
                                                               time: params[:order_product][:evening_time])
           end
+          if params[:order_product][:other_comment].present?
           @order_product.order.prescription.comments.create!(message: params[:order_product][:other_comment], role: 'Admin')
+          end
         format.html { redirect_to prescriptions_path + "/?id=" + @order_product.order.prescription.id.to_s, notice: 'Order product was successfully updated.' }
         format.json { render :show, status: :ok, location: @order_product }
       else

@@ -71,7 +71,7 @@
                 <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                    <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                   </div>
                 </div>
               </div>
@@ -132,7 +132,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -189,7 +189,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>

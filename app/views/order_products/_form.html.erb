@@ -40,7 +40,11 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;' %>
+                      <% else %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -80,7 +84,15 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <select name="reminder[timing]" id="timing" class="form-control d_time" required>
+                        <option value="<%= Reminder.timings[order_product.reminders.first.timing] rescue nil %>">
+                          <%= order_product.reminders.first.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.first.timing }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -89,7 +101,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="timepicker" width="276"/>
+                    <input id="timepicker" width="276" value="<%= order_product.reminders.first.time.strftime("%I:%M%p") %>"/>
                     <script>
                         $('#timepicker').timepicker({footer: true});
                     </script>
@@ -101,8 +113,11 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
-                      <!--                      <b><span class="errormsg"></span></b>-->
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", value: order_product.reminders.first.dose_quantity, id: 'dose_quantity', :required => true %>
+                      <% else %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -112,7 +127,11 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment' %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', value: order_product.reminders.first.comment, :required => true %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment' %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -128,7 +147,15 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                      <select name="reminder[timing]" id="timing" class="form-control d_time_2nd" required>
+                        <option value="<%= Reminder.timings[order_product.reminders.second.timing] rescue nil %>">
+                          <%= order_product.reminders.second.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.second.timing }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -138,7 +165,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="noon_timepicker" width="276"/>
+                    <input id="noon_timepicker" width="276" value="<%= order_product.reminders.second.time.strftime("%I:%M%p") %>"/>
                     <script>
                         $('#noon_timepicker').timepicker({footer: true});
                     </script>
@@ -151,8 +178,11 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
-                      <!--                      <b><span class="errormsg"></span></b>-->
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true, value: order_product.reminders.second.dose_quantity %>
+                      <% else %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -163,7 +193,11 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1, value: order_product.reminders.second.comment %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -179,7 +213,15 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
+                      <select name="reminder[timing]" id="timing" class="form-control d_time_3rd" required>
+                        <option value="<%= Reminder.timings[order_product.reminders.third.timing] rescue nil %>">
+                          <%= order_product.reminders.third.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.third.timing }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -189,7 +231,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="evening_timepicker" width="276"/>
+                    <input id="evening_timepicker" width="276" value="<%= order_product.reminders.third.time.strftime("%I:%M%p") %>"/>
                     <script>
                         $('#evening_timepicker').timepicker({footer: true});
                     </script>
@@ -202,8 +244,11 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
-                      <!--                      <b><span class="errormsg"></span></b>-->
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true, value: order_product.reminders.third.dose_quantity %>
+                      <% else %>
+                        <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -213,7 +258,11 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1, value: order_product.reminders.third.comment %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
