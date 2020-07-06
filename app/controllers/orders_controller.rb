@@ -44,18 +44,20 @@ class OrdersController < ApplicationController
         order_product = OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
                                              price: hash['price'], product_type: hash['type'],
                                              start_date: hash['start_date'], end_date: hash['end_date'],
-                                             medicine_time: hash['day1_timepicker'])
+                                             )
         if hash['day_time'].present?
           order_product.reminders.create!(timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
-                                           comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])
+                                           comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'],
+                                          time: hash['day1_timepicker'])
         end
         if hash['noon_time'].present?
           order_product.reminders.create!(timing: hash['noon_comment'],
                                            dose_quantity: hash['noon_quantity'],
-                                           comment: hash['noon_time'], start_date: hash['start_date'], end_date: hash['end_date'])
+                                           comment: hash['noon_time'], start_date: hash['start_date'], end_date: hash['end_date'], time: hash['noon_timepicker'])
         end
         if hash['evening_time'].present?
-          order_product.reminders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'], start_date: hash['start_date'], end_date: hash['end_date'])
+          order_product.reminders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'], start_date: hash['start_date'], end_date: hash['end_date'],
+                                          time: hash['evening_timepicker'])
 
         end
       end

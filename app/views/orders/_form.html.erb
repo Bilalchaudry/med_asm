@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map {|c| [c.name]}), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -68,7 +68,7 @@
           <div class="row pt-4">
             <div class="col-md-6">
               <div class="form-row">
-                <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
                     <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
@@ -78,10 +78,15 @@
             </div>
 
             <div class="col-md-6">
-              <input id="timepicker" width="276"/>
-              <script>
-                  $('#timepicker').timepicker({footer: true});
-              </script>
+              <div class="form-row">
+                <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <input id="timepicker" width="276"/>
+                  <script>
+                      $('#timepicker').timepicker({footer: true});
+                  </script>
+                </div>
+              </div>
             </div>
 
 
@@ -122,13 +127,25 @@
 
           <div class="col-md-12 noon_time" hidden>
             <div class="row pt-4">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
                       <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="noon_timepicker" width="276"/>
+                    <script>
+                        $('#noon_timepicker').timepicker({footer: true});
+                    </script>
                   </div>
                 </div>
               </div>
@@ -145,7 +162,7 @@
                 </div>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -167,7 +184,7 @@
 
           <div class="col-md-12 evening_time" hidden>
             <div class="row pt-4">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -177,6 +194,19 @@
                   </div>
                 </div>
               </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="evening_timepicker" width="276"/>
+                    <script>
+                        $('#evening_timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
+
               <div class="col-md-3">
                 <div class="form-row">
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
@@ -188,7 +218,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -255,12 +285,15 @@
                     <th>Type</th>
                     <th>Medicine Quantity</th>
                     <th>Day Time</th>
+                    <th>Time</th>
                     <th>Morning Dose</th>
                     <th>Morning Instructions</th>
                     <th>Day Time</th>
+                    <th>Time</th>
                     <th>Noon Dose</th>
                     <th>Noon Instructions</th>
                     <th>Day Time</th>
+                    <th>Time</th>
                     <th>Evening Dose</th>
                     <th>Evening Instructions</th>
                     <th>Price</th>
@@ -376,6 +409,8 @@
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
             day1_timepicker = $('#timepicker').val();
+            noon_timepicker = $('#noon_timepicker').val();
+            evening_timepicker = $('#evening_timepicker').val();
 
             var table = $('#dataTable').DataTable();
 
@@ -384,12 +419,15 @@
                 type,
                 medicine_quantity,
                 day_time,
+                day1_timepicker,
                 dose_quantity,
                 comment,
                 day_time_sec,
+                noon_timepicker,
                 dose_quantity_sec,
                 comment_sec,
                 day_time_third,
+                evening_timepicker,
                 dose_quantity_third,
                 comment_third,
                 price,
@@ -416,7 +454,9 @@
                     evening_quantity: dose_quantity_third,
                     start_date: start_date,
                     end_date: end_date,
-                    day1_timepicker: day1_timepicker
+                    day1_timepicker: day1_timepicker,
+                    noon_timepicker: noon_timepicker,
+                    evening_timepicker: evening_timepicker
                 };
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
