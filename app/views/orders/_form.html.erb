@@ -65,47 +65,58 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="row pt-4">
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
-                    </div>
+          <div class="row pt-4">
+            <div class="col-md-6">
+              <div class="form-row">
+                <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                   </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-row">
-                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
-                      <b><span class="errormsg"></span></b>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-row">
-                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-1 morning">
-                <div class="form-row">
-
-                  <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
-
                 </div>
               </div>
             </div>
+
+            <div class="col-md-6">
+              <input id="timepicker" width="276"/>
+              <script>
+                  $('#timepicker').timepicker({footer: true});
+              </script>
+            </div>
+
+
+            <div class="col-md-3">
+              <div class="form-row">
+                <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                    <b><span class="errormsg"></span></b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="form-row">
+                <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 morning">
+              <div class="form-row">
+
+                <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
+
+              </div>
+            </div>
+
           </div>
 
 
@@ -121,6 +132,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="col-md-3">
                 <div class="form-row">
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
@@ -132,6 +144,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="col-md-4">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
@@ -142,6 +155,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="col-md-1 noon">
                 <div class="form-row">
                   <i style="font-size:30px; color: green;" onclick="evening()" class="fa evening">&#xf067;</i>
@@ -271,7 +285,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <% prescription_comments() %>
+                  <% prescription_comments %>
                   <% @prescription_comments.each do |comment| %>
                     <tr>
                       <td><%= comment.role rescue "N/A" %></td>
@@ -361,6 +375,7 @@
             comment_third = $('#comment_3rd').val();
             start_date = $('#start-date').val();
             end_date = $('#end-date').val();
+            day1_timepicker = $('#timepicker').val();
 
             var table = $('#dataTable').DataTable();
 
@@ -396,11 +411,12 @@
                     dose_quantity: dose_quantity,
                     comment: comment,
                     noon_time: day_time_sec,
-                    noon_quantity:dose_quantity_sec,
+                    noon_quantity: dose_quantity_sec,
                     evening_time: day_time_third,
-                    evening_quantity:dose_quantity_third,
+                    evening_quantity: dose_quantity_third,
                     start_date: start_date,
-                    end_date: end_date
+                    end_date: end_date,
+                    day1_timepicker: day1_timepicker
                 };
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
