@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         if params[:other_comment].present?
-          @prescription.comments.create(message: params[:other_comment], role: 'admin')
+          @prescription.comments.create(message: params[:other_comment], role: 'Admin')
         end
         format.html { redirect_to prescriptions_path, notice: 'Invoice sent to customer successfully.' }
         format.json { render :show, status: :created, location: @order }

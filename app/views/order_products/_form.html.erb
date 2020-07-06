@@ -24,7 +24,7 @@
                     <div class="input-group">
                       <select name="order_product[product_id]" id="product_id" class="form-control">
                         <option value="<%= @order_product.product_id %>"><%= @order_product.product.name %></option>
-                        <% Product.all.reject {|product| product.id == @order_product.product_id}.each do |product| %>
+                        <% Product.all.reject { |product| product.id == @order_product.product_id }.each do |product| %>
                           <option value="<%= product.id %>">
                             <%= product.name %>
                           </option>
@@ -40,8 +40,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;' %>
-                      <b><span class="errormsg"></span></b>
+                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
                     </div>
                   </div>
                 </div>
@@ -53,7 +52,7 @@
                   <div class="value">
                     <div class="input-group">
                       <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
-                      <b><span class="errmsg"></span></b>
+                      <!--                      <b><span class="errmsg"></span></b>-->
                     </div>
                   </div>
                 </div>
@@ -76,13 +75,24 @@
 
           <div class="col-md-12">
             <div class="row pt-4">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%#= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="timepicker" width="276"/>
+                    <script>
+                        $('#timepicker').timepicker({footer: true});
+                    </script>
                   </div>
                 </div>
               </div>
@@ -91,13 +101,13 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.number_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
-                      <b><span class="errormsg"></span></b>
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <!--                      <b><span class="errormsg"></span></b>-->
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -107,11 +117,105 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-1 morning">
+              <div class="col-md-1">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-6">
                 <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                  <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="noon_timepicker" width="276"/>
+                    <script>
+                        $('#noon_timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
 
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
+                      <!--                      <b><span class="errormsg"></span></b>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.select :day_time, options_for_select([['Morning'], ['Noon'], ['Evening']]), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="evening_timepicker" width="276"/>
+                    <script>
+                        $('#evening_timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
+                      <!--                      <b><span class="errormsg"></span></b>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,6 +243,17 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-row">
+              <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+              <div class="value">
+                <div class="input-group">
+                  <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                </div>
+              </div>
+            </div>
+
           </div>
 
 
@@ -193,27 +308,47 @@
     $("#update-order-button").click(function (e) {
 
         medicine_name = parseInt($("#product_id").val());
+        type = $('#type').val();
         medicine_quantity = parseInt($('#med_quantity').val());
         price = parseInt($('#med_price').val());
         day_time = $(".d_time option:selected").val();
         day_time_sec = $(".d_time_2nd option:selected").val();
         day_time_third = $(".d_time_3rd option:selected").val();
         dose_quantity = $('#dose_quantity').val();
+        dose_quantity_sec = $('#dose_quantity_2nd').val();
+        dose_quantity_third = $('#dose_quantity_3rd').val();
         comment = $('#comment').val();
-
+        comment_sec = $('#comment_2nd').val();
+        comment_third = $('#comment_3rd').val();
+        other_comment = $('#other_comment').val();
         start_date = $('#start-date').val();
         end_date = $('#end-date').val();
-
-        order_product_object = "order_product[quantity]=" + medicine_quantity +
-            "&order_product[dose_quantity]=" + dose_quantity +
-            "&order_product[comment]=" + comment +
-            "&order_product[start_date]=" + start_date +
-            "&order_product[end_date]=" + end_date +
-            "&order_product[product_id]=" + medicine_name;
+        day1_timepicker = $('#timepicker').val();
+        noon_timepicker = $('#noon_timepicker').val();
+        evening_timepicker = $('#evening_timepicker').val();
+        order_product_id = <%= params[:id] %>
+            order_product_object = "order_product[quantity]=" + medicine_quantity +
+                "&order_product[dose_quantity]=" + dose_quantity +
+                "&order_product[noon_dose]=" + dose_quantity_sec +
+                "&order_product[evening_dose]=" + dose_quantity_third +
+                "&order_product[comment]=" + comment +
+                "&order_product[start_date]=" + start_date +
+                "&order_product[end_date]=" + end_date +
+                "&order_product[product_id]=" + medicine_name +
+                "&order_product[type]=" + type +
+                "&order_product[noon_comment]=" + comment_sec +
+                "&order_product[evening_comment]=" + comment_third +
+                "&order_product[other_comment]=" + other_comment +
+                "&order_product[morning_time]=" + day1_timepicker +
+                "&order_product[noon_time]=" + noon_timepicker +
+                "&order_product[evening_time]=" + evening_timepicker +
+                "&order_product[morning_day_time]=" + day_time +
+                "&order_product[noon_day_time]=" + day_time_sec +
+                "&order_product[evening_day_time]=" + day_time_third;
 
         $.ajax({
             type: 'PUT',
-            url: '/order_products/14',
+            url: '/order_products/' + order_product_id,
             data: order_product_object,
             cache: false,
             success: function () {

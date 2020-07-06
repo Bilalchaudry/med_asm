@@ -22,8 +22,5 @@ json.data @prescriptions.each do |prescription|
       end
     end
     json.total_amount prescription.order.total_amount rescue nil
-  else
-    json.id prescription.id
-    json.medicines []
   end
 end
