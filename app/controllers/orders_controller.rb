@@ -41,7 +41,9 @@ class OrdersController < ApplicationController
       medicine.update(quantity: medicine.quantity - hash['medicine_quantity'].to_i)
       if medicine.present?
         order_product = OrderProduct.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
-                                             price: hash['price'], product_type: hash['type'], start_date: hash['start_date'], end_date: hash['end_date'])
+                                             price: hash['price'], product_type: hash['type'],
+                                             start_date: hash['start_date'], end_date: hash['end_date'],
+                                             medicine_time: hash['day1_timepicker'])
         if hash['day_time'].present?
           order_product.reminders.create!(timing: hash['day_time'], dose_quantity: hash['dose_quantity'],
                                            comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'])

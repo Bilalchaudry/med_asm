@@ -10,8 +10,8 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_products
 
 
-  validates_presence_of :name, :cost, :quantity
-
+  validates_presence_of :name, :cost, :quantity, :medicine_tag
+  validates :medicine_tag, uniqueness: true
 
   def self.import_file(file)
     begin
