@@ -43,17 +43,20 @@
                 <% @order.order_products.each do |product| %>
                   <tr>
                     <td><%= product.product.name rescue nil %></td>
-                    <td><%= product.quantity  %></td>
-                    <td><%= product.price  %></td>
-                    <td><%= product.timing.blank? ? "N/A" : product.timing  %></td>
-                    <td><%= product.dose_quantity.blank? ? "N/A" : product.dose_quantity  %></td>
-                    <td><%= product.comment.blank? ? "N/A" : product.comment %></td>
-                    <td><%= product.noon_time.blank? ? "N/A" : product.noon_time %></td>
-                    <td><%= product.noon_dose.blank? ? "N/A" : product.noon_dose %></td>
-                    <td><%= product.noon_instructions.blank? ? "N/A" : product.noon_instructions %></td>
-                    <td><%= product.evening_time.blank? ? "N/A" :product.evening_time %></td>
-                    <td><%= product.evening_dose.blank? ? "N/A" : product.evening_dose %></td>
-                    <td><%= product.evening_instruction.blank? ? "N/A" : product.evening_instruction %></td>
+                    <td><%= product.quantity %></td>
+                    <td><%= product.price %></td>
+                    <% product_reminder = product.reminders %>
+                    <% for i in 0..2 %>
+                      <% if product_reminder[i].present? %>
+                        <td><%= product_reminder[i].timing.blank? ? "N/A" : product_reminder[i].timing %></td>
+                        <td><%= product_reminder[i].dose_quantity.blank? ? "N/A" : product_reminder[i].dose_quantity %></td>
+                        <td><%= product_reminder[i].comment.blank? ? "N/A" : product_reminder[i].comment %></td>
+                      <% else %>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                      <% end %>
+                    <% end %>
                     <td><%= product.start_date %></td>
                     <td><%= product.end_date %></td>
                   </tr>
