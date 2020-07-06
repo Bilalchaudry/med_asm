@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
     @under_preparation_orders = @orders.where(status: 'Under_preparation')
     @completed_orders = @orders.where(status: 'Completed')
     @canceled_orders = @orders.where(status: 'Canceled')
+    @all_orders = @new_orders + @under_preparation_orders + @completed_orders + @canceled_orders
   end
 
   # GET /orders/1

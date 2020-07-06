@@ -58,10 +58,10 @@
                     </thead>
                     <tbody>
                     <% @orders.each do |order| %>
-                      <tr>
+                      <tr >
                         <td><%= order.id %></td>
                         <td><%= User.find(order.user_id).full_name rescue nil %></td>
-                        <td><%= order.status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
+                        <td id="row<%= order.id %>"><%= order.status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
                         <td>
                           <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
                           <%= link_to "Edit", edit_product_path(order), :class => "btn btn-outline-info" %>
@@ -241,6 +241,7 @@
                     $('#' + order_id).hide();
                     data[2] = 'Canceled';
                     data[3] = data[4];
+                    $('#row' + order_id).text("Canceled");
                     canceled_table.row.add(data).draw(false);
                 }
             });
@@ -269,6 +270,7 @@
                         .draw();
                     data[2] = 'Canceled';
                     data[3] = data[4];
+                    $('#row' + order_id).text("Canceled");
                     canceled_table.row.add(data).draw(false);
                 }
             });
@@ -292,6 +294,7 @@
                 success: function (e) {
                     $("#notice").html("Order is Under Prepartion.");
                     $('#' + order_id).hide();
+                    $('#row' + order_id).text("Under Preparation");
                     data[2] = 'Under Preparation';
                     data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>"
                     data[5] = "<a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a>"
@@ -322,6 +325,7 @@
                     under_pre_table.row($(row).parents('tr')).remove().draw();
                     $('#' + order_id).addClass('hidden');
                     data[2] = 'Completed';
+                    $('#row' + order_id).text("Completed");
                     complete_table.row.add(data).draw(false);
                 }
             });
