@@ -571,29 +571,16 @@
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
 
-            // $.ajax({
-            //     type: 'PUT',
-            //     url: "/orders/" + order_id,
-            //     data: {
-            //         medicine_name: $("#add-new-medicine").val()
-            //     },
-            //     cache: false,
-            //     success:
-            //
-            //         function () {
-            //         }
-            // })
-            // ;
-
         });
     });
 
     $("#create-order-button").click(function (e) {
         other_comment = $('#other_comment').val();
         $.ajax({
-            type: 'POST',
-            url: '/orders',
+            type: 'PUT',
+            url: '/orders/ <%= @order.id %>',
             data: {
+                new_medicine: 'true',
                 other_comment,
                 medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
                 url: window.location.href

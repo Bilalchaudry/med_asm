@@ -6,7 +6,8 @@ json.medicine_reminder @user_reminders.each do |reminder|
     med_days = (reminder.end_date - reminder.start_date).to_i + 1
     json.days med_days
     json.medicine_time reminder.timing
-    json.time reminder.time.strftime( "%H:%M:%S" )
+
+    json.time reminder.time.strftime( "%H:%M:%S %Y-%m-%d" )
     json.medicine_dose reminder.dose_quantity
     json.medicine_dose_comment reminder.comment
     json.reminder_date Date.today
