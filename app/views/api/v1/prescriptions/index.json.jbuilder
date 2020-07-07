@@ -12,8 +12,6 @@ json.data @prescriptions.each do |prescription|
       json.medicine_price order_product.price
       days = (order_product.end_date - order_product.start_date).to_i + 1
       json.days days
-			#   “reminder_date”:”2020-07-07”
-			#   “reminder_day”:1
       json.reminder order_product.reminders.each do |product|
         json.medicine_name order_product.product.name rescue "N/A"
         json.medicine_time product.timing

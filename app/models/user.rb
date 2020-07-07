@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :save_addresses
   has_many :prescriptions
   has_many :orders
+  has_many :reminders
 
   enum gender: {
       Male: 0,

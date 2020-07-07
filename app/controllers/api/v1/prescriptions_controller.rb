@@ -22,6 +22,10 @@ class Api::V1::PrescriptionsController < ApiController
   def edit
   end
 
+  def reminder
+    @user_reminders = current_user.reminders
+  end
+
   # POST /prescriptions
   # POST /prescriptions.json
   def create
@@ -52,8 +56,8 @@ class Api::V1::PrescriptionsController < ApiController
   def destroy
     @prescription.destroy
     respond_to do |format|
-      format.html {redirect_to prescriptions_url, notice: 'Prescription was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to prescriptions_url, notice: 'Prescription was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 

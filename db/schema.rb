@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_175850) do
+ActiveRecord::Schema.define(version: 2020_07_07_103920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,7 +132,9 @@ ActiveRecord::Schema.define(version: 2020_07_06_175850) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "time"
+    t.bigint "user_id"
     t.index ["order_product_id"], name: "index_reminders_on_order_product_id"
+    t.index ["user_id"], name: "index_reminders_on_user_id"
   end
 
   create_table "save_addresses", force: :cascade do |t|
@@ -175,4 +177,5 @@ ActiveRecord::Schema.define(version: 2020_07_06_175850) do
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
   add_foreign_key "reminders", "order_products"
+  add_foreign_key "reminders", "users"
 end
