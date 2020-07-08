@@ -87,6 +87,8 @@ class OrdersController < ApplicationController
       @order.update_attributes(status: 'Completed')
     elsif params[:status] == 'cancel'
       @order.update_attributes(status: 'Canceled')
+    elsif params[:status] == 'restore'
+      @order.update_attributes(status: 'Paid')
     elsif params[:new_medicine] == 'true'
       JSON.parse(params[:medicines]).each do |hash, key|
         medicine_name = hash['medicine_name']

@@ -11,7 +11,11 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Back", orders_path, :class => "btn btn-dark", style: "color: white" %>
+              <% if params[:status] == "all_order" %>
+                <%= link_to "Back", orders_path(:status => params[:status]), :class => "btn btn-dark", style: "color: white" %>
+              <% else %>
+                <%= link_to "Back", orders_path(:status => @order.status), :class => "btn btn-dark", style: "color: white" %>
+              <% end %>
             </div>
           </div>
         </div>

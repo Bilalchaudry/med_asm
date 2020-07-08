@@ -1,25 +1,13 @@
-<style>
-  .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
-    color: #555;
-    cursor: default;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-bottom-color: transparent;
-  }
-
-  .nav > li > a {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-  }
-</style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <div class="alert-dismissable cross_but" onclick="hide_error()">
         <center>
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
         </center>
+        </div>
         <h1 class="mt-3">Orders</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
@@ -30,27 +18,28 @@
         <div class="container">
           <div class="clearfix"></div>
           <ul class="nav nav-tabs">
-            <li class="active">
+            <li class="active" id="li_all">
               <a href="#all_orders" data-toggle="tab">All Orders</a>
             </li>
-            <li><a href="#new_order" data-toggle="tab">New Orders</a>
+            <li id="new_order_li"><a href="#new_order" data-toggle="tab">New Orders</a>
             </li>
-            <li><a href="#under_preparation_order" data-toggle="tab">Orders Under Preparation</a>
+            <li id="under_preparation_li">
+              <a href="#under_preparation_order" data-toggle="tab">Orders Under Preparation</a>
             </li>
-            <li><a href="#complete_order" data-toggle="tab">Completed Orders</a>
+            <li id="complete_li"><a href="#complete_order" data-toggle="tab">Completed Orders</a>
             </li>
-            <li><a href="#canceled_order" data-toggle="tab">Cancelled Orders</a>
+            <li id="cancel_li"><a href="#canceled_order" data-toggle="tab">Cancelled Orders</a>
             </li>
           </ul>
           <div class="card mb-4">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Orders</div>
             <div class="tab-content pt-2 ">
-              <div class="tab-pane active" id="all_orders">
+              <div class="tab-pane active py-3 px-3" id="all_orders">
                 <div class="table-responsive">
                   <table class="table table-bordered" id="all_orders_table" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>Order ID</th>
                       <th>Owner</th>
                       <th>Status</th>
                       <th>Actions</th>
@@ -58,14 +47,13 @@
                     </thead>
                     <tbody>
                     <% @all_orders.each do |order| %>
-                      <tr >
+                      <tr>
                         <td><%= order.id %></td>
                         <td><%= User.find(order.user_id).full_name rescue nil %></td>
                         <td id="row<%= order.id %>"><%= order.status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
                         <td>
-                          <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
-                          <%= link_to "Edit", edit_product_path(order), :class => "btn btn-outline-info" %>
-                          <%= link_to 'Destroy', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                          <%= link_to "View", order_path(order, :status => 'all_order'), :class => "btn btn-outline-dark" %>
+                          <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                         </td>
                       </tr>
                     <% end %>
@@ -73,11 +61,11 @@
                   </table>
                 </div>
               </div>
-              <div class="tab-pane" id="new_order">
+              <div class="tab-pane py-3 px-3" id="new_order">
                 <table id="new_order_table" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Order ID</th>
                     <th>Owner</th>
                     <th>Status</th>
                     <th> Proceed</th>
@@ -96,22 +84,22 @@
                       </td>
                       <td>
                         <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
-                        <%= link_to "Edit", edit_product_path(order), :class => "btn btn-outline-info" %>
-                        <%= link_to 'Destroy', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                        <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                       </td>
                       <td>
-                        <a class="btn btn-outline-dark" id="new_order_cancel" onclick="cancel_new_order(this);">Cancel Order</a>
+                        <a class="btn btn-outline-info" id="new_order_cancel" onclick="cancel_new_order(this);">Cancel
+                          Order</a>
                       </td>
                     </tr>
                   <% end %>
                   </tbody>
                 </table>
               </div>
-              <div class="tab-pane" id="under_preparation_order">
+              <div class="tab-pane py-3 px-3" id="under_preparation_order">
                 <table id="under_preparation_table" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Order ID</th>
                     <th>Owner</th>
                     <th>Status</th>
                     <th>Proceed</th>
@@ -130,24 +118,24 @@
                       </td>
                       <td>
                         <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
-                        <%= link_to "Edit", edit_product_path(order), :class => "btn btn-outline-info" %>
-                        <%= link_to 'Destroy', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                        <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                       </td>
                       <td>
-                        <a class="btn btn-outline-dark" onclick="cancel_under_preparation_order(this)">Cancel Order</a>
+                        <a class="btn btn-outline-info" onclick="cancel_under_preparation_order(this)">Cancel Order</a>
                       </td>
                     </tr>
                   <% end %>
                   </tbody>
                 </table>
               </div>
-              <div class="tab-pane" id="complete_order">
+              <div class="tab-pane py-3 px-3" id="complete_order">
                 <table id="completed" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Order ID</th>
                     <th>Owner</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -156,16 +144,20 @@
                       <td><%= order.id %></td>
                       <td><%= User.find(order.user_id).full_name rescue nil %></td>
                       <td><%= order.status.split('_').map(&:capitalize).join(' ') %></td>
+                      <td>
+                        <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
+                        <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                      </td>
                     </tr>
                   <% end %>
                   </tbody>
                 </table>
               </div>
-              <div class="tab-pane" id="canceled_order">
+              <div class="tab-pane py-3 px-3" id="canceled_order">
                 <table id="canceled" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Order ID</th>
                     <th>Owner</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -178,9 +170,9 @@
                       <td><%= User.find(order.user_id).full_name rescue nil %></td>
                       <td><%= order.status.split('_').map(&:capitalize).join(' ') %></td>
                       <td>
-                        <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
-                        <%= link_to "Edit", edit_product_path(order), :class => "btn btn-outline-info" %>
-                        <%= link_to 'Destroy', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                        <button class='btn btn-outline-success' onclick='restore_order(<%= order.id %>)'>Restore</button>
+                        <%#= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
+                        <%#= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                       </td>
                     </tr>
                   <% end %>
@@ -195,7 +187,11 @@
   </div>
 </div>
 <script>
+  function hide_error(){
+      $('.cross_but').hide();
+  }
     $(document).ready(function () {
+        $('.cross_but').hide();
         var all_order_table = $('#all_orders_table').DataTable();
         var new_order_table = $('#new_order_table').DataTable();
         var under_pre_table = $('#under_preparation_table').DataTable();
@@ -222,11 +218,13 @@
             }
         });
     });
+
     function cancel_new_order(row) {
         if (confirm("Are you sure ?")) {
             var new_order_table = $('#new_order_table').DataTable();
             var canceled_table = $('#canceled').DataTable();
             data = new_order_table.row($(row).parents('tr')).data();
+            row_data =row
             var order_id = data[0]
             $.ajax({
                 type: 'Patch',
@@ -236,11 +234,12 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $('.cross_but').show();
                     $("#notice").html("Order is Canceled.");
-                        // .delay(1000).fadeOut();
+                        // .delay(1100).fadeOut();
                     $('#' + order_id).hide();
                     data[2] = 'Canceled';
-                    data[3] = data[4];
+                    data[3] = "<button class='btn btn-outline-success' onclick='restore_order(this)'>Restore</button>";
                     $('#row' + order_id).text("Canceled");
                     canceled_table.row.add(data).draw(false);
                 }
@@ -263,13 +262,14 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $('.cross_but').show();
                     $("#notice").html("Order is Canceled.");
                     under_preparation_table
-                        .row( $(row).parents('tr') )
+                        .row($(row).parents('tr'))
                         .remove()
                         .draw();
                     data[2] = 'Canceled';
-                    data[3] = data[4];
+                    data[3] = "<button class='btn btn-outline-success' onclick='restore_order(this)'>Restore</button>";;
                     $('#row' + order_id).text("Canceled");
                     canceled_table.row.add(data).draw(false);
                 }
@@ -277,6 +277,7 @@
         }
         return false;
     }
+
     $('#new_order_table tbody').on('click', 'button', function () {
         if (confirm("This order will go under preparation ok ?")) {
             var new_order_table = $('#new_order_table').DataTable();
@@ -292,6 +293,7 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $('.cross_but').show();
                     $("#notice").html("Order is Under Prepartion.");
                     $('#' + order_id).hide();
                     $('#row' + order_id).text("Under Preparation");
@@ -321,10 +323,12 @@
                 },
                 cache: false,
                 success: function (e) {
+                    $('.cross_but').show();
                     $("#notice").html("Order is Completed.");
                     under_pre_table.row($(row).parents('tr')).remove().draw();
                     $('#' + order_id).addClass('hidden');
                     data[2] = 'Completed';
+                    data[3] = data[4];
                     $('#row' + order_id).text("Completed");
                     complete_table.row.add(data).draw(false);
                 }
@@ -332,5 +336,65 @@
         }
         return false;
     }
+
+
+
+
+function restore_order(row_data) {
+    if (confirm("Are you sure ?")) {
+        var new_order_table = $('#new_order_table').DataTable();
+        var canceled_table = $('#canceled').DataTable();
+        data = canceled_table.row($(row_data).parents('tr')).data();
+        var order_id = data[0]
+        $.ajax({
+            type: 'Patch',
+            url: '/orders/' + order_id,
+            data: {
+                status: 'restore'
+            },
+            cache: false,
+            success: function (e) {
+                $('.cross_but').show();
+                $("#notice").html("Order is Restored.");
+                canceled_table.row($(row_data).parents('tr')).remove().draw();
+                $('#' + order_id).addClass('hidden');
+                data[2] = 'Paid';
+                data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>";
+                $('#row' + order_id).text("Paid");
+                new_order_table.row.add(data).draw(false);
+            }
+        });
+    }
+    return false;
+}
+    var status = "<%= params['status'] %>";
+    if (status == "Under_preparation") {
+        $('#li_all').removeClass('active');
+        $('#all_orders').removeClass('active');
+        $('#under_preparation_order').addClass('active');
+        $('#under_preparation_li').addClass('active');
+    }
+    if (status == "Paid") {
+        $('#li_all').removeClass('active');
+        $('#all_orders').removeClass('active');
+        $('#new_order').addClass('active');
+        $('#new_order_li').addClass('active');
+    }
+    if (status == "Completed") {
+        $('#li_all').removeClass('active');
+        $('#all_orders').removeClass('active');
+        $('#complete_order').addClass('active');
+        $('#complete_li').addClass('active');
+    }
+    if (status == "Canceled") {
+        $('#li_all').removeClass('active');
+        $('#all_orders').removeClass('active');
+        $('#canceled_order').addClass('active');
+        $('#cancel_li').addClass('active');
+    }
+  if (status == "all_order") {
+      $('#li_all').addClass('active');
+      $('#all_orders').addClass('active');
+  }
 
 </script>

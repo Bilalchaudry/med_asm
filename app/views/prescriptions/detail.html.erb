@@ -42,7 +42,7 @@
                   <div class="value">
                     <div class="input-group">
                       <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
-<!--                      <b><span class="errmsg"></span></b>-->
+                      <!--                      <b><span class="errmsg"></span></b>-->
                     </div>
                   </div>
                 </div>
@@ -255,128 +255,136 @@
             </div>
             <div class="col-md-4"></div>
           </div>
+          </div>
+          </div>
 
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Detail</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>Medicine Name</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% @order.order_products.each do |order_product| %>
+                    <tr>
+                      <td><%= order_product.product.name rescue "N/A" %></td>
+                      <td><%= order_product.product_type rescue "N/A" %></td>
+                      <td><%= order_product.quantity rescue "N/A" %></td>
+                      <td><%= order_product.price rescue "N/A" %></td>
+                      <% order_product.reminders.each do |product_reminder| %>
+                        <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
+                        <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
+                        <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
+                        <td><%= product_reminder.comment rescue "N/A" %></td>
+                      <% end %>
+                      <td><%= order_product.start_date rescue "N/A" %></td>
+                      <td><%= order_product.end_date rescue "N/A" %></td>
+                      <td>
+                        <%= link_to "edit", edit_order_product_path(order_product), :class => "btn btn-outline-dark" %>
+                        <%= link_to "Delete", prescription_path(order_product), :class => "btn btn-outline-dark", method: :delete, data: {confirm: 'Are you sure?'} %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th style="width:25%;">Owner</th>
+                    <th>Comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% prescription_comments() %>
+                  <% @prescription_comments.each do |comment| %>
+                    <tr>
+                      <td><%= comment.role rescue "N/A" %></td>
+                      <td><%= comment.message rescue "N/A" %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>New Medicine</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>Medicine Name</th>
+                    <th>Type</th>
+                    <th>Medicine Quantity</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Morning Dose</th>
+                    <th>Morning Instructions</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Noon Dose</th>
+                    <th>Noon Instructions</th>
+                    <th>Day Time</th>
+                    <th>Time</th>
+                    <th>Evening Dose</th>
+                    <th>Evening Instructions</th>
+                    <th>Price</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                  </tr>
+                  </thead>
+
+                </table>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-row">
+                <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                  </div>
+                </div>
+              </div>
+
+            </div>
         <% end %>
-
-      </div>
-
-    </div>
-
-    <div class="card mb-4">
-      <div class="card-header"><i class="fas fa-table mr-1"></i>Detail</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-              <th>Medicine Name</th>
-              <th>Type</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Dose Quantity</th>
-              <th>Comment</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Dose Quantity</th>
-              <th>Comment</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Dose Quantity</th>
-              <th>Comment</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <% @order.order_products.each do |order_product| %>
-              <tr>
-                <td><%= order_product.product.name rescue "N/A" %></td>
-                <td><%= order_product.product_type rescue "N/A" %></td>
-                <td><%= order_product.quantity rescue "N/A" %></td>
-                <td><%= order_product.price rescue "N/A" %></td>
-                <% order_product.reminders.each do |product_reminder| %>
-                  <td><%= product_reminder.timing rescue "N/A" %></td>
-                  <td><%= product_reminder.time rescue "N/A" %></td>
-                  <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
-                  <td><%= product_reminder.comment rescue "N/A" %></td>
-                <% end %>
-                <td><%= order_product.start_date rescue "N/A" %></td>
-                <td><%= order_product.end_date rescue "N/A" %></td>
-                <td>
-                  <%= link_to "edit", edit_order_product_path(order_product), :class => "btn btn-outline-dark" %>
-                  <%= link_to "Delete", prescription_path(order_product), :class => "btn btn-outline-dark", method: :delete, data: {confirm: 'Are you sure?'} %>
-                </td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
+        <center>
+          <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
+        </center>
         </div>
-      </div>
-    </div>
-    <div class="card mb-4">
-      <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-              <th style="width:25%;">Owner</th>
-              <th>Comment</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% prescription_comments() %>
-            <% @prescription_comments.each do |comment| %>
-              <tr>
-                <td><%= comment.role rescue "N/A" %></td>
-                <td><%= comment.message rescue "N/A" %></td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
         </div>
-      </div>
-    </div>
-    <div class="card mb-4">
-      <div class="card-header"><i class="fas fa-table mr-1"></i>New Medicine</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-              <th>Medicine Name</th>
-              <th>Type</th>
-              <th>Medicine Quantity</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Morning Dose</th>
-              <th>Morning Instructions</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Noon Dose</th>
-              <th>Noon Instructions</th>
-              <th>Day Time</th>
-              <th>Time</th>
-              <th>Evening Dose</th>
-              <th>Evening Instructions</th>
-              <th>Price</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-            </thead>
-
-          </table>
-        </div>
-      </div>
-      <center>
-        <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
-      </center>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -392,23 +400,23 @@
 
     var medicine_price;
     var order_id = <%= @order.id %>
-    $("#add-new-medicine").change(function () {
-        medicine_name = $("#add-new-medicine").val();
-        $.ajax({
-            type: 'GET',
-            url: '/products/get_product_price',
-            data: {
-                medicine_name: medicine_name
-            },
-            success: function (data) {
-                medicine_price = data['price'];
-                $('#med_price').val(data['price']);
-                $('#med_quantity').val(1);
+        $("#add-new-medicine").change(function () {
+            medicine_name = $("#add-new-medicine").val();
+            $.ajax({
+                type: 'GET',
+                url: '/products/get_product_price',
+                data: {
+                    medicine_name: medicine_name
+                },
+                success: function (data) {
+                    medicine_price = data['price'];
+                    $('#med_price').val(data['price']);
+                    $('#med_quantity').val(1);
 
-            }
+                }
+            });
+
         });
-
-    });
 
     $('#start-date').datepicker({
         format: 'yyyy-mm-dd',
@@ -476,38 +484,6 @@
             }
             if (comment == "") {
                 window.alert("Please enter morning comment.");
-                return false;
-            }
-            if (day_time_sec == "") {
-                window.alert("Please select second day time.");
-                return false;
-            }
-            if (noon_timepicker == "") {
-                window.alert("Please select noon time.");
-                return false;
-            }
-            if (dose_quantity_sec == "") {
-                window.alert("Please enter noon dose quantity.");
-                return false;
-            }
-            if (comment_sec == "") {
-                window.alert("Please enter noon comment.");
-                return false;
-            }
-            if (day_time_third == "") {
-                window.alert("Please select third day time.");
-                return false;
-            }
-            if (evening_timepicker == "") {
-                window.alert("Please select evening time.");
-                return false;
-            }
-            if (dose_quantity_third == "") {
-                window.alert("Please enter evening dose quantity.");
-                return false;
-            }
-            if (comment_third == "") {
-                window.alert("Please enter evening comment.");
                 return false;
             }
             if (price == "") {
