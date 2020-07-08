@@ -294,11 +294,42 @@
                       <td><%= order_product.product_type rescue "N/A" %></td>
                       <td><%= order_product.quantity rescue "N/A" %></td>
                       <td><%= order_product.price rescue "N/A" %></td>
-                      <% order_product.reminders.each do |product_reminder| %>
-                        <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
-                        <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
-                        <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
-                        <td><%= product_reminder.comment rescue "N/A" %></td>
+                      <% reminder_count = order_product.reminders.count %>
+                      <% if reminder_count == 3 %>
+                        <% order_product.reminders.each do |product_reminder| %>
+                          <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
+                          <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
+                          <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
+                          <td><%= product_reminder.comment rescue "N/A" %></td>
+                        <% end %>
+                      <% end %>
+                      <% if reminder_count == 2 %>
+                        <% order_product.reminders.each do |product_reminder| %>
+                          <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
+                          <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
+                          <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
+                          <td><%= product_reminder.comment rescue "N/A" %></td>
+                        <% end %>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                      <% end %>
+                      <% if reminder_count == 1 %>
+                        <% order_product.reminders.each do |product_reminder| %>
+                          <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
+                          <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
+                          <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
+                          <td><%= product_reminder.comment rescue "N/A" %></td>
+                        <% end %>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
+                        <td> N/A</td>
                       <% end %>
                       <td><%= order_product.start_date rescue "N/A" %></td>
                       <td><%= order_product.end_date rescue "N/A" %></td>

@@ -80,7 +80,7 @@
                       <td><%= User.find(order.user_id).full_name rescue nil %></td>
                       <td><%= order.status %></td>
                       <td>
-                        <button class='btn btn-outline-success' id="under_pre">Proceed</button>
+                        <button class='btn btn-outline-success' id="under_pre" onclick="proceed_new_order(this)">Proceed</button>
                       </td>
                       <td>
                         <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
@@ -277,37 +277,38 @@
         }
         return false;
     }
+function proceed_new_order(row_data) {
+    // $('#new_order_table tbody').on('click', 'button', function () {
+    if (confirm("This order will go under preparation ok ?")) {
+        var new_order_table = $('#new_order_table').DataTable();
+        var under_pre_table = $('#under_preparation_table').DataTable();
+        data = new_order_table.row($(row_data).parents('tr')).data();
+        var order_id = data[0]
+        $.ajax({
+            type: 'Patch',
+            url: '/orders/' + order_id,
+            data: {
+                order_id,
+                status: 'Under Preparation'
+            },
+            cache: false,
+            success: function (e) {
+                $('.cross_but').show();
+                $("#notice").html("Order is Under Prepartion.");
+                new_order_table.row($(row_data).parents('tr')).remove().draw();
+                $('#' + order_id).hide();
+                $('#row' + order_id).text("Under Preparation");
+                data[2] = 'Under Preparation';
+                data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>"
+                data[5] = "<a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a>"
+                under_pre_table.row.add(data).draw(false);
 
-    $('#new_order_table tbody').on('click', 'button', function () {
-        if (confirm("This order will go under preparation ok ?")) {
-            var new_order_table = $('#new_order_table').DataTable();
-            var under_pre_table = $('#under_preparation_table').DataTable();
-            data = new_order_table.row($(this).parents('tr')).data();
-            var order_id = data[0]
-            $.ajax({
-                type: 'Patch',
-                url: '/orders/' + order_id,
-                data: {
-                    order_id,
-                    status: 'Under Preparation'
-                },
-                cache: false,
-                success: function (e) {
-                    $('.cross_but').show();
-                    $("#notice").html("Order is Under Prepartion.");
-                    $('#' + order_id).hide();
-                    $('#row' + order_id).text("Under Preparation");
-                    data[2] = 'Under Preparation';
-                    data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>"
-                    data[5] = "<a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a>"
-                    under_pre_table.row.add(data).draw(false);
-
-                }
-            });
-        }
-        return false;
-    });
-
+            }
+        });
+    }
+    return false;
+    // });
+}
     function proceed_under_prepartion(row) {
         if (confirm("Are you sure this order is complete ?")) {
             var under_pre_table = $('#under_preparation_table').DataTable();
@@ -359,7 +360,7 @@ function restore_order(row_data) {
                 canceled_table.row($(row_data).parents('tr')).remove().draw();
                 $('#' + order_id).addClass('hidden');
                 data[2] = 'Paid';
-                data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>";
+                data[3] = "<button class='btn btn-outline-success' id='under_pre' onclick='proceed_new_order(this)'>Proceed</button>";
                 $('#row' + order_id).text("Paid");
                 new_order_table.row.add(data).draw(false);
             }
