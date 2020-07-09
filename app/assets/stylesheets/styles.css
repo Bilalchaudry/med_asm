@@ -10905,15 +10905,15 @@ div.field, div.actions {
     margin-bottom: 10px;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
-    color: #555;
-    cursor: default;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-bottom-color: transparent;
+    color: #555 !important;
+    cursor: default !important;
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    border-bottom-color: transparent !important;
 }
 
 .nav > li > a {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
+    position: relative !important;
+    display: block !important;
+    padding: 10px 15px !important;
 }
