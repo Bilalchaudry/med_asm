@@ -47,11 +47,14 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
-
+          <div class="col-md-12">
+            <div class="row">
               <div class="col-md-3">
                 <div class="form-row">
-                  <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
                       <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1 %>
@@ -59,8 +62,8 @@
                   </div>
                 </div>
               </div>
-
             </div>
+            <div class="col-md-9"></div>
           </div>
 
 
@@ -592,8 +595,7 @@
                     $('#med_price').val('');
                     $('#type').val('');
                     $('#other_comment').val('');
-                    $('.d_time')
-                        val().empty()
+                    $(".d_time option:selected").remove();
                     // $(".d_time option:selected").val('');
                     $(".d_time_2nd option:selected").val('');
                     $(".d_time_3rd option:selected").val('');
