@@ -31,6 +31,8 @@ module DeviseTokenAuth
         elsif params[:user][:login].present? && params[:user][:facebook_id].present?
           @resource = User.where('email = ? OR facebook_id = ?', "#{params[:user][:login]}", "#{params[:user][:facebook_id]}").first
           if @resource.present?
+            update_header_tokens
+            @resource.save
             render :log_in, status: :ok
           else
             @resource = User.new(user_params)

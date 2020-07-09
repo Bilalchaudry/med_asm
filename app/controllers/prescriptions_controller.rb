@@ -64,7 +64,7 @@ class PrescriptionsController < ApplicationController
     prescription_id = @order_product.order.prescription.id
     @order_product.destroy
     respond_to do |format|
-      format.html {redirect_to prescriptions_url + "?id=" + prescription_id.to_s, notice: 'Order updated successfully.'}
+      format.html {redirect_to prescriptions_url + "?id=" + prescription_id.to_s, notice: 'Product deleted successfully.'}
       format.json {head :no_content}
     end
   end

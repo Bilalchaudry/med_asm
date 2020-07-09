@@ -90,34 +90,31 @@ class OrdersController < ApplicationController
     elsif params[:status] == 'restore'
       @order.update_attributes(status: 'Paid')
     elsif params[:new_medicine] == 'true'
-      JSON.parse(params[:medicines]).each do |hash, key|
-        medicine_name = hash['medicine_name']
-        medicine = Product.find_by_name(medicine_name)
-        order_product = @order.order_products.create!(order_id: @order.id, product_id: medicine.id, quantity: hash['medicine_quantity'],
-                                                      price: hash['price'], product_type: hash['type'],
-                                                      start_date: hash['start_date'], end_date: hash['end_date'],
-        )
-        if hash['day_time'].present?
-          order_product.reminders.create!(timing: hash['day_time'].to_i, dose_quantity: hash['dose_quantity'],
-                                          comment: hash['comment'], start_date: hash['start_date'], end_date: hash['end_date'],
-                                          time: hash['day1_timepicker'], user_id: @order.user_id)
-        end
-        if hash['noon_time'].present?
-          order_product.reminders.create!(timing: hash['noon_time'].to_i,
-                                          dose_quantity: hash['noon_quantity'],
-                                          comment: hash['noon_comment'], start_date: hash['start_date'], end_date: hash['end_date'], time: hash['noon_timepicker'], user_id: @order.user_id)
-        end
-        if hash['evening_time'].present?
-          order_product.reminders.create!(comment: hash['evening_comment'], dose_quantity: hash['evening_quantity'], timing: hash['evening_time'].to_i, start_date: hash['start_date'], end_date: hash['end_date'],
-                                          time: hash['evening_timepicker'], user_id: @order.user_id)
-        end
+      medicine = Product.find_by_name(params[:medicine_name])
+      order_product = @order.order_products.create!(order_id: @order.id, product_id: medicine.id, quantity: params[:medicine_quantity],
+                                                    price: params[:price], product_type: params[:type],
+                                                    start_date: params[:start_date], end_date: params[:end_date],
+      )
+      if params[:day_time].present?
+        order_product.reminders.create!(timing: params[:day_time].to_i, dose_quantity: params[:dose_quantity],
+                                        comment: params[:comment], start_date: params[:start_date], end_date: params[:end_date],
+                                        time: params[:day1_timepicker], user_id: @order.user_id)
+      end
+      if params[:noon_time].present?
+        order_product.reminders.create!(timing: params[:noon_time].to_i,
+                                        dose_quantity: params[:noon_quantity],
+                                        comment: params[:noon_comment], start_date: params[:start_date], end_date: params[:end_date], time: params[:noon_timepicker], user_id: @order.user_id)
+      end
+      if params[:evening_time].present?
+        order_product.reminders.create!(comment: params[:evening_comment], dose_quantity: params[:evening_quantity], timing: params[:evening_time].to_i, start_date: params[:start_date], end_date: params[:end_date],
+                                        time: hash['evening_timepicker'], user_id: @order.user_id)
       end
       if params[:other_comment].present?
         @order.prescription.comments.create(message: params[:other_comment], role: 'Admin')
       end
-      respond_to do |format|
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
+      if params[:get_med_id] == 'true'
+        med_id = order_product.id
+        render json: med_id
       end
     else
       respond_to do |format|

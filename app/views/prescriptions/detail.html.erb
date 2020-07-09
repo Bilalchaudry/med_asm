@@ -242,6 +242,17 @@
               </div>
             </div>
           </div>
+          <div class="col-md-5">
+            <div class="form-row">
+              <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+              <div class="value">
+                <div class="input-group">
+                  <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                </div>
+              </div>
+            </div>
+
+          </div>
 
           <hr>
           <div class="row">
@@ -262,7 +273,7 @@
             <div class="card-header"><i class="fas fa-table mr-1"></i>Detail</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered detail-table" width="100%" cellspacing="0">
                   <thead>
                   <tr>
                     <th>Medicine Name</th>
@@ -318,7 +329,7 @@
                       <% if reminder_count == 1 %>
                         <% order_product.reminders.each do |product_reminder| %>
                           <td><%= product_reminder.timing.blank? ? "N/A" : product_reminder.timing %></td>
-                          <td><%= product_reminder.time.strftime("%H:%M:%S") rescue "N/A" %></td>
+                          <td><%= product_reminder.time.strftime("%H:%M") rescue "N/A" %></td>
                           <td><%= product_reminder.dose_quantity rescue "N/A" %></td>
                           <td><%= product_reminder.comment rescue "N/A" %></td>
                         <% end %>
@@ -348,7 +359,7 @@
             <div class="card-header"><i class="fas fa-table mr-1"></i>Comments</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="comments-table" width="100%" cellspacing="0">
                   <thead>
                   <tr>
                     <th style="width:25%;">Owner</th>
@@ -368,53 +379,8 @@
               </div>
             </div>
           </div>
-          <div class="card mb-4">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>New Medicine</div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
-                  <thead>
-                  <tr>
-                    <th>Medicine Name</th>
-                    <th>Type</th>
-                    <th>Medicine Quantity</th>
-                    <th>Day Time</th>
-                    <th>Time</th>
-                    <th>Morning Dose</th>
-                    <th>Morning Instructions</th>
-                    <th>Day Time</th>
-                    <th>Time</th>
-                    <th>Noon Dose</th>
-                    <th>Noon Instructions</th>
-                    <th>Day Time</th>
-                    <th>Time</th>
-                    <th>Evening Dose</th>
-                    <th>Evening Instructions</th>
-                    <th>Price</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                  </tr>
-                  </thead>
-
-                </table>
-              </div>
-            </div>
-            <div class="col-md-5">
-              <div class="form-row">
-                <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
-                  </div>
-                </div>
-              </div>
-
-            </div>
         <% end %>
-        <center>
-          <button type="button" class="btn w-25 bg-clr btn-style" id="create-order-button">Send Request</button>
-        </center>
-        </div>
+
         </div>
 </div>
 
@@ -466,7 +432,6 @@
 
     $('select').selectpicker();
     $(document).ready(function () {
-        localStorage.clear();
         $("#new-medicine").click(function () {
             medicine_name = $("#add-new-medicine").val();
             medicine_quantity = $('#med_quantity').val();
@@ -529,32 +494,14 @@
                 window.alert("Please select end date.");
                 return false;
             }
-            var table = $('#datatable').DataTable();
-
-            table.row.add([
-                medicine_name,
-                type,
-                medicine_quantity,
-                day_time,
-                day1_timepicker,
-                dose_quantity,
-                comment,
-                day_time_sec,
-                noon_timepicker,
-                dose_quantity_sec,
-                comment_sec,
-                day_time_third,
-                evening_timepicker,
-                dose_quantity_third,
-                comment_third,
-                price,
-                start_date,
-                end_date
-            ]).draw(false);
-
-            var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
-            newItem =
-                {
+            var table = $('.detail-table').DataTable();
+            // var comment_table = $('#comments-table').DataTable();
+            other_comment = $('#other_comment').val();
+            $.ajax({
+                type: 'PUT',
+                url: '/orders/ <%= @order.id %>',
+                data: {
+                    new_medicine: 'true',
                     medicine_name: medicine_name,
                     type: type,
                     medicine_quantity: medicine_quantity,
@@ -573,28 +520,97 @@
                     end_date: end_date,
                     day1_timepicker: day1_timepicker,
                     noon_timepicker: noon_timepicker,
-                    evening_timepicker: evening_timepicker
-                };
-            medicines.push(newItem);
-            localStorage.setItem('medicines', JSON.stringify(medicines));
+                    evening_timepicker: evening_timepicker,
+                    get_med_id: 'true'
 
-        });
-    });
+                },
+                cache: false,
+                success: function (data) {
 
-    $("#create-order-button").click(function (e) {
-        other_comment = $('#other_comment').val();
-        $.ajax({
-            type: 'PUT',
-            url: '/orders/ <%= @order.id %>',
-            data: {
-                new_medicine: 'true',
-                other_comment,
-                medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
-                url: window.location.href
-            },
-            cache: false,
-            success: function () {
-            }
+                    if (day_time_sec == '') {
+                        day_time_sec = 'N/A'
+                    }
+                    if (day_time_third == '') {
+                        day_time_third = 'N/A'
+                    }
+                    if (dose_quantity_sec == '') {
+                        dose_quantity_sec = 'N/A'
+                    }
+                    if (dose_quantity_third == '') {
+                        dose_quantity_third = 'N/A'
+                    }
+                    if (comment_sec == '') {
+                        comment_sec = 'N/A'
+                    }
+                    if (comment_third == '') {
+                        comment_third = 'N/A'
+                    }
+                    if (start_date == '') {
+                        start_date = 'N/A'
+                    }
+                    if (end_date == '') {
+                        end_date = 'N/A'
+                    }
+                    if (noon_timepicker == '') {
+                        noon_timepicker = 'N/A'
+                    }
+                    if (evening_timepicker == '') {
+                        evening_timepicker = 'N/A'
+                    }
+                    var ordered_med_id = data;
+                    comment_role = 'Admin'
+                    buttons = "<a class='btn btn-outline-dark' href='/order_products/" + ordered_med_id + "/edit'>edit</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/prescriptions/" + ordered_med_id + "'>Delete</a>"
+                    table.row.add([
+                        medicine_name,
+                        type,
+                        medicine_quantity,
+                        price,
+                        day_time,
+                        day1_timepicker,
+                        dose_quantity,
+                        comment,
+                        day_time_sec,
+                        noon_timepicker,
+                        dose_quantity_sec,
+                        comment_sec,
+                        day_time_third,
+                        evening_timepicker,
+                        dose_quantity_third,
+                        comment_third,
+                        start_date,
+                        end_date,
+                        buttons
+                    ]).draw(false);
+                    if (other_comment != '') {
+                        $('#comments-table').DataTable().row.add([
+                            comment_role,
+                            other_comment
+                        ]).draw(false);
+                    }
+                    $("#add-new-medicine").val('');
+                    $('#med_quantity').val('');
+                    $('#med_price').val('');
+                    $('#type').val('');
+                    $('#other_comment').val('');
+                    $('.d_time')
+                        val().empty()
+                    // $(".d_time option:selected").val('');
+                    $(".d_time_2nd option:selected").val('');
+                    $(".d_time_3rd option:selected").val('');
+                    $('#dose_quantity').val('');
+                    $('#dose_quantity_2nd').val('');
+                    $('#dose_quantity_3rd').val('');
+                    $('#comment').val('');
+                    $('#comment_2nd').val('');
+                    $('#comment_3rd').val('');
+                    $('#start-date').val('');
+                    $('#end-date').val('');
+                    $('#timepicker').val('');
+                    $('#noon_timepicker').val('');
+                    $('#evening_timepicker').val('');
+                    $('#other_comment').val('');
+                }
+            });
         });
     });
 

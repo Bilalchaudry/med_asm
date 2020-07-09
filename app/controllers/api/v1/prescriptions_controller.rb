@@ -44,7 +44,7 @@ class Api::V1::PrescriptionsController < ApiController
   def update
     begin
       @prescription.update(status: "Pending")
-      @prescription.comments.create(message: params[:prescription][:message], role: "User")
+      @prescription.comments.create(message: params[:prescription][:message], role: current_user.full_name)
       render_success_response "Prescription sent to admin successfully"
     rescue => error
       bad_request_error(error.message)

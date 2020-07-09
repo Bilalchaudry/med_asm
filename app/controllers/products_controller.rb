@@ -100,6 +100,15 @@ class ProductsController < ApplicationController
     }
   end
 
+  # def get_product_id
+  #   if params[:medicine_name].present?
+  #     prescription_product = Prescription.find(params[:prescription_id]).order.order_products.find_by_name params[:medicine_name]
+  #   end
+  #
+  #   render json: {
+  #       med_id: prescription_product.id
+  #   }
+  # end
 
   private
 
