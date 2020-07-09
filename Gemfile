@@ -31,6 +31,10 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
