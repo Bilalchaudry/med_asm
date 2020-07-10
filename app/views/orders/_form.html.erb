@@ -17,7 +17,7 @@
             <div class="row">
               <div class="col-md-5">
                 <div class="form-row">
-                  <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+                  <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
                       <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
@@ -31,7 +31,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", :style => 'margin-left: -40px;', id: 'type', :required => true %>
+                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :required => true %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -49,9 +49,13 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
 
-
-              <div class="col-md-3">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
                 <div class="form-row">
                   <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -61,73 +65,74 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 
-          <div class="row pt-4">
-            <div class="col-md-6">
-              <div class="form-row">
-                <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+          <div class="col-md-12">
+            <div class="row pt-3">
+              <div class="col-md-5">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-7">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="timepicker" width="276"/>
+                    <script>
+                        $('#timepicker').timepicker({footer: true});
+                    </script>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="col-md-6">
-              <div class="form-row">
-                <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <input id="timepicker" width="276"/>
-                  <script>
-                      $('#timepicker').timepicker({footer: true});
-                  </script>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-3">
-              <div class="form-row">
-                <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
-                    <b><span class="errormsg"></span></b>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <b><span class="errormsg"></span></b>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-
-            <div class="col-md-6">
-              <div class="form-row">
-                <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+              <div class="col-md-1"></div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-md-3 morning">
-              <div class="form-row">
+              <div class="col-md-1 morning">
+                <div class="form-row">
 
                   <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
 
+                </div>
               </div>
             </div>
-
           </div>
 
 
           <div class="col-md-12 noon_time" hidden>
             <div class="row pt-4">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="form-row">
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -149,8 +154,7 @@
                   </div>
                 </div>
               </div>
-
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-row">
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -161,7 +165,7 @@
                   </div>
                 </div>
               </div>
-
+              <div class="col-md-1"></div>
               <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
@@ -184,7 +188,7 @@
 
           <div class="col-md-12 evening_time" hidden>
             <div class="row pt-4">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="form-row">
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -207,7 +211,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-row">
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
@@ -218,6 +222,7 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-1"></div>
               <div class="col-md-6">
                 <div class="form-row">
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
@@ -228,29 +233,27 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-1">
-              </div>
             </div>
           </div>
 
 
-          <div class="form-row m-b-55">
-            <div class="name ">Medicine Date</div>
+          <div class="form-row m-b-55" style="margin-left: 5px;">
+            <div class="name">Medicine Date</div>
             <div class="value">
               <div class="row row-refine">
-                <div class="col-5">
-                  <div class="input-group-desc">
+                <div class="col-4">
+                  <div class="input-group-desc pl-3">
                     <%= form.text_field :start_date, :class => 'start-date form-control py-2', id: 'start-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
-                    <label class="label--desc">Start Date</label>
+                    <label class="label--desc pl-3">Start Date</label>
                   </div>
                 </div>
-                <div class="col-2 pt-3">
+                <div class="col-1 pt-3 pl-5">
                   <center> To</center>
                 </div>
-                <div class="col-5">
-                  <div class="input-group-desc">
+                <div class="col-4">
+                  <div class="input-group-desc pl-5">
                     <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
-                    <%= form.label :end_date, :class => "label--desc" %>
+                    <%= form.label :end_date, :class => "label--desc pl-5" %>
                   </div>
                 </div>
               </div>
@@ -270,7 +273,6 @@
             <div class="col-md-4"></div>
           </div>
 
-          <%# end %>
 
           </div>
           </div>
@@ -463,7 +465,7 @@
             if (day_time == 0) {
                 day_time = 'Morning'
             }
-             if (day_time == 1) {
+            if (day_time == 1) {
                 day_time = 'Noon'
             }
             if (day_time == 2) {
@@ -478,7 +480,7 @@
             if (day_time_sec == 2) {
                 day_time_sec = 'Evening'
             }
-            if (day_time_third== 0) {
+            if (day_time_third == 0) {
                 day_time_third = 'Morning'
             }
             if (day_time_third == 1) {

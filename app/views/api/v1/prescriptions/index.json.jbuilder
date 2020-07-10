@@ -15,7 +15,7 @@ json.data @prescriptions.each do |prescription|
       json.reminder order_product.reminders.each do |product|
         json.medicine_name order_product.product.name rescue "N/A"
         json.medicine_time product.timing
-        json.time product.time
+        json.time product.time.strftime( "%H:%M:%S" )
         json.medicine_dose product.dose_quantity
         json.medicine_dose_comment product.comment
         json.start_date product.start_date

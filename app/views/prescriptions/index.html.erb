@@ -19,8 +19,10 @@
                 <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Customer Name</th>
                   <th>Status</th>
                   <th>Image</th>
+                  <th>Comments</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -29,13 +31,20 @@
                 <% @prescriptions.each do |prescription| %>
                   <tr>
                     <td><%= prescription.id %></td>
+                    <td><%= prescription.user.full_name %></td>
                     <td><%= prescription.status %></td>
                     <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
                     <td>
+                      <% prescription.comments.each do |prescription_comment| %>
+                        <%= prescription_comment.role %>: &nbsp;  <%= prescription_comment.message %>
+                        <br>
+                      <% end %>
+                    </td>
+                    <td>
                       <% if prescription.order.present? %>
-                        <%= link_to "View", prescriptions_path+ "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <%= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
                       <% else %>
-                      <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
                       <% end %>
                     </td>
                   </tr>
@@ -52,7 +61,7 @@
 
 <script>
     var dataTable = $('#dataTable').DataTable({
-        "order": [[ 0, "desc" ]]
+        "order": [[0, "desc"]]
     });
     document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
