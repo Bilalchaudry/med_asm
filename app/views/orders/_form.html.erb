@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
             <div class="col-md-3 morning">
               <div class="form-row">
 
-                <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
+                  <i style="font-size:30px; color: green;" onclick="noon();" class="fa">&#xf067;</i>
 
               </div>
             </div>
@@ -286,22 +286,21 @@
                     <th>Medicine Quantity</th>
                     <th>Day Time</th>
                     <th>Time</th>
-                    <th>Morning Dose</th>
-                    <th>Morning Instructions</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
                     <th>Day Time</th>
                     <th>Time</th>
-                    <th>Noon Dose</th>
-                    <th>Noon Instructions</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
                     <th>Day Time</th>
                     <th>Time</th>
-                    <th>Evening Dose</th>
-                    <th>Evening Instructions</th>
+                    <th>Dose Quantity</th>
+                    <th>Comment</th>
                     <th>Price</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                   </tr>
                   </thead>
-
                 </table>
               </div>
             </div>
@@ -461,7 +460,64 @@
                 return false;
             }
             var table = $('#medTable').DataTable();
-
+            if (day_time == 0) {
+                day_time = 'Morning'
+            }
+             if (day_time == 1) {
+                day_time = 'Noon'
+            }
+            if (day_time == 2) {
+                day_time = 'Evening'
+            }
+            if (day_time_sec == 0) {
+                day_time_sec = 'Morning'
+            }
+            if (day_time_sec == 1) {
+                day_time_sec = 'Noon'
+            }
+            if (day_time_sec == 2) {
+                day_time_sec = 'Evening'
+            }
+            if (day_time_third== 0) {
+                day_time_third = 'Morning'
+            }
+            if (day_time_third == 1) {
+                day_time_third = 'Noon'
+            }
+            if (day_time_third == 2) {
+                day_time_third = 'Evening'
+            }
+            if (day_time_sec == '') {
+                day_time_sec = 'N/A'
+            }
+            if (day_time_third == '') {
+                day_time_third = 'N/A'
+            }
+            if (dose_quantity_sec == '') {
+                dose_quantity_sec = 'N/A'
+            }
+            if (dose_quantity_third == '') {
+                dose_quantity_third = 'N/A'
+            }
+            if (comment_sec == '') {
+                comment_sec = 'N/A'
+            }
+            if (comment_third == '') {
+                comment_third = 'N/A'
+            }
+            if (start_date == '') {
+                start_date = 'N/A'
+            }
+            if (end_date == '') {
+                end_date = 'N/A'
+            }
+            if (noon_timepicker == '') {
+                noon_timepicker = 'N/A'
+            }
+            if (evening_timepicker == '') {
+                evening_timepicker = 'N/A'
+            }
+            debugger
             table.row.add([
                 medicine_name,
                 type,
@@ -482,7 +538,9 @@
                 start_date,
                 end_date
             ]).draw(false);
-
+            day_time = $(".d_time option:selected").val();
+            day_time_sec = $(".d_time_2nd option:selected").val();
+            day_time_third = $(".d_time_3rd option:selected").val();
             var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
             newItem =
                 {
@@ -508,6 +566,22 @@
                 };
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
+            $('#med_quantity').val('');
+            $('#med_price').val('');
+            $('#type').val('');
+            $('#other_comment').val('');
+            $('#dose_quantity').val('');
+            $('#dose_quantity_2nd').val('');
+            $('#dose_quantity_3rd').val('');
+            $('#comment').val('');
+            $('#comment_2nd').val('');
+            $('#comment_3rd').val('');
+            $('#start-date').val('');
+            $('#end-date').val('');
+            $('#timepicker').val('');
+            $('#noon_timepicker').val('');
+            $('#evening_timepicker').val('');
+            $('#other_comment').val('');
         });
 
         $(function () {
@@ -519,22 +593,6 @@
                 format: 'yyyy-mm-dd',
             });
         });
-        $('#med_quantity').val('');
-        $('#med_price').val('');
-        $('#type').val('');
-        $('#other_comment').val('');
-        $('#dose_quantity').val('');
-        $('#dose_quantity_2nd').val('');
-        $('#dose_quantity_3rd').val('');
-        $('#comment').val('');
-        $('#comment_2nd').val('');
-        $('#comment_3rd').val('');
-        $('#start-date').val('');
-        $('#end-date').val('');
-        $('#timepicker').val('');
-        $('#noon_timepicker').val('');
-        $('#evening_timepicker').val('');
-        $('#other_comment').val('');
     });
 
     $("#create-order-button").click(function (e) {

@@ -570,6 +570,33 @@
                     var ordered_med_id = data;
                     comment_role = 'Admin'
                     buttons = "<a class='btn btn-outline-dark' href='/order_products/" + ordered_med_id + "/edit'>edit</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/prescriptions/" + ordered_med_id + "'>Delete</a>"
+                    if (day_time == 0) {
+                        day_time = 'Morning'
+                    }
+                    if (day_time == 1) {
+                        day_time = 'Noon'
+                    }
+                    if (day_time == 2) {
+                        day_time = 'Evening'
+                    }
+                    if (day_time_sec == 0) {
+                        day_time_sec = 'Morning'
+                    }
+                    if (day_time_sec == 1) {
+                        day_time_sec = 'Noon'
+                    }
+                    if (day_time_sec == 2) {
+                        day_time_sec = 'Evening'
+                    }
+                    if (day_time_third== 0) {
+                        day_time_third = 'Morning'
+                    }
+                    if (day_time_third == 1) {
+                        day_time_third = 'Noon'
+                    }
+                    if (day_time_third == 2) {
+                        day_time_third = 'Evening'
+                    }
                     table.row.add([
                         medicine_name,
                         type,
@@ -597,15 +624,10 @@
                             other_comment
                         ]).draw(false);
                     }
-                    $("#add-new-medicine").val('');
                     $('#med_quantity').val('');
                     $('#med_price').val('');
                     $('#type').val('');
                     $('#other_comment').val('');
-                    $(".d_time option:selected").remove();
-                    // $(".d_time option:selected").val('');
-                    $(".d_time_2nd option:selected").val('');
-                    $(".d_time_3rd option:selected").val('');
                     $('#dose_quantity').val('');
                     $('#dose_quantity_2nd').val('');
                     $('#dose_quantity_3rd').val('');
@@ -623,14 +645,5 @@
         });
     });
 
-
-    // var dataTable = $('#dataTable').DataTable({});
-    //
-    // document.addEventListener("turbolinks:before-cache", function () {
-    //     if (dataTable !== null) {
-    //         dataTable.destroy();
-    //         dataTable = null;
-    //     }
-    // });
 
 </script>
