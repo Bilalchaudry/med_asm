@@ -278,7 +278,7 @@
             <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="medTable" width="100%" cellspacing="0">
                   <thead>
                   <tr>
                     <th>Medicine Name</th>
@@ -371,6 +371,14 @@
             }
         });
 
+    });
+    var dataTable = $('#medTable').DataTable({
+        "ordering": true,
+        "scrollY": "500px",
+        "scrollX": "700px",
+        "scrollCollapse": true,
+        "pageLength": 20,
+        "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]]
     });
 
     $("#med_quantity").change(function () {
@@ -515,10 +523,6 @@
         $('#med_price').val('');
         $('#type').val('');
         $('#other_comment').val('');
-        $(".d_time option:selected").remove();
-        // $(".d_time option:selected").val('');
-        $(".d_time_2nd option:selected").val('');
-        $(".d_time_3rd option:selected").val('');
         $('#dose_quantity').val('');
         $('#dose_quantity_2nd').val('');
         $('#dose_quantity_3rd').val('');

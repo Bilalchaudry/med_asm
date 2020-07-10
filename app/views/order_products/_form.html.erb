@@ -307,16 +307,23 @@
 
 
           <hr>
-          <div class="row">
-            <div class="col-md-4"></div>
+          <div class="row pb-5">
+            <div class="col-md-3"></div>
             <div class="col-md-3 ml-5">
               <div class="form-group mt-3 mb-0">
                 <div class="actions">
-                  <button type="button" class="btn bg-clr btn-style" id="update-order-button">Update</button>
+                  <button type="button" class="btn bg-clr btn-style w-100" id="update-order-button">Update</button>
                 </div>
               </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-3 ml-5">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Back To Prescriptions', prescriptions_path, :class => "btn btn-dark w-100", style: "color: white" %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3"></div>
           </div>
 
         <% end %>

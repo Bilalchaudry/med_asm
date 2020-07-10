@@ -2,6 +2,9 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <% if notice.present? %>
+          <p id="notice" class="alert-success notice-style"><%= notice %></p>
+        <% end %>
         <div class="alert-dismissable cross_but" onclick="hide_error()">
           <center>
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
