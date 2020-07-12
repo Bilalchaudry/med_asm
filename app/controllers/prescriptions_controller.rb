@@ -15,6 +15,9 @@ class PrescriptionsController < ApplicationController
       end
     end
     @prescriptions = Prescription.all
+    @new_prescriptions = @prescriptions.where(status: 'Pending')
+    @sent_prescriptions = @prescriptions.where(status: 'Proceed')
+    @reject_prescriptions = @prescriptions.where(status: 'Reject')
   end
 
   # GET /prescriptions/1
@@ -46,14 +49,8 @@ class PrescriptionsController < ApplicationController
   # PATCH/PUT /prescriptions/1
   # PATCH/PUT /prescriptions/1.json
   def update
-    respond_to do |format|
-      if @prescription.update(prescription_params)
-        format.html {redirect_to @prescription, notice: 'Prescription was successfully updated.'}
-        format.json {render :show, status: :ok, location: @prescription}
-      else
-        format.html {render :edit}
-        format.json {render json: @prescription.errors, status: :unprocessable_entity}
-      end
+    if params[:status] == 'reject'
+      @prescription.update(status: 'Reject')
     end
   end
 

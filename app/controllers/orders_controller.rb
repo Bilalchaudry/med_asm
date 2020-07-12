@@ -91,6 +91,7 @@ class OrdersController < ApplicationController
       @order.update_attributes(status: 'Paid')
     elsif params[:new_medicine] == 'true'
       medicine = Product.find_by_name(params[:medicine_name])
+      @order.prescription.update(status: 'Proceed')
       order_product = @order.order_products.create!(order_id: @order.id, product_id: medicine.id, quantity: params[:medicine_quantity],
                                                     price: params[:price], product_type: params[:type],
                                                     start_date: params[:start_date], end_date: params[:end_date],

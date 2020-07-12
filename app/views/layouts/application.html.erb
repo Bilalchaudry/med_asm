@@ -40,7 +40,7 @@
 <% if admin_user_signed_in? %>
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="#">
       <%#= image_tag("Logo.png", alt: 'Site Logo', class: "logo-style", size: 4*20) %>
     </a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
@@ -61,10 +61,10 @@
 
   <div id="layoutSidenav">
 
-   <div id="layoutSidenav_nav">
+    <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
-          <div class="nav">
+          <div class="nav" id="nav_a">
             <a class="nav-link" href="/">
               <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i>
               </div>
@@ -91,11 +91,6 @@
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
               Categories
             </a>
-<!--            <a class="nav-link" href="/product_sub_categories">-->
-
-<!--              <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>-->
-<!--              Prescription Requests-->
-<!--            </a>-->
             <a class="nav-link" href="/orders">
 
               <div class="sb-nav-link-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></div>
@@ -134,4 +129,16 @@
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });
+    $("a").each(function () {
+        if ((window.location.pathname.indexOf($(this).attr('href'))) > -1) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
 </script>
+<style>
+  a.active {
+    background-color: gray !important;
+    color: white;
+  }
+</style>

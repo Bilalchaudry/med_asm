@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {prompt: 'Please select a medicine.'}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :required => true %>
+                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :required => true,  placeholder: "Syrup/Tablet" %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -43,7 +43,7 @@
                   <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1,  placeholder: "Number" %>
                       <b><span class="errmsg"></span></b>
                     </div>
                   </div>
@@ -60,7 +60,7 @@
                   <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1 %>
+                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1, placeholder: "Price RS" %>
                     </div>
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="timepicker" width="276"/>
+                    <input id="timepicker" width="276" placeholder="Select or enter dose time."/>
                     <script>
                         $('#timepicker').timepicker({footer: true});
                     </script>
@@ -101,7 +101,7 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true, placeholder: 'example 250ml.' %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -113,7 +113,7 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1 %>
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', :required => true, min: 1, placeholder: 'Enter dose instructions......' %>
                     </div>
                   </div>
                 </div>
@@ -137,7 +137,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -147,7 +147,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="noon_timepicker" width="276"/>
+                    <input id="noon_timepicker" width="276" placeholder="Select or enter dose time."/>
                     <script>
                         $('#noon_timepicker').timepicker({footer: true});
                     </script>
@@ -159,7 +159,7 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true , placeholder: 'example 250ml.'%>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -171,7 +171,7 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1,placeholder: 'Enter dose instructions......' %>
                     </div>
                   </div>
                 </div>
@@ -193,7 +193,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time_3rd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -203,7 +203,7 @@
                 <div class="form-row">
                   <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <input id="evening_timepicker" width="276"/>
+                    <input id="evening_timepicker" width="276" placeholder="Select or enter dose time."/>
                     <script>
                         $('#evening_timepicker').timepicker({footer: true});
                     </script>
@@ -216,7 +216,7 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true, placeholder: 'example 250ml.' %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -228,7 +228,7 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1, placeholder: 'Enter dose instructions......' %>
                     </div>
                   </div>
                 </div>
@@ -335,7 +335,7 @@
                 <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                    <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true, placeholder: 'Any comment for customer(Optional)........' %>
                   </div>
                 </div>
               </div>
@@ -352,6 +352,14 @@
 </div>
 
 <script>
+    $('#start-date').change(function (e) {
+        $('#end-date').datepicker().destroy();
+     min_date = $('#start-date').val();
+        $('#end-date').datepicker({
+            format: 'yyyy-mm-dd',
+            minDate: min_date
+        });
+    });
 
     var medicine_price;
 
@@ -589,7 +597,8 @@
         $(function () {
             $('#start-date').datepicker({
                 format: 'yyyy-mm-dd',
-                todayHighlight: true
+                todayHighlight: true,
+                minDate: new Date((new Date()).valueOf() - 1000*3600*24)
             });
             $('#end-date').datepicker({
                 format: 'yyyy-mm-dd',
