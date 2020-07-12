@@ -72,9 +72,7 @@
                       <th>Order ID</th>
                       <th>Owner</th>
                       <th>Status</th>
-                      <th> Proceed</th>
                       <th>Actions</th>
-                      <th>Cancel</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -85,12 +83,8 @@
                         <td><%= order.status %></td>
                         <td>
                           <button class='btn btn-outline-success' id="under_pre" onclick="proceed_new_order(this)">Proceed</button>
-                        </td>
-                        <td>
                           <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
                           <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
-                        </td>
-                        <td>
                           <a class="btn btn-outline-info" id="new_order_cancel" onclick="cancel_new_order(this);">Cancel
                             Order</a>
                         </td>
@@ -108,9 +102,9 @@
                       <th>Order ID</th>
                       <th>Owner</th>
                       <th>Status</th>
-                      <th>Proceed</th>
+<!--                      <th>Proceed</th>-->
                       <th>Actions</th>
-                      <th> Cancle</th>
+<!--                      <th> Cancle</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -119,14 +113,11 @@
                         <td><%= order.id %></td>
                         <td><%= User.find(order.user_id).full_name rescue nil %></td>
                         <td><%= order.status.split('_').map(&:capitalize).join(' ') %></td>
+
                         <td>
                           <button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>
-                        </td>
-                        <td>
                           <%= link_to "View", order_path(order), :class => "btn btn-outline-dark" %>
                           <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
-                        </td>
-                        <td>
                           <a class="btn btn-outline-info" onclick="cancel_under_preparation_order(this)">Cancel
                             Order</a>
                         </td>
@@ -200,33 +191,35 @@
     function hide_error() {
         $('.cross_but').hide();
     }
+    var all_order_table = $('#all_orders_table').DataTable();
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (all_order_table !== null) {
+            all_order_table.destroy();
+            all_order_table = null;
+        }
+    });
 
     $(document).ready(function () {
         $('.cross_but').hide();
-        var all_order_table = $('#all_orders_table').DataTable();
-        var new_order_table = $('#new_order_table').DataTable();
-        var under_pre_table = $('#under_preparation_table').DataTable();
-        var complete_order_table = $('#completed').DataTable();
-        var cancel_order_table = $('#canceled').DataTable();
         $('.nav-tabs a').on('shown.bs.tab', function (event) {
             var tab_target = $(event.target).text();
-            // if (tab_target === 'Table 2') {
-            //     var table1 = $('#new_order_table').DataTable({
-            //         destroy: true,
-            //     });
-            // } else if (tab_target === 'Table 3') {
-            //     var table2 = $('#under_preparation_table').DataTable({
-            //         destroy: true,
-            //     });
-            // } else if (tab_target === 'Table 4') {
-            //     var completed_table = $('#completed').DataTable({
-            //         destroy: true,
-            //     });
-            // } else if (tab_target === 'Table 5') {
-            //     var canceled_table = $('#canceled').DataTable({
-            //         destroy: true,
-            //     });
-            // }
+            if (tab_target === 'New Orders') {
+                var table1 = $('#new_order_table').DataTable({
+                    destroy: true,
+                });
+            } else if (tab_target === 'Orders Under Preparation') {
+                var table2 = $('#under_preparation_table').DataTable({
+                    destroy: true,
+                });
+            } else if (tab_target === 'Completed Orders') {
+                var completed_table = $('#completed').DataTable({
+                    destroy: true,
+                });
+            } else if (tab_target === 'Cancelled Orders') {
+                var canceled_table = $('#canceled').DataTable({
+                    destroy: true,
+                });
+            }
         });
     });
 
@@ -291,7 +284,6 @@
     }
 
     function proceed_new_order(row_data) {
-        // $('#new_order_table tbody').on('click', 'button', function () {
         if (confirm("This order will go under preparation ok ?")) {
             var new_order_table = $('#new_order_table').DataTable();
             var under_pre_table = $('#under_preparation_table').DataTable();
@@ -312,8 +304,7 @@
                     $('#' + order_id).hide();
                     $('#row' + order_id).text("Under Preparation");
                     data[2] = 'Under Preparation';
-                    data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button>"
-                    data[5] = "<a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a>"
+                    data[3] = "<button class='btn btn-outline-success' onclick='proceed_under_prepartion(this)'>Proceed</button> <a class='btn btn-outline-dark' onclick='cancel_under_preparation_order(this)'>Cancel Order</a> <a class='btn btn-outline-dark' href='/orders/" + order_id + "'>View</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/orders/" + order_id + "'>Delete</a>"
                     under_pre_table.row.add(data).draw(false);
 
                 }
@@ -343,7 +334,7 @@
                     under_pre_table.row($(row).parents('tr')).remove().draw();
                     $('#' + order_id).addClass('hidden');
                     data[2] = 'Completed';
-                    data[3] = data[4];
+                    data[3] = "<a class='btn btn-outline-dark' href='/orders/" + order_id + "'>View</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/orders/" + order_id + "'>Delete</a>"
                     $('#row' + order_id).text("Completed");
                     complete_table.row.add(data).draw(false);
                 }
@@ -372,9 +363,7 @@
                     canceled_table.row($(row_data).parents('tr')).remove().draw();
                     $('#' + order_id).addClass('hidden');
                     data[2] = 'Paid';
-                    data[3] = "<button class='btn btn-outline-success' id='under_pre' onclick='proceed_new_order(this)'>Proceed</button>";
-                    data[4] = "<a class='btn btn-outline-dark' href='/orders/" + order_id + "'>View</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/orders/" + order_id + "'>Delete</a>";
-                    data[5] = "<a class='btn btn-outline-info' id='new_order_cancel' onclick='cancel_new_order(this);'>Cancel Order</a>"
+                    data[3] = "<button class='btn btn-outline-success' id='under_pre' onclick='proceed_new_order(this)'>Proceed</button> <a class='btn btn-outline-dark' href='/orders/" + order_id + "'>View</a> <a class='btn btn-outline-dark' data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/orders/" + order_id + "'>Delete</a> <a class='btn btn-outline-info' id='new_order_cancel' onclick='cancel_new_order(this);'>Cancel Order</a>";
                     $('#row' + order_id).text("Paid");
                     new_order_table.row.add(data).draw(false);
                 }
