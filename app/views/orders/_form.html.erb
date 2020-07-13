@@ -20,7 +20,7 @@
                   <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {prompt: 'Please select a medicine.'}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :product_id, options_for_select(Product.all.where('quantity > ?', 0).map { |c| [c.name] }), {:include_blank => 'Please select a medicine.', :disabled => 1}, {class: "form-control selectpicker medicine py-1", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                   <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :required => true,  placeholder: "Syrup/Tablet" %>
+                      <%= form.text_field :type, :class => "form-control py-1", id: 'type', :required => true, placeholder: "Syrup/Tablet" %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -43,7 +43,7 @@
                   <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1,  placeholder: "Number" %>
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1, placeholder: "Number" %>
                       <b><span class="errmsg"></span></b>
                     </div>
                   </div>
@@ -75,7 +75,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {:include_blank => "Select Size"}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -159,7 +159,7 @@
                   <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true , placeholder: 'example 250ml.'%>
+                      <%= form.text_field :quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true, placeholder: 'example 250ml.' %>
                       <b><span class="errormsg"></span></b>
                     </div>
                   </div>
@@ -171,7 +171,7 @@
                   <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1,placeholder: 'Enter dose instructions......' %>
+                      <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1, placeholder: 'Enter dose instructions......' %>
                     </div>
                   </div>
                 </div>
@@ -280,7 +280,7 @@
             <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="medTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
                   <thead>
                   <tr>
                     <th>Medicine Name</th>
@@ -301,7 +301,6 @@
                     <th>Price</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Actions</th>
                   </tr>
                   </thead>
                 </table>
@@ -355,7 +354,7 @@
 <script>
     $('#start-date').change(function (e) {
         $('#end-date').datepicker().destroy();
-     min_date = $('#start-date').val();
+        min_date = $('#start-date').val();
         $('#end-date').datepicker({
             format: 'yyyy-mm-dd',
             minDate: min_date
@@ -382,14 +381,6 @@
         });
 
     });
-    var dataTable = $('#medTable').DataTable({
-        "ordering": true,
-        "scrollY": "500px",
-        "scrollX": "700px",
-        "scrollCollapse": true,
-        "pageLength": 20,
-        "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]]
-    });
 
     $("#med_quantity").change(function () {
         var quantity = $('#med_quantity').val();
@@ -409,6 +400,96 @@
 
     $(document).ready(function () {
         localStorage.clear();
+        var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+        $(".medicine option:disabled").prop("disabled", false)
+        $(".medicine option:selected").prop("disabled", true)
+        var datatable = $('#datatable').DataTable({
+            "ordering": true,
+            "scrollY": "500px",
+            "scrollX": "700px",
+            "scrollCollapse": true,
+            "pageLength": 20,
+            "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]]
+        });
+
+
+        $('#datatable').on('click', 'tbody > tr', function () {
+            if (!$(this).hasClass('selected')) {
+                $('#datatable > tbody > tr.selected').removeClass('selected')
+                $(this).addClass('selected');
+
+            }
+
+        });
+
+        $('#datatable').on('dblclick', 'tbody td', function () {
+            var text = datatable.cell($(this)).data();
+
+            var inputElement = document.createElement('input');
+
+            inputElement.type = "text";
+
+            inputElement.value = text;
+
+            inputElement.className = "editable";
+
+            this.innerHTML = '';
+
+            this.appendChild(inputElement);
+
+            $(inputElement).focus();
+
+        });
+
+        $('#datatable').on('change', '.editable', function () {
+            var inputVal = this.value;
+            var cell = datatable.cell($(this).parent('td'));
+            var row = datatable.row($(this).parents('tr'));
+            var row_data = datatable.row($(this).parents('tr')).data();
+            var oldData = cell.data();
+            cell.data(inputVal);
+
+            for (var i = 0; i < medicines.length; i++) {
+                if (row_data[0] == medicines[i].medicine_name) {//look for match with name
+                    console.log(medicines[i].medicine_name);
+                    medicines.splice(i, 1);
+                    localStorage.setItem('medicines', JSON.stringify(medicines));
+                    break;  //exit loop since you found the person
+                }
+            }
+            newItem =
+                {
+                    medicine_name: row_data[0],
+                    type: row_data[1],
+                    medicine_quantity: row_data[2],
+                    price: row_data[15],
+                    noon_comment: row_data[10],
+                    evening_comment: row_data[14],
+                    day_time: row_data[3],
+                    dose_quantity: row_data[5],
+                    comment: row_data[6],
+                    noon_time: row_data[7],
+                    noon_quantity: row_data[9],
+                    evening_time: row_data[11],
+                    evening_quantity: row_data[13],
+                    start_date: row_data[16],
+                    end_date: row_data[17],
+                    day1_timepicker: row_data[4],
+                    noon_timepicker: row_data[8],
+                    evening_timepicker: row_data[12]
+                };
+            medicines = JSON.parse(localStorage.getItem('medicines')) || []
+            medicines.push(newItem);
+            localStorage.setItem('medicines', JSON.stringify(medicines));
+            datatable.draw();
+
+        });
+
+        $('#datatable').on('blur', '.editable', function () {
+            $(this).parent('td').html(this.value);
+            datatable.draw();
+
+        });
         $(".req-btn").click(function () {
             medicine_name = $(".medicine option:selected").val();
             medicine_quantity = $('#med_quantity').val();
@@ -470,7 +551,15 @@
                 window.alert("Please select end date.");
                 return false;
             }
-            var table = $('#medTable').DataTable();
+            if (day_time_sec == '') {
+                day_time_sec = 'N/A'
+            }
+            if (day_time_third == '') {
+                day_time_third = 'N/A'
+            }
+            if (dose_quantity_sec == '') {
+                dose_quantity_sec = 'N/A'
+            }
             if (day_time == 0) {
                 day_time = 'Morning'
             }
@@ -498,15 +587,6 @@
             if (day_time_third == 2) {
                 day_time_third = 'Evening'
             }
-            if (day_time_sec == '') {
-                day_time_sec = 'N/A'
-            }
-            if (day_time_third == '') {
-                day_time_third = 'N/A'
-            }
-            if (dose_quantity_sec == '') {
-                dose_quantity_sec = 'N/A'
-            }
             if (dose_quantity_third == '') {
                 dose_quantity_third = 'N/A'
             }
@@ -528,8 +608,7 @@
             if (evening_timepicker == '') {
                 evening_timepicker = 'N/A'
             }
-       // button = "<button class='btn btn-outline-success' onclick='edit_medicine(medicines)'>Edit</button>";
-            table.row.add([
+            datatable.row.add([
                 medicine_name,
                 type,
                 medicine_quantity,
@@ -552,7 +631,7 @@
             day_time = $(".d_time option:selected").val();
             day_time_sec = $(".d_time_2nd option:selected").val();
             day_time_third = $(".d_time_3rd option:selected").val();
-            var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+            // var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
             newItem =
                 {
                     medicine_name: medicine_name,
@@ -575,6 +654,8 @@
                     noon_timepicker: noon_timepicker,
                     evening_timepicker: evening_timepicker
                 };
+            $(".medicine option:disabled").prop("disabled", false)
+            $(".medicine option:selected").prop("disabled", true)
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
             $('#med_quantity').val('');
@@ -599,7 +680,7 @@
             $('#start-date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayHighlight: true,
-                minDate: new Date((new Date()).valueOf() - 1000*3600*24)
+                minDate: new Date((new Date()).valueOf() - 1000 * 3600 * 24)
             });
             $('#end-date').datepicker({
                 format: 'yyyy-mm-dd',
