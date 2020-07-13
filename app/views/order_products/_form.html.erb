@@ -41,9 +41,9 @@
                   <div class="value">
                     <div class="input-group">
                       <% if params[:action].eql?("edit") %>
-                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;' %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;',placeholder: "Syrup/Tablet" %>
                       <% else %>
-                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' ,placeholder: "Syrup/Tablet" %>
                       <% end %>
                     </div>
                   </div>
@@ -55,8 +55,7 @@
                   <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
-                      <!--                      <b><span class="errmsg"></span></b>-->
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1,  placeholder: "Number" %>
                     </div>
                   </div>
                 </div>
@@ -68,7 +67,7 @@
                   <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1 %>
+                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1, placeholder: "Price RS" %>
                     </div>
                   </div>
                 </div>
@@ -85,6 +84,7 @@
                   <div class="value">
                     <div class="input-group">
                       <select name="reminder[timing]" id="timing" class="form-control d_time" required>
+<!--                        <option disabled selected value>Please select day time</option>-->
                         <option value="<%= Reminder.timings[order_product.reminders.first.timing] rescue nil %>">
                           <%= order_product.reminders.first.timing rescue nil %>
                           <% Reminder.timings.reject { |status| status == order_product.reminders.first.timing }.each do |key, value| %>
@@ -382,6 +382,47 @@
         day1_timepicker = $('#timepicker').val();
         noon_timepicker = $('#noon_timepicker').val();
         evening_timepicker = $('#evening_timepicker').val();
+        if (medicine_name == "") {
+            window.alert("Please select medicine.");
+            return false;
+        }
+        if (type == "") {
+            window.alert("Please enter medicine type.");
+            return false;
+        }
+        if ($('#med_quantity').val() == "") {
+            window.alert("Please enter medicine quantity.");
+            return false;
+        }
+        if (day_time == "") {
+            window.alert("Please select day time.");
+            return false;
+        }
+        if (day1_timepicker == "") {
+            window.alert("Please select morning time.");
+            return false;
+        }
+        if (dose_quantity == "") {
+            window.alert("Please enter morning dose quantity.");
+            return false;
+        }
+        if (comment == "") {
+            window.alert("Please enter morning comment.");
+            return false;
+        }
+
+        if (price == "") {
+            window.alert("Please enter price.");
+            return false;
+        }
+        if (start_date == "") {
+            window.alert("Please select start date.");
+            return false;
+        }
+        if (end_date == "") {
+            window.alert("Please select end date.");
+            return false;
+        }
         order_product_id = <%= params[:id] %>
             order_product_object = "order_product[quantity]=" + medicine_quantity +
                 "&order_product[dose_quantity]=" + dose_quantity +
