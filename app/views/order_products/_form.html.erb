@@ -41,9 +41,9 @@
                   <div class="value">
                     <div class="input-group">
                       <% if params[:action].eql?("edit") %>
-                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;',placeholder: "Syrup/Tablet" %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;' %>
                       <% else %>
-                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' ,placeholder: "Syrup/Tablet" %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
                       <% end %>
                     </div>
                   </div>
@@ -55,7 +55,7 @@
                   <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1,  placeholder: "Number" %>
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
                     </div>
                   </div>
                 </div>
@@ -67,7 +67,7 @@
                   <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1, placeholder: "Price RS" %>
+                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1 %>
                     </div>
                   </div>
                 </div>
