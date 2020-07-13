@@ -1,0 +1,125 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Prescriptions</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+        </div>
+        <div class="clearfix"></div>
+        <ul class="nav nav-tabs">
+          <li class="active new_li">
+            <a href="#user_orders" data-toggle="tab">User Orders</a>
+          </li>
+          <li class="sent_li"><a href="#user_prescriptions" data-toggle="tab">User Prescriptions</a>
+          </li>
+        </ul>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>History</div>
+          <div class="tab-content ">
+            <div class="tab-pane active py-3 px-3 new_pre" id="user_orders">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="orderTable" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Owner</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @user_orders.each do |order| %>
+                    <tr>
+                      <td><%= order.id %></td>
+                      <td><%= User.find(order.user_id).full_name rescue nil %></td>
+                      <td id="row<%= order.id %>"><%= order.status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
+                      <td>
+                        <%= link_to "View", order_path(order, :status => 'all_order'), :class => "btn btn-outline-dark" %>
+                        <%= link_to 'Delete', order, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane py-3 px-3 " id="user_prescriptions">
+              <div class="table-responsive">
+                <table id="presTable" class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Image</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% @user_prescriptions.each do |prescription| %>
+                    <tr>
+                      <td><%= prescription.id %></td>
+                      <td><%= prescription.user.full_name %></td>
+                      <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
+                      <td>
+                        <% prescription.comments.each do |prescription_comment| %>
+                          <%= prescription_comment.role %>: &nbsp;  <%= prescription_comment.message %>
+                          <br>
+                        <% end %>
+                      </td>
+                      <td><%= prescription.status %></td>
+                      <td>
+                        <% if prescription.order.present? %>
+                          <%= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% else %>
+                          <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% end %>
+                        <a class="btn btn-outline-info" onclick="reject_sent_prescription(this);">Reject
+                          Prescription</a>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#orderTable').DataTable({
+        "order": [[0, "desc"]]
+    });
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+    $(document).ready(function () {
+
+        $('.nav-tabs a').on('shown.bs.tab', function (event) {
+            var tab_target = $(event.target).text();
+            if (tab_target === 'User Prescriptions') {
+                var userpreTable = $('#presTable').DataTable({
+                    destroy: true,
+                });
+            }
+
+
+        });
+
+
+    });
+</script>

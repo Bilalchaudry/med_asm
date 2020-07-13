@@ -43,6 +43,7 @@
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
                       <%= link_to "Delete", user, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete%>
+                      <%= link_to "History", user_path(user.id, :history => 'true'), :class => "btn btn-outline-success" %>
                     </td>
                   </tr>
                 <% end %>
@@ -67,4 +68,16 @@
       dataTable = null;
     }
   });
+  function customer_history(user_id) {
+      $.ajax({
+          type: 'GET',
+          url: '/users',
+          data: {
+             id: user_id,
+              history: 'true'
+          },
+          success: function (data) {
+          }
+      });
+  }
 </script>

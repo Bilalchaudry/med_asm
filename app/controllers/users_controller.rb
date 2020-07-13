@@ -4,13 +4,19 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+      @users = User.all
   end
 
 
   # GET /users/1
   # GET /users/1.json
   def show
+    if params[:history].present?
+      @user = User.find(params[:id])
+      @user_orders = @user.orders
+      @user_prescriptions = @user.prescriptions
+      render 'users/history'
+    end
   end
 
   # GET /users/new
