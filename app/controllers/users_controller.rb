@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if params[:history].present?
       @user = User.find(params[:id])
       @user_orders = @user.orders
-      @user_prescriptions = @user.prescriptions
+      @user_prescriptions = @user.prescriptions.where.not(status: 'Proceed')
       render 'users/history'
     end
   end
