@@ -4,6 +4,7 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products
   has_many :products, through: :order_products
+  accepts_nested_attributes_for :additional_info
 
   enum status: {
       Paid: 0,

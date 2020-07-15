@@ -461,6 +461,18 @@
                     break;  //exit loop since you found the person
                 }
             }
+            if (row_data[7] == '') {
+                row_data[7] = ''
+            }
+            if (row_data[7] == 'N/A') {
+                row_data[7] = ''
+            }
+            if (row_data[11] == '') {
+                row_data[11] = ''
+            }
+            if (row_data[11] == 'N/A') {
+                row_data[11] = ''
+            }
             newItem =
                 {
                     medicine_name: row_data[0],

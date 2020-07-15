@@ -1,11 +1,9 @@
 class Api::V1::SaveAddressesController < ApplicationController
+  include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :authenticate_user!
 
   def index
-    @addresses = current_user.save_addresses.order(:default).reverse
-    render json: {
-        addresses: @addresses
-    }
+    @addresses = current_user.save_addresses.includes(:additional_info).order(:default).reverse
   end
 
   def create
@@ -53,7 +51,10 @@ class Api::V1::SaveAddressesController < ApplicationController
   private
 
   def save_address_params
-    params.require(:save_address).permit(:address, :latitude, :longitude, :default)
+    params.require(:save_address).permit(:address, :latitude, :longitude, :default,
+                                         additional_info_attributes: [:id, :street_no,
+                                                                      :house_building_no, :appartment_office_name,
+                                                                       :city, :state])
   end
 
 end
