@@ -14,6 +14,16 @@ class User < ActiveRecord::Base
       Male: 0,
       Female: 1
   }
+  enum blood_group: {
+      'A+': 0,
+      'A-': 1,
+      'B+': 2,
+      'B-': 3,
+      'O+': 4,
+      'O-': 5,
+      'AB+': 6,
+      'AB-': 7
+  }
   scope :email_or_phone_exist?, ->(login) {where("email = ? OR  phone = ? ", login, login)}
   # validates_uniqueness_of :phone
   # validates_presence_of :full_name, :phone, :gender, :email

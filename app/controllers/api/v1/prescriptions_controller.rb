@@ -44,6 +44,9 @@ class Api::V1::PrescriptionsController < ApiController
   def update
     begin
       @prescription.update(status: "Pending")
+      if params[:prescription][:recuring_status].present?
+        @prescription.update(recuring_status: params[:prescription][:recuring_status])
+      end
       @prescription.comments.create(message: params[:prescription][:message], role: current_user.full_name)
       render_success_response "Prescription sent to admin successfully"
     rescue => error
@@ -70,7 +73,7 @@ class Api::V1::PrescriptionsController < ApiController
 
   # Only allow a list of trusted parameters through.
   def prescription_params
-    params.require(:prescription).permit(:status, :image)
+    params.require(:prescription).permit(:status, :image, :recuring_status)
   end
 
 end

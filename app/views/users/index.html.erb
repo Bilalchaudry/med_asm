@@ -27,6 +27,8 @@
                   <th>Full Name</th>
                   <th>Email</th>
                   <th>Gender</th>
+                  <th>Age</th>
+                  <th>Blood Group</th>
                   <th>Phone</th>
                   <th>Actions</th>
                 </tr>
@@ -38,6 +40,8 @@
                     <td><%= user.full_name %></td>
                     <td><%= user.email %></td>
                     <td><%= user.gender %></td>
+                    <td><%= user.age rescue nil %></td>
+                    <td><%= user.blood_group rescue nil %></td>
                     <td><%= user.phone rescue nil %></td>
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>

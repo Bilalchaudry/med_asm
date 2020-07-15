@@ -47,7 +47,7 @@
                     <select name="user[gender]" id="gender" class="form-control">
                       <option value="<%= User.genders[@user.gender] rescue nil %>">
                         <%= @user.gender rescue nil %>
-                        <% User.genders.reject {|status| status == @user.gender}.each do |key, value| %>
+                        <% User.genders.reject { |status| status == @user.gender }.each do |key, value| %>
                         <option value="<%= value %>">
                           <%= key %>
                         </option>
@@ -56,7 +56,30 @@
                   </div>
                 </div>
               </div>
-
+              <div class="form-row">
+                <%= form.label :age, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :age, validate: true, :class => "form-control py-2", :required => true %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <%= form.label :blood_group, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <select name="user[blood_group]" id="blood_group" class="form-control">
+                      <option value="<%= User.blood_groups[@user.blood_group] rescue nil %>">
+                        <%= @user.blood_group rescue nil %>
+                        <% User.blood_groups.reject { |status| status == @user.blood_group }.each do |key, value| %>
+                        <option value="<%= value %>">
+                          <%= key %>
+                        </option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
               <div class="form-row">
                 <%= form.label :password, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>

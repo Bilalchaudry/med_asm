@@ -84,7 +84,7 @@ module DeviseTokenAuth
 
 
     def account_update_params
-      params.require(:user).permit(:email, :full_name, :phone, :gender)
+      params.require(:user).permit(:email, :full_name, :phone, :gender, :age, :blood_group)
     end
 
     def resource_update_method

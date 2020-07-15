@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
     @order.prescription_id = @prescription.id
     @order.user_id = @prescription.user_id
     @order.save!
-    @prescription.update(status: "Proceed")
+    @prescription.update(status: "Proceed", recuring_status: params[:recuring_status].to_i)
     JSON.parse(params[:medicines]).each do |hash, key|
       @total_order_price = @total_order_price.to_i + hash['price'].to_i
       medicine_name = hash['medicine_name']

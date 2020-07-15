@@ -45,6 +45,14 @@
         </div>
       </div>
     </div>
+  <div class="form-row">
+    <%= form.label :age, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :age, validate: true, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
     <div class="form-row">
 

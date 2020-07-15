@@ -137,7 +137,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {:include_blank =>'Please select day time'}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {:include_blank => 'Please select day time'}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -255,6 +255,26 @@
                     <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
                     <%= form.label :end_date, :class => "label--desc pl-5" %>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-row">
+              <%= form.label :recurring, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+              <div class="value">
+                <div class="input-group">
+                  <select name="prescription[recuring_status]" id="recuring_status" class="form-control">
+                    <% @prescription = Prescription.find(params[:id]) %>
+                    <option value="<%= Prescription.recuring_statuses[@prescription.recuring_status] rescue nil %>">
+                      <%= @prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %>
+                      <% Prescription.recuring_statuses.reject { |status| status == @prescription.recuring_status }.each do |key, value| %>
+                      <option value="<%= value %>">
+                        <%= key.split('_').map(&:capitalize).join(' ') %>
+                      </option>
+                    <% end %>
+                  </select>
                 </div>
               </div>
             </div>
@@ -397,6 +417,7 @@
         $('.evening_time').removeAttr('hidden');
         $('.noon').hide();
     }
+
     $(document).ready(function () {
         localStorage.clear();
         var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
@@ -473,6 +494,18 @@
             if (row_data[11] == 'N/A') {
                 row_data[11] = ''
             }
+            if (row_data[7] == 'Noon') {
+                row_data[7] = 1
+            }
+            if (row_data[7] == 'Evening') {
+                row_data[7] = 2
+            }
+            if (row_data[11] == 'Evening') {
+                row_data[11] = 2
+            }
+            if (row_data[11] == 'Noon') {
+                row_data[11] = 1
+            }
             newItem =
                 {
                     medicine_name: row_data[0],
@@ -506,8 +539,8 @@
             datatable.draw();
 
         });
-        $('#datatable').on('keypress','.editable', function(e) {
-            if(e.which == 13) {
+        $('#datatable').on('keypress', '.editable', function (e) {
+            if (e.which == 13) {
                 $(this).parent('td').html(this.value);
                 datatable.draw();
             }
@@ -653,7 +686,6 @@
             day_time = $(".d_time option:selected").val();
             day_time_sec = $(".d_time_2nd option:selected").val();
             day_time_third = $(".d_time_3rd option:selected").val();
-            // var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
             newItem =
                 {
                     medicine_name: medicine_name,
@@ -712,10 +744,12 @@
 
     $("#create-order-button").click(function (e) {
         other_comment = $('#other_comment').val();
+        recuring_status = $("#recuring_status option:selected").val();
         $.ajax({
             type: 'POST',
             url: '/orders',
             data: {
+                recuring_status,
                 other_comment,
                 medicines: JSON.parse(JSON.stringify(localStorage.getItem('medicines'))),
                 url: window.location.href

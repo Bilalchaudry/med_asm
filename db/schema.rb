@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_101554) do
+ActiveRecord::Schema.define(version: 2020_07_15_135752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2020_07_15_101554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "recuring_status"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -180,6 +181,8 @@ ActiveRecord::Schema.define(version: 2020_07_15_101554) do
     t.datetime "updated_at", null: false
     t.integer "gender", default: 0
     t.string "facebook_id"
+    t.string "age"
+    t.integer "blood_group"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

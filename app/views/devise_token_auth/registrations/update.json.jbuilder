@@ -8,5 +8,7 @@ json.data do
   json.phone @resource.phone
   json.email @resource.email
   json.gender @resource.gender
+  json.age @resource.age
+  json.blood_group @resource.blood_group
 
 end
