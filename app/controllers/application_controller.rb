@@ -15,4 +15,10 @@ class ApplicationController < ActionController::Base
         message: message
     }, status: 422
   end
+  def render_success_response(message)
+    render json: {
+        success: true,
+        message: message
+    }, status: 200
+  end
 end

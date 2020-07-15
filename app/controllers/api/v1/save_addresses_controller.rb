@@ -1,5 +1,4 @@
-class Api::V1::SaveAddressesController < ApiController
-
+class Api::V1::SaveAddressesController < ApplicationController
   before_action :authenticate_user!
 
   def index

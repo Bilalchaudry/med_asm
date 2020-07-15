@@ -75,7 +75,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1  name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {:include_blank => "Select Size"}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -137,7 +137,7 @@
                   <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <%= form.select :day_time, options_for_select(Reminder.timings), {prompt: 'Please select day time'}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
+                      <%= form.select :day_time, options_for_select(Reminder.timings), {:include_blank =>'Please select day time'}, {class: "form-control selectpicker d_time_2nd", data: {"live-search": true}, :required => true} %>
                     </div>
                   </div>
                 </div>
@@ -280,7 +280,7 @@
             <div class="card-header"><i class="fas fa-table mr-1"></i>Prescription Medicine</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
+                <table class="table table-bordered display" id="datatable" width="100%" cellspacing="0">
                   <thead>
                   <tr>
                     <th>Medicine Name</th>
@@ -397,7 +397,6 @@
         $('.evening_time').removeAttr('hidden');
         $('.noon').hide();
     }
-
     $(document).ready(function () {
         localStorage.clear();
         var medicines = JSON.parse(localStorage.getItem('medicines')) || [];
@@ -412,7 +411,12 @@
             "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]]
         });
 
-
+        document.addEventListener("turbolinks:before-cache", function () {
+            if (datatable !== null) {
+                datatable.destroy();
+                datatable = null;
+            }
+        });
         $('#datatable').on('click', 'tbody > tr', function () {
             if (!$(this).hasClass('selected')) {
                 $('#datatable > tbody > tr.selected').removeClass('selected')
@@ -489,6 +493,12 @@
             $(this).parent('td').html(this.value);
             datatable.draw();
 
+        });
+        $('#datatable').on('keypress','.editable', function(e) {
+            if(e.which == 13) {
+                $(this).parent('td').html(this.value);
+                datatable.draw();
+            }
         });
         $(".req-btn").click(function () {
             medicine_name = $(".medicine option:selected").val();
