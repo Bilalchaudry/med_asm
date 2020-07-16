@@ -136,7 +136,7 @@
                         <% end %>
                       </td>
                       <td><%= prescription.status %></td>
-                      <td><%= prescription.recuring_status.split('_').map(&:capitalize).join(' ') %></td>
+                      <td><%= prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
 <!--                      <td>-->
                         <%# if prescription.order.present? %>
                           <%#= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
