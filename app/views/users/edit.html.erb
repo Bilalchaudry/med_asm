@@ -80,7 +80,12 @@
                   </div>
                 </div>
               </div>
-
+              <%# if @shop.image.present? %>
+<!--                <label for="files" style="margin-top: 7%;  background-color: #454545;" class="btn text-white"><%#= I18n.t "shops.click_to_update_image" %></label>-->
+                <%#= image_tag(@shop.image.url, style: "width: 100%; height: 203px", id: "#bg", class: "mt-5") %>
+              <%# else %>
+<!--                <label for="files" style="margin-top: 9%;"><%#= I18n.t "shops.click_to_update_image" %></label>-->
+              <%# end %>
               <div class="form-row">
                 <%= form.label :image, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                 <div class="value">

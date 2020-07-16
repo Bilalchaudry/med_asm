@@ -53,6 +53,30 @@
       </div>
     </div>
   </div>
+  <div class="form-row">
+    <%= form.label :blood_group, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <select name="user[blood_group]" id="blood_group" class="form-control">
+          <option value="<%= User.blood_groups[@user.blood_group] rescue nil %>">
+            <%= @user.blood_group rescue nil %>
+            <% User.blood_groups.reject { |status| status == @user.blood_group }.each do |key, value| %>
+            <option value="<%= value %>">
+              <%= key %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <%= form.label :image, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.file_field :image%>
+      </div>
+    </div>
+  </div>
 
     <div class="form-row">
 
