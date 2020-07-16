@@ -1,7 +1,15 @@
+<style>
+  .modal-content {
+    height: 680px;
+    width: 1050px;
+  }
+</style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
+    <% current_prescription = Prescription.find(params[:id]) %>
+
     <% if notice.present? %>
-      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
     <% end %>
     <div class="card card-5 form-border-style">
       <div class="card-heading bg-clr text-white">
@@ -10,9 +18,56 @@
       <div class="card-body" style="padding-bottom: 0px;">
 
         <%= form_with(model: order, local: true) do |form| %>
+
+          <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <%= image_tag url_for(current_prescription.image),  height: '700' rescue "N/A" %>
+              </div>
+            </div>
+          </div>
+
           <% if order.errors.any? %>
             <%= render 'layouts/error_messages', object: form.object %>
           <% end %>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-row">
+                  <%= form.label :image, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="image-popup-fit-width open" data-toggle="modal" data-target=".bs-example-modal-lg" >
+                    <%= image_tag url_for(current_prescription.image),  height: '200' rescue "N/A" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-6">
+                <div class="card-header"><i class="fas fa-table mr-1"></i>Slots</div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Slot</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% current_prescription.user.slots.each do |slot| %>
+                      <tr>
+                        <td><%= slot.day_time rescue "N/A" %></td>
+                        <td><%= slot.slot_time rescue "N/A" %></td>
+                      </tr>
+                    <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-5">
@@ -531,6 +586,7 @@
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
             datatable.draw();
+            alert("Product is Updated.");
 
         });
 

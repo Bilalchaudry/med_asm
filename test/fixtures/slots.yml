@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  day_time: MyString
+  slot_time: MyString
+  user: one
+
+two:
+  day_time: MyString
+  slot_time: MyString
+  user: two
