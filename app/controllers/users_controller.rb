@@ -89,7 +89,7 @@ class UsersController < ApplicationController
   end
 
   def user_update_params
-    users_params = params.require(:user).permit(:full_name, :phone, :email, :age, :blood_group, :gender)
+    users_params = params.require(:user).permit(:full_name, :phone, :email, :age, :blood_group, :gender, :image)
     users_params[:gender] = params[:user][:gender].to_i
     users_params[:blood_group] = params[:user][:blood_group].to_i
     return users_params

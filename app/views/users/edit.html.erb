@@ -81,6 +81,14 @@
                 </div>
               </div>
 
+              <div class="form-row pl-5">
+                <div class="value pl-5">
+                  <div class="input-group pl-4">
+                    <%#= image_tag url_for(@user.image), height: '200px' rescue "N/A" %>
+                    <%= form.file_field :image%>
+                  </div>
+                </div>
+              </div>
               <div class="form-row">
                 <%= form.label :password, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                 <div class="value">

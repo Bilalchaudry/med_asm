@@ -35,9 +35,6 @@ module DeviseTokenAuth
       begin
         if @resource
           if @resource.send(resource_update_method, account_update_params)
-            if params[:user][:image].present?
-              @resource.image.present? ? @resource.image.update(image: params[:user][:image]) : @resource.create_image(image: params[:user][:image])
-            end
             yield @resource if block_given?
             render :update, status: :ok
           else
@@ -79,12 +76,12 @@ module DeviseTokenAuth
 
     def user_params
       params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation,
-                                   :gender)
+                                   :gender, :image)
     end
 
 
     def account_update_params
-      params.require(:user).permit(:email, :full_name, :phone, :gender, :age, :blood_group)
+      params.require(:user).permit(:email, :full_name, :phone, :gender, :age, :blood_group, :image)
     end
 
     def resource_update_method

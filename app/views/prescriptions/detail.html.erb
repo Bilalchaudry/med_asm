@@ -263,6 +263,25 @@
               </div>
 
             </div>
+<!--          <div class="col-md-5">-->
+<!--            <div class="form-row">-->
+              <%#= form.label :recurring, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+<!--              <div class="value">-->
+<!--                <div class="input-group">-->
+<!--                  <select name="prescription[recuring_status]" id="recuring_status" class="form-control">-->
+                    <%# @prescription = Prescription.find(params[:id]) %>
+<!--                    <option value="<%#= Prescription.recuring_statuses[@prescription.recuring_status] rescue nil %>">-->
+                      <%#= @prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %>
+                      <%# Prescription.recuring_statuses.reject { |status| status == @prescription.recuring_status }.each do |key, value| %>
+<!--                      <option value="<%#= value %>">-->
+                        <%#= key.split('_').map(&:capitalize).join(' ') %>
+<!--                      </option>-->
+                    <%# end %>
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
             <hr>
             <div class="row">
