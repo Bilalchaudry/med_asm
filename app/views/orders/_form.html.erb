@@ -18,13 +18,15 @@
       <div class="card-body" style="padding-bottom: 0px;">
 
         <%= form_with(model: order, local: true) do |form| %>
-
           <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <%= image_tag url_for(current_prescription.image),  height: '700' rescue "N/A" %>
+                <%= image_tag url_for(current_prescription.image), height: '700' rescue "N/A" %>
               </div>
             </div>
+<!--            <center>-->
+<!--              <button type="button" class="btn btn-block w-auto pl-5 pr-5 ml-5" style="background-color: white" data-dismiss="modal">Close</button>-->
+<!--            </center>-->
           </div>
 
           <% if order.errors.any? %>
@@ -36,8 +38,8 @@
                 <div class="form-row">
                   <%= form.label :image, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
                   <div class="value">
-                    <div class="image-popup-fit-width open" data-toggle="modal" data-target=".bs-example-modal-lg" >
-                    <%= image_tag url_for(current_prescription.image),  height: '200' rescue "N/A" %>
+                    <div class="image-popup-fit-width open" data-toggle="modal" data-target=".bs-example-modal-lg">
+                      <%= image_tag url_for(current_prescription.image), height: '200' rescue "N/A" %>
                     </div>
                   </div>
                 </div>
@@ -766,6 +768,7 @@
                 };
             $(".medicine option:disabled").prop("disabled", false)
             $(".medicine option:selected").prop("disabled", true)
+            $('.medicine').val('').trigger('change');
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
             $('#med_quantity').val('');
