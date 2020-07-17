@@ -22,8 +22,11 @@ Rails.application.routes.draw do
       resources :save_addresses
       resources :products
       resources :prescriptions
-      resources :slots
-
+      resources :slots, except: [:edit, :update, :destroy] do
+        collection do
+          post 'delete_user_slot'
+        end
+      end
       put '/orders/update_status'
     end
   end
