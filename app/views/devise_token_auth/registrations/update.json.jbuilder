@@ -10,6 +10,6 @@ json.data do
   json.gender @resource.gender
   json.age @resource.age
   json.blood_group @resource.blood_group
-  json.image main_app.url_for(@resource.image)
+  json.image main_app.url_for(@resource.image) rescue nil
 
 end
