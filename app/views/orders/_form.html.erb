@@ -3,6 +3,10 @@
     height: 680px;
     width: 1050px;
   }
+    .td-clr-green {
+      background-color: #8CCDB0 !important;
+      border-radius: 5px !important;
+    }
 </style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
@@ -24,9 +28,9 @@
                 <%= image_tag url_for(current_prescription.image), height: '700' rescue "N/A" %>
               </div>
             </div>
-<!--            <center>-->
-<!--              <button type="button" class="btn btn-block w-auto pl-5 pr-5 ml-5" style="background-color: white" data-dismiss="modal">Close</button>-->
-<!--            </center>-->
+            <!--            <center>-->
+            <!--              <button type="button" class="btn btn-block w-auto pl-5 pr-5 ml-5" style="background-color: white" data-dismiss="modal">Close</button>-->
+            <!--            </center>-->
           </div>
 
           <% if order.errors.any? %>
@@ -488,7 +492,7 @@
             "pageLength": 20,
             "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]]
         });
-
+        var column_index;
         document.addEventListener("turbolinks:before-cache", function () {
             if (datatable !== null) {
                 datatable.destroy();
@@ -506,21 +510,14 @@
 
         $('#datatable').on('dblclick', 'tbody td', function () {
             var text = datatable.cell($(this)).data();
-
+            column_index = $(this).index();
             var inputElement = document.createElement('input');
-
             inputElement.type = "text";
-
             inputElement.value = text;
-
             inputElement.className = "editable";
-
             this.innerHTML = '';
-
             this.appendChild(inputElement);
-
             $(inputElement).focus();
-
         });
 
         $('#datatable').on('change', '.editable', function () {
@@ -531,14 +528,13 @@
             var row_data = datatable.row($(this).parents('tr')).data();
             old_med_quatity = row_data[2]
             old_med_quatity_price = row_data[15]
-            price_one_med = old_med_quatity_price/old_med_quatity
+            price_one_med = old_med_quatity_price / old_med_quatity
             var oldData = cell.data();
             debugger
             cell.data(inputVal);
 
             for (var i = 0; i < medicines.length; i++) {
                 if (row_data[0] == medicines[i].medicine_name) {//look for match with name
-                    console.log(medicines[i].medicine_name);
                     medicines.splice(i, 1);
                     localStorage.setItem('medicines', JSON.stringify(medicines));
                     break;  //exit loop since you found the person
@@ -582,7 +578,15 @@
             localStorage.setItem('medicines', JSON.stringify(medicines));
             datatable.cell({row: row_index, column: 15}).data(row_data[2] * price_one_med);
             datatable.draw();
-            alert("Product is Updated.");
+            datatable.cell({row: row_index, column: 15}).addClass('td-clr-green');
+            // $(".td-clr-green").removeClass("td-clr-green");
+            // $("#"+data_id).addClass("td-clr-green");
+            if (column_index == 16 || column_index == 17 || column_index == 5 || column_index == 9 || column_index == 13) {
+                alert("Updated!!! But make Sure medicine quantity is enough.");
+            }
+            else {
+                alert("Product is Updated.");
+            }
 
         });
 

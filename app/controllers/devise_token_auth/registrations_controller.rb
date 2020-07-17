@@ -36,24 +36,12 @@ module DeviseTokenAuth
         if @resource
           if @resource.send(resource_update_method, account_update_params)
             yield @resource if block_given?
-            morning_slot = @resource.slots.find_by(day_time: params[:user][:first_day_time]) rescue nil
-            noon_slot = @resource.slots.find_by(day_time: params[:user][:second_day_time]) rescue nil
-            evening_slot = @resource.slots.find_by(day_time: params[:user][:third_day_time]) rescue nil
-            if morning_slot.present?
-              morning_slot.update(day_time: params[:user][:first_day_time], slot_time: params[:user][:first_slot])
-            elsif params[:user][:first_day_time].present?
-              @resource.slots.create!(day_time: params[:user][:first_day_time], slot_time: params[:user][:first_slot])
-            end
-            if noon_slot.present?
-              noon_slot.update(day_time: params[:user][:second_day_time], slot_time: params[:user][:second_slot])
-            elsif params[:user][:second_day_time].present?
-              @resource.slots.create!(day_time: params[:user][:second_day_time], slot_time: params[:user][:second_slot])
-            end
-            if evening_slot.present?
-              evening_slot.update(day_time: params[:user][:third_day_time], slot_time: params[:user][:third_slot])
-            elsif params[:user][:third_day_time].present?
-              @resource.slots.create!(day_time: params[:user][:third_day_time], slot_time: params[:user][:third_slot])
-            end
+            # morning_slot = @resource.slots.find_by(day_time: params[:user][:first_day_time]) rescue nil
+            # noon_slot = @resource.slots.find_by(day_time: params[:user][:second_day_time]) rescue nil
+            # evening_slot = @resource.slots.find_by(day_time: params[:user][:third_day_time]) rescue nil
+            # if morning_slot.present?
+            #   morning_slot.update(day_time: params[:user][:first_day_time], slot_time: params[:user][:first_slot])
+            # els
             render :update, status: :ok
           else
             bad_request_error(@resource.errors.full_messages.to_sentence, 200)
