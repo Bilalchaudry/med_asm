@@ -578,15 +578,12 @@
             localStorage.setItem('medicines', JSON.stringify(medicines));
             datatable.cell({row: row_index, column: 15}).data(row_data[2] * price_one_med);
             datatable.draw();
-            datatable.cell({row: row_index, column: 15}).addClass('td-clr-green');
-            // $(".td-clr-green").removeClass("td-clr-green");
-            // $("#"+data_id).addClass("td-clr-green");
-            if (column_index == 16 || column_index == 17 || column_index == 5 || column_index == 9 || column_index == 13) {
-                alert("Updated!!! But make Sure medicine quantity is enough.");
-            }
-            else {
-                alert("Product is Updated.");
-            }
+            // if (column_index == 16 || column_index == 17 || column_index == 5 || column_index == 9 || column_index == 13) {
+            //     alert("Updated!!! But make Sure medicine quantity is enough.");
+            // }
+            // else {
+            //     alert("Product is Updated.");
+            // }
 
         });
 
