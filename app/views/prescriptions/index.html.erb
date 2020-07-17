@@ -173,10 +173,12 @@
             var tab_target = $(event.target).text();
             if (tab_target === 'Sent Prescriptions') {
                 var sentTable = $('#example1').DataTable({
+                    "order": [[0, "desc"]],
                     destroy: true,
                 });
             } else if (tab_target === 'Reject Prescriptions') {
                 var table2 = $('#example2').DataTable({
+                    "order": [[0, "desc"]],
                     destroy: true,
 
                 });
@@ -207,8 +209,6 @@
                     $("#notice").html("Prescription is Rejected.").delay(2500).fadeOut();;
                     sent_table.row($(row).parents('tr')).remove().draw();
                     data[4] = 'Rejected';
-                    // data[5] = "<a class='btn btn-outline-dark' href='/prescriptions?id="+ prescription_id +"'>View</a>";
-                    // $('#row' + order_id).text("Canceled");
                     reject_table.row.add(data).draw(false);
                 }
             });
@@ -234,8 +234,6 @@
                     $("#notice").html("Prescription is Rejected.").delay(2500).fadeOut();
                     dataTable.row($(row).parents('tr')).remove().draw();
                     data[4] = 'Rejected';
-                    // data[5] = "<a class='btn btn-outline-dark' href='/prescriptions?id="+ prescription_id +"'>View</a>";
-                    // $('#row' + order_id).text("Canceled");
                     reject_table.row.add(data).draw(false);
                 }
             });
@@ -243,11 +241,4 @@
         return false;
     }
 
-    <!--    var status = "<%#=params['status'] %>";-->
-    // if (status == "Proceed") {
-    //     $('#new_li').removeClass('active');
-    //     $('#new_pre').removeClass('active');
-    //     $('#sent_li').addClass('active');
-    //     $('#sent_pre').addClass('active');
-    // }
 </script>

@@ -1,0 +1,5 @@
+class ChangeDayTime < ActiveRecord::Migration[5.2]
+  def change
+    change_column :reminders, :timing , :string
+  end
+end

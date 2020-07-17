@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_16_094302) do
+ActiveRecord::Schema.define(version: 2020_07_17_064740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2020_07_16_094302) do
   end
 
   create_table "reminders", force: :cascade do |t|
-    t.integer "timing"
+    t.string "timing"
     t.string "dose_quantity"
     t.string "comment"
     t.date "start_date"

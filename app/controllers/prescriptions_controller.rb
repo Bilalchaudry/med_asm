@@ -16,8 +16,8 @@ class PrescriptionsController < ApplicationController
     end
     @prescriptions = Prescription.all
     @new_prescriptions = @prescriptions.where(status: 'Pending')
-    @sent_prescriptions = @prescriptions.where(status: 'Proceed')
-    @reject_prescriptions = @prescriptions.where(status: 'Reject')
+    @sent_prescriptions = @prescriptions.where(status: 'Proceed').order(:id)
+    @reject_prescriptions = @prescriptions.where(status: 'Reject').order(:id)
   end
 
   # GET /prescriptions/1

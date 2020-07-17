@@ -527,8 +527,13 @@
             var inputVal = this.value;
             var cell = datatable.cell($(this).parent('td'));
             var row = datatable.row($(this).parents('tr'));
+            var row_index = row.index();
             var row_data = datatable.row($(this).parents('tr')).data();
+            old_med_quatity = row_data[2]
+            old_med_quatity_price = row_data[15]
+            price_one_med = old_med_quatity_price/old_med_quatity
             var oldData = cell.data();
+            debugger
             cell.data(inputVal);
 
             for (var i = 0; i < medicines.length; i++) {
@@ -551,24 +556,12 @@
             if (row_data[11] == 'N/A') {
                 row_data[11] = ''
             }
-            if (row_data[7] == 'Noon') {
-                row_data[7] = 1
-            }
-            if (row_data[7] == 'Evening') {
-                row_data[7] = 2
-            }
-            if (row_data[11] == 'Evening') {
-                row_data[11] = 2
-            }
-            if (row_data[11] == 'Noon') {
-                row_data[11] = 1
-            }
             newItem =
                 {
                     medicine_name: row_data[0],
                     type: row_data[1],
                     medicine_quantity: row_data[2],
-                    price: row_data[15],
+                    price: row_data[2] * price_one_med,
                     noon_comment: row_data[10],
                     evening_comment: row_data[14],
                     day_time: row_data[3],
@@ -587,6 +580,7 @@
             medicines = JSON.parse(localStorage.getItem('medicines')) || []
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
+            datatable.cell({row: row_index, column: 15}).data(row_data[2] * price_one_med);
             datatable.draw();
             alert("Product is Updated.");
 
@@ -672,33 +666,6 @@
             }
             if (dose_quantity_sec == '') {
                 dose_quantity_sec = 'N/A'
-            }
-            if (day_time == 0) {
-                day_time = 'Morning'
-            }
-            if (day_time == 1) {
-                day_time = 'Noon'
-            }
-            if (day_time == 2) {
-                day_time = 'Evening'
-            }
-            if (day_time_sec == 0) {
-                day_time_sec = 'Morning'
-            }
-            if (day_time_sec == 1) {
-                day_time_sec = 'Noon'
-            }
-            if (day_time_sec == 2) {
-                day_time_sec = 'Evening'
-            }
-            if (day_time_third == 0) {
-                day_time_third = 'Morning'
-            }
-            if (day_time_third == 1) {
-                day_time_third = 'Noon'
-            }
-            if (day_time_third == 2) {
-                day_time_third = 'Evening'
             }
             if (dose_quantity_third == '') {
                 dose_quantity_third = 'N/A'

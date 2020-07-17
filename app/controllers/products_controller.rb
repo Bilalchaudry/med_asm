@@ -89,26 +89,16 @@ class ProductsController < ApplicationController
   def get_product_price
     if params[:medicine_name].present?
       medicine_name = params[:medicine_name]
-      medicine = Product.find_by_name medicine_name
+      medicine = Product.find_by_name medicine_name rescue nil
     else
       medicine_id = params[:medicine_id].to_i
-      medicine = Product.find_by_id medicine_id
+      medicine = Product.find_by_id medicine_id rescue nil
     end
 
     render json: {
         price: medicine.cost
     }
   end
-
-  # def get_product_id
-  #   if params[:medicine_name].present?
-  #     prescription_product = Prescription.find(params[:prescription_id]).order.order_products.find_by_name params[:medicine_name]
-  #   end
-  #
-  #   render json: {
-  #       med_id: prescription_product.id
-  #   }
-  # end
 
   private
 

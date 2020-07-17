@@ -30,7 +30,6 @@
                   <th>Age</th>
                   <th>Blood Group</th>
                   <th>Phone</th>
-                  <th>Picture</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -44,7 +43,6 @@
                     <td><%= user.age rescue nil %></td>
                     <td><%= user.blood_group rescue nil %></td>
                     <td><%= user.phone rescue nil %></td>
-                    <td><%= image_tag url_for(user.image), height: '200px' rescue "N/A" %></td>
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
