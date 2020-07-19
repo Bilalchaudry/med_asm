@@ -3,10 +3,11 @@
     height: 680px;
     width: 1050px;
   }
-    .td-clr-green {
-      background-color: #8CCDB0 !important;
-      border-radius: 5px !important;
-    }
+
+  .td-clr-green {
+    background-color: #8CCDB0 !important;
+    border-radius: 5px !important;
+  }
 </style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
@@ -462,6 +463,67 @@
         });
 
     });
+    $("#dose_quantity").change(function () {
+        if ($('#dose_quantity').val() == "") {
+            var morning_quantity = 0;
+        } else {
+            var morning_quantity = parseInt($('#dose_quantity').val());
+        }
+        if ($('#dose_quantity_2nd').val() == "") {
+            var noon_quantity = 0;
+        } else {
+            var noon_quantity = parseInt($('#dose_quantity_2nd').val());
+        }
+        if ($('#dose_quantity_3rd').val() == "") {
+            var evening_quantity = 0;
+        } else {
+            var evening_quantity = parseInt($('#dose_quantity_3rd').val());
+        }
+        var total_quantity = evening_quantity + noon_quantity + morning_quantity;
+        $('#med_quantity').val(total_quantity);
+        $('#med_price').val(medicine_price * total_quantity);
+    });
+    $("#dose_quantity_2nd").change(function () {
+        if ($('#dose_quantity').val() == "") {
+            var morning_quantity = 0;
+        } else {
+            var morning_quantity = parseInt($('#dose_quantity').val());
+        }
+        if ($('#dose_quantity_2nd').val() == "") {
+            var noon_quantity = 0;
+        } else {
+            var noon_quantity = parseInt($('#dose_quantity_2nd').val());
+        }
+        if ($('#dose_quantity_3rd').val() == "") {
+            var evening_quantity = 0;
+        } else {
+            var evening_quantity = parseInt($('#dose_quantity_3rd').val());
+        }
+        var total_quantity = evening_quantity + parseInt(noon_quantity) + parseInt(morning_quantity);
+        $('#med_quantity').val(total_quantity);
+        $('#med_price').val(medicine_price * total_quantity);
+    });
+    $("#dose_quantity_3rd").change(function () {
+        if ($('#dose_quantity').val() == "") {
+            var morning_quantity = 0;
+        } else {
+            var morning_quantity = parseInt($('#dose_quantity').val());
+        }
+        if ($('#dose_quantity_2nd').val() == "") {
+            var noon_quantity = 0;
+        } else {
+            var noon_quantity = parseInt($('#dose_quantity_2nd').val());
+        }
+        if ($('#dose_quantity_3rd').val() == "") {
+            var evening_quantity = 0;
+        } else {
+            var evening_quantity = parseInt($('#dose_quantity_3rd').val());
+        }
+        var total_quantity = evening_quantity + noon_quantity + morning_quantity;
+        $('#med_quantity').val(total_quantity);
+        $('#med_price').val(medicine_price * total_quantity);
+        medicine_price
+    });
 
     $("#med_quantity").change(function () {
         var quantity = $('#med_quantity').val();
@@ -552,12 +614,53 @@
             if (row_data[11] == 'N/A') {
                 row_data[11] = ''
             }
+            total_meds_quantity = row_data[5];
+            if (column_index == 5) {
+                new_morning_quantity = parseInt(row_data[5]);
+                total_meds_quantity = new_morning_quantity;
+                if (row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]);
+                }
+                if (row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[13]);
+                }
+                if (row_data[9] != 0 && row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+            }
+            if (column_index == 9) {
+                new_noon_quantity = parseInt(row_data[9]);
+                total_meds_quantity = parseInt(row_data[9]) + parseInt(row_data[5]);
+                if (row_data[5] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]);
+                }
+                if (row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                if (row_data[5] != 0 && row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+            }
+            if (column_index == 13) {
+                new_evening_quantity = parseInt(row_data[13]);
+                total_meds_quantity = parseInt(row_data[13]);
+                if (row_data[5] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[13]);
+                }
+                if (row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                if (row_data[5] != 0 && row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+
+            }
             newItem =
                 {
                     medicine_name: row_data[0],
                     type: row_data[1],
-                    medicine_quantity: row_data[2],
-                    price: row_data[2] * price_one_med,
+                    medicine_quantity: total_meds_quantity,
+                    price: total_meds_quantity * price_one_med,
                     noon_comment: row_data[10],
                     evening_comment: row_data[14],
                     day_time: row_data[3],
@@ -577,6 +680,54 @@
             medicines.push(newItem);
             localStorage.setItem('medicines', JSON.stringify(medicines));
             datatable.cell({row: row_index, column: 15}).data(row_data[2] * price_one_med);
+            if (column_index == 5) {
+                new_morning_quantity = parseInt(row_data[5]);
+                total_meds_quantity = new_morning_quantity;
+                if (row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]);
+                }
+                if (row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[13]);
+                }
+                if (row_data[9] != 0 && row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                total_price = price_one_med * total_meds_quantity;
+                datatable.cell({row: row_index, column: 15}).data(total_price);
+                datatable.cell({row: row_index, column: 2}).data(total_meds_quantity);
+            }
+            if (column_index == 9) {
+                new_noon_quantity = parseInt(row_data[9]);
+                total_meds_quantity = parseInt(row_data[9]);
+                if (row_data[5] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]);
+                }
+                if (row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                if (row_data[5] != 0 && row_data[13] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                total_price = price_one_med * total_meds_quantity;
+                datatable.cell({row: row_index, column: 15}).data(total_price);
+                datatable.cell({row: row_index, column: 2}).data(total_meds_quantity);
+            }
+            if (column_index == 13) {
+                new_evening_quantity = parseInt(row_data[13]);
+                total_meds_quantity = parseInt(row_data[13]);
+                if (row_data[5] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[13]);
+                }
+                if (row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                if (row_data[5] != 0 && row_data[9] != 0) {
+                    total_meds_quantity = parseInt(row_data[5]) + parseInt(row_data[9]) + parseInt(row_data[13]);
+                }
+                total_price = price_one_med * total_meds_quantity;
+                datatable.cell({row: row_index, column: 15}).data(total_price);
+                datatable.cell({row: row_index, column: 2}).data(total_meds_quantity);
+            }
             datatable.draw();
             // if (column_index == 16 || column_index == 17 || column_index == 5 || column_index == 9 || column_index == 13) {
             //     alert("Updated!!! But make Sure medicine quantity is enough.");
@@ -666,10 +817,10 @@
                 day_time_third = 'N/A'
             }
             if (dose_quantity_sec == '') {
-                dose_quantity_sec = 'N/A'
+                dose_quantity_sec = '0'
             }
             if (dose_quantity_third == '') {
-                dose_quantity_third = 'N/A'
+                dose_quantity_third = '0'
             }
             if (comment_sec == '') {
                 comment_sec = 'N/A'
@@ -689,10 +840,11 @@
             if (evening_timepicker == '') {
                 evening_timepicker = 'N/A'
             }
+            total_meds_without_edit = parseInt(dose_quantity) + parseInt(dose_quantity_sec) + parseInt(dose_quantity_third);
             datatable.row.add([
                 medicine_name,
                 type,
-                medicine_quantity,
+                total_meds_without_edit,
                 day_time,
                 day1_timepicker,
                 dose_quantity,
