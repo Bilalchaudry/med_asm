@@ -36,12 +36,10 @@ module DeviseTokenAuth
         if @resource
           if @resource.send(resource_update_method, account_update_params)
             yield @resource if block_given?
-            # morning_slot = @resource.slots.find_by(day_time: params[:user][:first_day_time]) rescue nil
-            # noon_slot = @resource.slots.find_by(day_time: params[:user][:second_day_time]) rescue nil
-            # evening_slot = @resource.slots.find_by(day_time: params[:user][:third_day_time]) rescue nil
-            # if morning_slot.present?
-            #   morning_slot.update(day_time: params[:user][:first_day_time], slot_time: params[:user][:first_slot])
-            # els
+            @all_slots = @resource.slots
+            @morning_slots = @all_slots.where(day_time: 'Morning');
+            @noon_slots = @all_slots.where(day_time: 'Noon');
+            @evening_slots = @all_slots.where(day_time: 'Evening');
             render :update, status: :ok
           else
             bad_request_error(@resource.errors.full_messages.to_sentence, 200)
