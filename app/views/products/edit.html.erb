@@ -1,0 +1,18 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white mt-1">Edit Product</h4>
+          </div>
+          <div class="card-body"><%= render 'form', product: @product %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

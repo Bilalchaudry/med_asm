@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/categories"
+location.href = client_companies_path
+alert("Category deleted successfully")
+<% else %>
+alert("Category can not deleted because Category is linked with Medicine Inventory.")
+
+<% end %>

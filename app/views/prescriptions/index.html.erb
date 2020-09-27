@@ -1,0 +1,244 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Prescriptions</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+        </div>
+        <div class="clearfix"></div>
+        <ul class="nav nav-tabs">
+          <li class="active new_li">
+            <a href="#1" data-toggle="tab">New Prescriptions</a>
+          </li>
+          <li class="sent_li"><a href="#2" data-toggle="tab">Sent Prescriptions</a>
+          </li>
+          <li class="reject_li"><a href="#3" data-toggle="tab">Reject Prescriptions</a>
+          </li>
+        </ul>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Prescriptions</div>
+          <div class="tab-content ">
+            <div class="tab-pane active py-3 px-3 new_pre" id="1">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Image</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Recurring</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% @new_prescriptions.each do |prescription| %>
+                    <tr>
+                      <td><%= prescription.id %></td>
+                      <td><%= prescription.user.full_name %></td>
+                      <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
+                      <td>
+                        <% prescription.comments.each do |prescription_comment| %>
+                          <%= prescription_comment.role %>: &nbsp;  <%= prescription_comment.message %>
+                          <br>
+                        <% end %>
+                      </td>
+                      <td><%= prescription.status %></td>
+                      <td><%= prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
+                      <td>
+                        <% if prescription.order.present? %>
+                          <%= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% else %>
+                          <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% end %>
+                        <a class="btn btn-outline-info" onclick="reject_prescription(this);">Reject Prescription</a>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane py-3 px-3 sent_pre" id="2">
+              <div class="table-responsive">
+                <table id="example1" class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Image</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Recurring</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% @sent_prescriptions.each do |prescription| %>
+                    <tr>
+                      <td><%= prescription.id %></td>
+                      <td><%= prescription.user.full_name %></td>
+                      <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
+                      <td>
+                        <% prescription.comments.each do |prescription_comment| %>
+                          <%= prescription_comment.role %>: &nbsp;  <%= prescription_comment.message %>
+                          <br>
+                        <% end %>
+                      </td>
+                      <td><%= prescription.status %></td>
+                      <td><%= prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
+                      <td>
+                        <% if prescription.order.present? %>
+                          <%= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% else %>
+                          <%= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <% end %>
+                        <a class="btn btn-outline-info" onclick="reject_sent_prescription(this);">Reject Prescription</a>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane py-3 px-3 reject_pre" id="3">
+              <div class="table-responsive">
+                <table id="example2" class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Image</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Recurring</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% @reject_prescriptions.each do |prescription| %>
+                    <tr id="<%= prescription.id %>">
+                      <td><%= prescription.id %></td>
+                      <td><%= prescription.user.full_name %></td>
+                      <td><%= image_tag url_for(prescription.image), height: '200px' rescue "N/A" %></td>
+                      <td>
+                        <% prescription.comments.each do |prescription_comment| %>
+                          <%= prescription_comment.role %>: &nbsp;  <%= prescription_comment.message %>
+                          <br>
+                        <% end %>
+                      </td>
+                      <td><%= prescription.status %></td>
+                      <td><%= prescription.recuring_status.split('_').map(&:capitalize).join(' ') rescue nil %></td>
+<!--                      <td>-->
+                        <%# if prescription.order.present? %>
+                          <%#= link_to "View", prescriptions_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <%# else %>
+                          <%#= link_to "Proceed", new_order_path + "?id=" + prescription.id.to_s, :class => "btn btn-outline-dark" %>
+                        <%# end %>
+<!--                      </td>-->
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+    var dataTable = $('#example').DataTable({
+        "order": [[0, "desc"]]
+    });
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+    $(document).ready(function () {
+
+        $('.nav-tabs a').on('shown.bs.tab', function (event) {
+            var tab_target = $(event.target).text();
+            if (tab_target === 'Sent Prescriptions') {
+                var sentTable = $('#example1').DataTable({
+                    "order": [[0, "desc"]],
+                    destroy: true,
+                });
+            } else if (tab_target === 'Reject Prescriptions') {
+                var table2 = $('#example2').DataTable({
+                    "order": [[0, "desc"]],
+                    destroy: true,
+
+                });
+
+            }
+
+
+        });
+
+
+    });
+    function reject_sent_prescription(row) {
+        if (confirm("Are you sure ?")) {
+            var reject_table = $('#example2').DataTable();
+            var sent_table = $('#example1').DataTable();
+            data = sent_table.row($(row).parents('tr')).data();
+            row_data = row
+            var prescription_id = data[0]
+            $.ajax({
+                type: 'Patch',
+                url: '/prescriptions/' + prescription_id,
+                data: {
+                    status: 'reject'
+                },
+                cache: false,
+                success: function (e) {
+                    $('.cross_but').show();
+                    $("#notice").html("Prescription is Rejected.").delay(2500).fadeOut();;
+                    sent_table.row($(row).parents('tr')).remove().draw();
+                    data[4] = 'Rejected';
+                    reject_table.row.add(data).draw(false);
+                }
+            });
+        }
+        return false;
+    }
+
+    function reject_prescription(row) {
+        if (confirm("Are you sure ?")) {
+            var reject_table = $('#example2').DataTable();
+            data = dataTable.row($(row).parents('tr')).data();
+            row_data = row
+            var prescription_id = data[0]
+            $.ajax({
+                type: 'Patch',
+                url: '/prescriptions/' + prescription_id,
+                data: {
+                    status: 'reject'
+                },
+                cache: false,
+                success: function (e) {
+                    $('.cross_but').show();
+                    $("#notice").html("Prescription is Rejected.").delay(2500).fadeOut();
+                    dataTable.row($(row).parents('tr')).remove().draw();
+                    data[4] = 'Rejected';
+                    reject_table.row.add(data).draw(false);
+                }
+            });
+        }
+        return false;
+    }
+
+</script>

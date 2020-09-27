@@ -1,0 +1,136 @@
+<%= form_with(model: product, local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
+
+  <div class="form-row">
+    <%= form.label :name, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :name, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :medicine_tag, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :medicine_tag, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :cost, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.number_field :cost, :class => "form-control py-2", id: 'med_cost', min: 1, :required => true %>
+        <b><span class="errmsg"></span></b>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :description, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :quantity, :class => "mb-1 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.number_field :quantity, :class => "form-control py-2 ", id: 'med_quantity', min: 1, :required => true %>
+        <b><span class="errormsg"></span></b>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :category, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+
+    <% if params[:action].eql?("edit") %>
+      <div class="value">
+        <div class="input-group">
+          <select name="product[category_id]" id="category_id" class="form-control">
+            <option value="<%= @product.product_categories.last.category.id %>"><%= @product.product_categories.last.category.name %></option>
+            <% Category.all.reject {|category| category.id == @product.product_categories.last.category.id}.each do |category| %>
+              <option value="<%= category.id %>">
+                <%= category.name %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+
+    <% else %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.select :category_id, options_for_select(Category.all.map {|c| [c.name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, :required => true} %>
+        </div>
+      </div>
+    <% end %>
+
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-3">
+        <div class="form-group mt-3 mb-0">
+          <div class="actions">
+            <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mt-3 mb-0">
+          <div class="actions">
+            <%= link_to "Cancel", products_path, :class => 'btn btn-style bg-clr w-100' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+    $("#med_cost").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errmsg").hide();
+        }
+    });
+    $("#med_cost").keypress(function (e) {
+        //if not numeric, then it don't let you type -=45,backsp=8
+        if (e.which == 45) {
+            //display error message
+            $(".errmsg").html("Cost value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errmsg").hide();
+        }
+    });
+    $("#med_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errormsg").hide();
+        }
+    });
+    $("#med_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type -=45,backsp=8
+        if (e.which == 45) {
+            //display error message
+            $(".errormsg").html("Quantity should be greater than 0.").show();
+            e.preventDefault();
+        } else {
+            $(".errormsg").hide();
+        }
+    });
+</script>
+
+

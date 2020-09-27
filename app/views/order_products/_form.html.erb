@@ -1,0 +1,503 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="card card-5 form-border-style">
+      <div class="card-heading bg-clr text-white">
+        <h4 class="text-center font-weight-light"></h4>
+      </div>
+      <div class="card-body" style="padding-bottom: 0px;">
+
+        <%= form_with(model: order_product, local: true) do |form| %>
+          <% if order_product.errors.any? %>
+            <%= render 'layouts/error_messages', object: form.object %>
+          <% end %>
+
+          <div class="col-md-12">
+            <div class="row">
+
+              <div class="col-md-5">
+                <div class="form-row">
+                  <%= form.label :Medicine, :class => "mb-1 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="order_product[product_id]" id="product_id" class="form-control">
+                        <option value="<%= @order_product.product_id %>"><%= @order_product.product.name %></option>
+                        <% Product.all.reject { |product| product.id == @order_product.product_id }.each do |product| %>
+                          <option value="<%= product.id %>">
+                            <%= product.name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :type, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', value: order_product.product_type, :style => 'margin-left: -40px;' %>
+                      <% else %>
+                        <%= form.text_field :type, :class => "form-control py-1", id: 'type', :style => 'margin-left: -40px;' %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.number_field :quantity, id: 'med_quantity', :class => "form-control py-1", :required => true, min: 1 %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :price, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :price, id: 'med_price', :class => "form-control py-1", :disabled => true, min: 1 %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="reminder[timing]" id="timing" class="form-control d_time" required>
+<!--                        <option disabled selected value>Please select day time</option>-->
+                        <option value="<%= Reminder.timings[order_product.reminders.first.timing] rescue nil %>">
+                          <%= order_product.reminders.first.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.first.timing }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="timepicker" width="276" value="<%= order_product.reminders.first.time.strftime("%I:%M%p") %>"/>
+                    <script>
+                        $('#timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", value: order_product.reminders.first.dose_quantity, id: 'dose_quantity', :required => true %>
+                      <% else %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", id: 'dose_quantity', :required => true %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment', value: order_product.reminders.first.comment, :required => true %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment' %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="reminder[timing]" id="timing" class="form-control d_time_2nd" required>
+                        <option value="<%= Reminder.timings[order_product.reminders.second.timing] rescue nil %>">
+                          <%= order_product.reminders.second.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.second.timing rescue nil }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="noon_timepicker" width="276" value="<%= order_product.reminders.second.time.strftime("%I:%M%p") rescue nil %>"/>
+                    <script>
+                        $('#noon_timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") && order_product.reminders.second.present? %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true, value: order_product.reminders.second.dose_quantity %>
+                      <% else %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", id: 'dose_quantity_2nd', :required => true %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") && order_product.reminders.second.present? %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1, value: order_product.reminders.second.comment %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_2nd', :required => true, min: 1 %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-12">
+            <div class="row pt-4">
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :day_time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="reminder[timing]" id="timing" class="form-control d_time_3rd" required>
+                        <option value="<%= Reminder.timings[order_product.reminders.third.timing] rescue nil %>">
+                          <%= order_product.reminders.third.timing rescue nil %>
+                          <% Reminder.timings.reject { |status| status == order_product.reminders.third.timing rescue nil}.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :time, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <input id="evening_timepicker" width="276" value="<%= order_product.reminders.third.time.strftime("%I:%M%p") rescue nil %>"/>
+                    <script>
+                        $('#evening_timepicker').timepicker({footer: true});
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-row">
+                  <%= form.label :dose_quantity, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") && order_product.reminders.third.present? %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true, value: order_product.reminders.third.dose_quantity rescue nil%>
+                      <% else %>
+                        <%= form.text_field :dose_quantity, :class => "form-control py-1", id: 'dose_quantity_3rd', :required => true %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-row">
+                  <%= form.label :comment, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") && order_product.reminders.third.present? %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1, value: order_product.reminders.third.comment rescue nil %>
+                      <% else %>
+                        <%= form.text_field :comment, :class => "form-control py-1", id: 'comment_3rd', :required => true, min: 1 %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row m-b-55">
+            <div class="name ">Medicine Date</div>
+            <div class="value">
+              <div class="row row-refine">
+                <div class="col-5">
+                  <div class="input-group-desc">
+                    <%= form.text_field :start_date, :class => 'start-date form-control py-2', id: 'start-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                    <label class="label--desc">Start Date</label>
+                  </div>
+                </div>
+                <div class="col-2 pt-3">
+                  <center> To</center>
+                </div>
+                <div class="col-5">
+                  <div class="input-group-desc">
+                    <%= form.text_field :end_date, :class => 'end-date form-control py-2', id: 'end-date', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                    <%= form.label :end_date, :class => "label--desc" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-row">
+              <%= form.label :comment, :class => "mb-1 pl-2 pt-1 name", :style => 'font-weight:bold; margin-left: -12px;' %>
+              <div class="value">
+                <div class="input-group">
+                  <%= form.text_area :comment, :class => "form-control py-1", id: 'other_comment', :required => true %>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <hr>
+          <div class="row pb-5">
+            <div class="col-md-3"></div>
+            <div class="col-md-3 ml-5">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <button type="button" class="btn bg-clr btn-style w-100" id="update-order-button">Update</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 ml-5">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Back To Prescriptions', prescriptions_path, :class => "btn btn-dark w-100", style: "color: white" %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    var medicine_price = <%= @order_product.price / @order_product.quantity %>;
+
+    $("#product_id").change(function () {
+
+        medicine_name = $("#product_id").val();
+        $.ajax({
+            type: 'GET',
+            url: '/products/get_product_price',
+            data: {
+                medicine_id: medicine_name
+            },
+            success: function (data) {
+                medicine_price = data['price'];
+                $('#med_price').val(data['price']);
+                $('#med_quantity').val(1);
+
+            }
+        });
+
+    });
+
+    $("#med_quantity").change(function () {
+        var quantity = $('#med_quantity').val();
+        var total_amount = quantity * medicine_price;
+        $('#med_price').val(total_amount);
+    });
+
+    $("#update-order-button").click(function (e) {
+
+        medicine_name = parseInt($("#product_id").val());
+        type = $('#type').val();
+        medicine_quantity = parseInt($('#med_quantity').val());
+        price = parseInt($('#med_price').val());
+        day_time = $(".d_time option:selected").val();
+        day_time_sec = $(".d_time_2nd option:selected").val();
+        day_time_third = $(".d_time_3rd option:selected").val();
+        dose_quantity = $('#dose_quantity').val();
+        dose_quantity_sec = $('#dose_quantity_2nd').val();
+        dose_quantity_third = $('#dose_quantity_3rd').val();
+        comment = $('#comment').val();
+        comment_sec = $('#comment_2nd').val();
+        comment_third = $('#comment_3rd').val();
+        other_comment = $('#other_comment').val();
+        start_date = $('#start-date').val();
+        end_date = $('#end-date').val();
+        day1_timepicker = $('#timepicker').val();
+        noon_timepicker = $('#noon_timepicker').val();
+        evening_timepicker = $('#evening_timepicker').val();
+        if (medicine_name == "") {
+            window.alert("Please select medicine.");
+            return false;
+        }
+        if (type == "") {
+            window.alert("Please enter medicine type.");
+            return false;
+        }
+        if ($('#med_quantity').val() == "") {
+            window.alert("Please enter medicine quantity.");
+            return false;
+        }
+        if (day_time == "") {
+            window.alert("Please select day time.");
+            return false;
+        }
+        if (day1_timepicker == "") {
+            window.alert("Please select morning time.");
+            return false;
+        }
+        if (dose_quantity == "") {
+            window.alert("Please enter morning dose quantity.");
+            return false;
+        }
+        if (comment == "") {
+            window.alert("Please enter morning comment.");
+            return false;
+        }
+
+        if (price == "") {
+            window.alert("Please enter price.");
+            return false;
+        }
+        if (start_date == "") {
+            window.alert("Please select start date.");
+            return false;
+        }
+        if (end_date == "") {
+            window.alert("Please select end date.");
+            return false;
+        }
+        order_product_id = <%= params[:id] %>
+            order_product_object = "order_product[quantity]=" + medicine_quantity +
+                "&order_product[dose_quantity]=" + dose_quantity +
+                "&order_product[noon_dose]=" + dose_quantity_sec +
+                "&order_product[evening_dose]=" + dose_quantity_third +
+                "&order_product[comment]=" + comment +
+                "&order_product[start_date]=" + start_date +
+                "&order_product[end_date]=" + end_date +
+                "&order_product[product_id]=" + medicine_name +
+                "&order_product[type]=" + type +
+                "&order_product[noon_comment]=" + comment_sec +
+                "&order_product[evening_comment]=" + comment_third +
+                "&order_product[other_comment]=" + other_comment +
+                "&order_product[morning_time]=" + day1_timepicker +
+                "&order_product[noon_time]=" + noon_timepicker +
+                "&order_product[evening_time]=" + evening_timepicker +
+                "&order_product[morning_day_time]=" + day_time +
+                "&order_product[noon_day_time]=" + day_time_sec +
+                "&order_product[evening_day_time]=" + day_time_third;
+
+        $.ajax({
+            type: 'PUT',
+            url: '/order_products/' + order_product_id,
+            data: order_product_object,
+            cache: false,
+            success: function () {
+            }
+        });
+    });
+
+    $(function () {
+        $('#start-date').datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true
+        });
+        $('#end-date').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+    });
+
+
+    $('select').selectpicker();
+
+    $("#med_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errmsg").hide();
+        }
+    });
+
+    $("#med_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type space=32,+=43,-=45,backsp=8,enter=13
+        if (e.which == 45) {
+            //display error message
+            $(".errmsg").html("Value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errmsg").hide();
+        }
+    });
+
+    $("#dose_quantity").keydown(function (e) {
+        if (e.which == 8) {
+            $(".errormsg").hide();
+        }
+    });
+
+    $("#dose_quantity").keypress(function (e) {
+        //if not numeric, then it don't let you type space=32,+=43,-=45,backsp=8,enter=13
+        if (e.which == 45) {
+            //display error message
+            $(".errormsg").html("Value cannot be negative.").show();
+            e.preventDefault();
+        } else {
+            $(".errormsg").hide();
+        }
+    });
+
+</script>

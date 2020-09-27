@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/products"
+location.href = client_companies_path
+alert("Medicine deleted successfully")
+<% else %>
+alert("Medicine can not deleted because Medicine is linked with Order.")
+
+<% end %>

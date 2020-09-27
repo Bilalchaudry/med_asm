@@ -1,0 +1,43 @@
+<div class="card mb-4">
+  <div class="card-header"><i class="fas fa-table mr-1"></i>Categories</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="categories_Table" width="100%" cellspacing="0">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% Category.all.each do |category| %>
+          <tr>
+            <td><%= category.name %></td>
+            <td><%= category.description rescue "N/A" %></td>
+            <td>
+              <%= link_to "View", category_path(category), :class => "btn btn-outline-dark" %>
+              <%= link_to "Edit", edit_category_path(category), :class => "btn btn-outline-info"  %>
+              <%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-outline-danger" %>
+            </td>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+  var dataTable = $('#categories_Table').DataTable({
+  });
+  document.addEventListener("turbolinks:before-cache", function() {
+    if (dataTable !== null) {
+      dataTable.destroy();
+      dataTable = null;
+    }
+  });
+});
+</script>
